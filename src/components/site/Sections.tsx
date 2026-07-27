@@ -3,9 +3,9 @@ import { Section } from "./Section";
 
 function Row({ images }: { images: string[] }) {
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid grid-cols-3 gap-2">
       {images.map((src) => (
-        <div key={src} className="aspect-[3/4] overflow-hidden rounded-md border border-border">
+        <div key={src} className="aspect-[3/4] overflow-hidden border border-border">
           <img
             src={src}
             alt="Registro do portfólio de Denise Galvão"
@@ -20,18 +20,23 @@ function Row({ images }: { images: string[] }) {
 
 export function About() {
   return (
-    <Section id="quem-sou" eyebrow="Quem sou" title="Denise Galvão">
+    <Section id="quem-sou" index="01" eyebrow="Quem sou" title="Denise Galvão">
       <div className="space-y-6">
-        <div className="aspect-[4/5] overflow-hidden rounded-lg border border-border sm:aspect-[16/10]">
-          <img
-            src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?q=80&w=1000&auto=format&fit=crop"
-            alt="Denise Galvão segurando sua câmera durante um ensaio"
-            className="h-full w-full object-cover grayscale"
-          />
-        </div>
+        <figure className="frame-gold relative overflow-hidden p-1.5">
+          <div className="aspect-[4/5] overflow-hidden sm:aspect-[16/10]">
+            <img
+              src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?q=80&w=1000&auto=format&fit=crop"
+              alt="Denise Galvão segurando sua câmera durante um ensaio"
+              className="h-full w-full object-cover grayscale"
+            />
+          </div>
+          <figcaption className="font-condensed absolute bottom-3 left-3 bg-background/85 px-3 py-1 text-[0.62rem] uppercase tracking-[0.3em] text-gold">
+            Atrás da câmera desde 2014
+          </figcaption>
+        </figure>
 
-        <div className="rounded-lg border border-border bg-surface p-6">
-          <h3 className="font-display text-2xl text-foreground">Família</h3>
+        <div className="border-l-2 border-gold bg-surface p-6 pl-5">
+          <h3 className="display-xl text-3xl text-foreground">Família</h3>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             Cresci vendo minha mãe guardar fotos em caixas de sapato. Foi ali que entendi que uma
             imagem é a forma mais honesta de segurar o tempo. Hoje fotografo famílias como quem
@@ -40,9 +45,11 @@ export function About() {
         </div>
         <Row images={aboutFamily} />
 
-        <div className="rounded-lg border border-border bg-surface p-6">
-          <h3 className="font-display text-2xl text-foreground">Profissão</h3>
-          <p className="eyebrow mt-1">Formação e trajetória</p>
+        <div className="border-l-2 border-gold bg-surface p-6 pl-5">
+          <h3 className="display-xl text-3xl text-foreground">Profissão</h3>
+          <p className="font-condensed mt-1 text-[0.65rem] uppercase tracking-[0.35em] text-gold">
+            Formação e trajetória
+          </p>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             Formada em Fotografia, com especialização em retrato e luz de estúdio. São mais de dez
             anos entre ensaios autorais, casamentos e projetos editoriais — sempre com uma estética
@@ -57,19 +64,24 @@ export function About() {
 
 export function Gallery() {
   return (
-    <Section id="galeria" eyebrow="Portfólio" title="Meus trabalhos">
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+    <Section id="galeria" index="02" eyebrow="Portfólio" title="Meus trabalhos">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {gallery.map((src, i) => (
           <figure
             key={i}
-            className="aspect-[3/4] overflow-hidden rounded-md border border-border bg-surface"
+            className={`relative overflow-hidden border border-border bg-surface ${
+              i % 5 === 0 ? "col-span-2 aspect-[4/3]" : "aspect-[3/4]"
+            }`}
           >
             <img
               src={src}
               alt={`Foto ${i + 1} do portfólio`}
               loading="lazy"
-              className="h-full w-full object-cover grayscale transition-all duration-500 hover:scale-105 hover:grayscale-0"
+              className="h-full w-full object-cover grayscale transition-all duration-700 hover:scale-105 hover:grayscale-0"
             />
+            <span className="font-condensed absolute left-2 top-2 text-[0.6rem] tracking-[0.3em] text-gold/80">
+              {String(i + 1).padStart(2, "0")}
+            </span>
           </figure>
         ))}
       </div>
@@ -79,31 +91,24 @@ export function Gallery() {
 
 export function Niches() {
   return (
-    <Section
-      id="ensaios"
-      eyebrow="Nichos — estúdio e externo"
-      title="Ensaios para cada momento"
-    >
+    <Section id="ensaios" index="03" eyebrow="Nichos — estúdio e externo" title="Ensaios para cada momento">
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-2">
           {niches.map((n) => (
-            <div
-              key={n.title}
-              className="relative aspect-square overflow-hidden rounded-md border border-border"
-            >
+            <div key={n.title} className="relative aspect-square overflow-hidden border border-border">
               <img
                 src={n.image}
                 alt={`Ensaio de ${n.title}`}
                 loading="lazy"
                 className="h-full w-full object-cover grayscale"
               />
-              <span className="absolute inset-x-0 bottom-0 bg-background/80 px-2 py-2 text-center text-[0.65rem] font-semibold uppercase tracking-wider text-foreground">
+              <span className="font-condensed absolute inset-x-0 bottom-0 bg-background/85 px-2 py-2 text-center text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gold">
                 {n.title}
               </span>
             </div>
           ))}
         </div>
-        <div className="flex flex-col justify-center rounded-lg border border-border bg-surface p-6">
+        <div className="flex flex-col justify-center border border-border bg-surface p-6">
           <p className="text-sm leading-relaxed text-muted-foreground">
             Todos os nichos seguem o mesmo cuidado: conversa antes do ensaio, direção durante e
             seleção feita a quatro mãos. Você escolhe estúdio — com fundo controlado e luz contínua
@@ -119,18 +124,24 @@ export function Niches() {
         {packages.map((p) => (
           <div
             key={p.name}
-            className={`rounded-lg border p-6 ${
-              p.featured ? "border-foreground bg-surface-2" : "border-border bg-surface"
+            className={`relative border p-6 ${
+              p.featured ? "border-gold bg-surface-2" : "border-border bg-surface"
             }`}
+            style={p.featured ? { boxShadow: "var(--shadow-gold)" } : undefined}
           >
+            {p.featured && (
+              <span className="font-condensed absolute -top-2.5 left-6 bg-gold px-2 py-0.5 text-[0.6rem] uppercase tracking-[0.25em] text-primary-foreground">
+                Mais escolhido
+              </span>
+            )}
             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-4">
-              <h3 className="font-display truncate text-2xl text-foreground">{p.name}</h3>
-              <span className="shrink-0 text-lg font-semibold text-foreground">{p.price}</span>
+              <h3 className="display-xl truncate text-2xl text-foreground">{p.name}</h3>
+              <span className="font-display shrink-0 text-2xl text-gold">{p.price}</span>
             </div>
             <ul className="mt-4 space-y-2">
               {p.items.map((i) => (
                 <li key={i} className="flex gap-2 text-sm text-muted-foreground">
-                  <span aria-hidden="true" className="text-foreground">
+                  <span aria-hidden="true" className="text-gold">
                     —
                   </span>
                   {i}
@@ -139,8 +150,8 @@ export function Niches() {
             </ul>
           </div>
         ))}
-        <p className="eyebrow text-center">
-          Formas de pagamento: Pix, dinheiro ou cartão em até 6x
+        <p className="font-condensed text-center text-[0.65rem] uppercase tracking-[0.3em] text-muted-foreground">
+          Pix, dinheiro ou cartão em até 6x
         </p>
       </div>
     </Section>
