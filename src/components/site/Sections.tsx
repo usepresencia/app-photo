@@ -1,4 +1,5 @@
 import { aboutFamily, aboutWork, gallery, niches, packages } from "./data";
+import { GalleryAlbum } from "./GalleryAlbum";
 import { Section } from "./Section";
 
 function Row({ images }: { images: string[] }) {
