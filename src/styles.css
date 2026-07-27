@@ -42,46 +42,55 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-display: "Playfair Display", Georgia, serif;
-  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --font-display: "Bebas Neue", "Barlow Condensed", Impact, sans-serif;
+  --font-condensed: "Barlow Condensed", "Barlow", sans-serif;
+  --font-sans: "Barlow", system-ui, sans-serif;
+
 }
 
 :root {
-  --radius: 0.5rem;
-  /* Monocromático: preto, grafite e cinzas */
-  --background: oklch(0.14 0 0);
+  --radius: 0.25rem;
+  /* Noir & Gold */
+  --gold: oklch(0.75 0.115 88);
+  --gold-soft: oklch(0.88 0.085 92);
+  --background: oklch(0.11 0 0);
   --foreground: oklch(0.97 0 0);
-  --surface: oklch(0.18 0 0);
-  --surface-2: oklch(0.24 0 0);
-  --card: oklch(0.18 0 0);
+  --surface: oklch(0.15 0.004 90);
+  --surface-2: oklch(0.2 0.006 90);
+  --card: oklch(0.15 0.004 90);
   --card-foreground: oklch(0.97 0 0);
-  --popover: oklch(0.18 0 0);
+  --popover: oklch(0.15 0.004 90);
   --popover-foreground: oklch(0.97 0 0);
-  --primary: oklch(0.97 0 0);
-  --primary-foreground: oklch(0.14 0 0);
-  --secondary: oklch(0.26 0 0);
+  --primary: var(--gold);
+  --primary-foreground: oklch(0.11 0 0);
+  --secondary: oklch(0.22 0 0);
   --secondary-foreground: oklch(0.97 0 0);
-  --muted: oklch(0.24 0 0);
-  --muted-foreground: oklch(0.68 0 0);
-  --accent: oklch(0.75 0 0);
-  --accent-foreground: oklch(0.14 0 0);
+  --muted: oklch(0.2 0 0);
+  --muted-foreground: oklch(0.71 0.005 90);
+  --accent: var(--gold);
+  --accent-foreground: oklch(0.11 0 0);
   --destructive: oklch(0.58 0.2 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.3 0 0);
-  --input: oklch(0.3 0 0);
-  --ring: oklch(0.6 0 0);
-  --sidebar: oklch(0.18 0 0);
+  --border: oklch(0.28 0.008 90);
+  --input: oklch(0.28 0.008 90);
+  --ring: var(--gold);
+  --sidebar: oklch(0.15 0.004 90);
   --sidebar-foreground: oklch(0.97 0 0);
-  --sidebar-primary: oklch(0.97 0 0);
-  --sidebar-primary-foreground: oklch(0.14 0 0);
-  --sidebar-accent: oklch(0.26 0 0);
+  --sidebar-primary: var(--gold);
+  --sidebar-primary-foreground: oklch(0.11 0 0);
+  --sidebar-accent: oklch(0.22 0 0);
   --sidebar-accent-foreground: oklch(0.97 0 0);
-  --sidebar-border: oklch(0.3 0 0);
-  --sidebar-ring: oklch(0.6 0 0);
+  --sidebar-border: oklch(0.28 0.008 90);
+  --sidebar-ring: var(--gold);
 
   --gradient-fade: linear-gradient(to bottom, transparent, var(--background));
+  --gradient-gold: linear-gradient(100deg, var(--gold), var(--gold-soft), var(--gold));
   --shadow-soft: 0 20px 50px -20px oklch(0 0 0 / 0.8);
+  --shadow-gold: 0 18px 45px -22px color-mix(in oklab, var(--gold) 55%, transparent);
 }
+
 
 .dark {
   color-scheme: dark;
@@ -155,4 +164,55 @@
   to {
     transform: translateX(0);
   }
+}
+
+@utility font-condensed {
+  font-family: var(--font-condensed);
+}
+
+@utility text-gold {
+  color: var(--gold);
+}
+
+@utility display-xl {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 0.88;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+@utility gold-rule {
+  height: 1px;
+  width: 100%;
+  background: var(--gradient-gold);
+  opacity: 0.7;
+}
+
+@utility grain {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@utility section-index {
+  font-family: var(--font-condensed);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+}
+
+@utility ticker {
+  animation: marquee-left var(--dur, 30s) linear infinite;
+}
+
+@utility frame-gold {
+  border: 1px solid color-mix(in oklab, var(--gold) 35%, transparent);
 }
