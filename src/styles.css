@@ -51,41 +51,46 @@
 }
 
 :root {
-  --radius: 0.5rem;
-  /* Monocromático: preto, grafite e cinzas */
-  --background: oklch(0.14 0 0);
+  --radius: 0.25rem;
+  /* Noir & Gold */
+  --gold: oklch(0.75 0.115 88);
+  --gold-soft: oklch(0.88 0.085 92);
+  --background: oklch(0.11 0 0);
   --foreground: oklch(0.97 0 0);
-  --surface: oklch(0.18 0 0);
-  --surface-2: oklch(0.24 0 0);
-  --card: oklch(0.18 0 0);
+  --surface: oklch(0.15 0.004 90);
+  --surface-2: oklch(0.2 0.006 90);
+  --card: oklch(0.15 0.004 90);
   --card-foreground: oklch(0.97 0 0);
-  --popover: oklch(0.18 0 0);
+  --popover: oklch(0.15 0.004 90);
   --popover-foreground: oklch(0.97 0 0);
-  --primary: oklch(0.97 0 0);
-  --primary-foreground: oklch(0.14 0 0);
-  --secondary: oklch(0.26 0 0);
+  --primary: var(--gold);
+  --primary-foreground: oklch(0.11 0 0);
+  --secondary: oklch(0.22 0 0);
   --secondary-foreground: oklch(0.97 0 0);
-  --muted: oklch(0.24 0 0);
-  --muted-foreground: oklch(0.68 0 0);
-  --accent: oklch(0.75 0 0);
-  --accent-foreground: oklch(0.14 0 0);
+  --muted: oklch(0.2 0 0);
+  --muted-foreground: oklch(0.71 0.005 90);
+  --accent: var(--gold);
+  --accent-foreground: oklch(0.11 0 0);
   --destructive: oklch(0.58 0.2 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.3 0 0);
-  --input: oklch(0.3 0 0);
-  --ring: oklch(0.6 0 0);
-  --sidebar: oklch(0.18 0 0);
+  --border: oklch(0.28 0.008 90);
+  --input: oklch(0.28 0.008 90);
+  --ring: var(--gold);
+  --sidebar: oklch(0.15 0.004 90);
   --sidebar-foreground: oklch(0.97 0 0);
-  --sidebar-primary: oklch(0.97 0 0);
-  --sidebar-primary-foreground: oklch(0.14 0 0);
-  --sidebar-accent: oklch(0.26 0 0);
+  --sidebar-primary: var(--gold);
+  --sidebar-primary-foreground: oklch(0.11 0 0);
+  --sidebar-accent: oklch(0.22 0 0);
   --sidebar-accent-foreground: oklch(0.97 0 0);
-  --sidebar-border: oklch(0.3 0 0);
-  --sidebar-ring: oklch(0.6 0 0);
+  --sidebar-border: oklch(0.28 0.008 90);
+  --sidebar-ring: var(--gold);
 
   --gradient-fade: linear-gradient(to bottom, transparent, var(--background));
+  --gradient-gold: linear-gradient(100deg, var(--gold), var(--gold-soft), var(--gold));
   --shadow-soft: 0 20px 50px -20px oklch(0 0 0 / 0.8);
+  --shadow-gold: 0 18px 45px -22px color-mix(in oklab, var(--gold) 55%, transparent);
 }
+
 
 .dark {
   color-scheme: dark;
