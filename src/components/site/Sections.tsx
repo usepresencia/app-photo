@@ -73,12 +73,13 @@ export function About() {
 
 const spreadPoses = [
   "col-span-7 aspect-[4/5] -rotate-[1.2deg]",
-  "col-span-6 col-start-7 mt-14 aspect-[3/4] rotate-[2deg] z-20",
-  "col-span-5 -mt-10 aspect-square rotate-[1deg] z-10",
-  "col-span-8 col-start-5 mt-3 aspect-[16/10] -rotate-[0.8deg]",
-  "col-span-6 -mt-12 aspect-[3/4] rotate-[1.6deg] z-20",
-  "col-span-7 col-start-6 mt-4 aspect-[4/5] -rotate-[2deg]",
+  "col-span-6 col-start-7 -mt-24 aspect-[3/4] rotate-[2deg] z-20",
+  "col-span-5 -mt-20 aspect-square rotate-[1deg] z-10",
+  "col-span-8 col-start-5 -mt-24 aspect-[16/10] -rotate-[0.8deg] z-20",
+  "col-span-6 -mt-16 aspect-[3/4] rotate-[1.6deg]",
+  "col-span-7 col-start-6 -mt-28 aspect-[4/5] -rotate-[2deg] z-20",
 ];
+
 
 export function Gallery() {
   const spreads: string[][] = [];
