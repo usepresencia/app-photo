@@ -1,4 +1,5 @@
 import { aboutFamily, aboutWork, gallery, niches, packages } from "./data";
+import { GalleryAlbum } from "./GalleryAlbum";
 import { Section } from "./Section";
 
 function Row({ images }: { images: string[] }) {
@@ -71,60 +72,14 @@ export function About() {
   );
 }
 
-const spreadPoses = [
-  "col-span-7 aspect-[4/5] -rotate-[1.2deg]",
-  "col-span-6 col-start-7 -mt-24 aspect-[3/4] rotate-[2deg] z-20",
-  "col-span-5 -mt-20 aspect-square rotate-[1deg] z-10",
-  "col-span-8 col-start-5 -mt-24 aspect-[16/10] -rotate-[0.8deg] z-20",
-  "col-span-6 -mt-16 aspect-[3/4] rotate-[1.6deg]",
-  "col-span-7 col-start-6 -mt-28 aspect-[4/5] -rotate-[2deg] z-20",
-];
-
-
 export function Gallery() {
-  const spreads: string[][] = [];
-  for (let i = 0; i < gallery.length; i += 6) spreads.push(gallery.slice(i, i + 6));
-
   return (
     <Section id="galeria" index="02" eyebrow="Portfólio" title="Meus trabalhos">
-      <div className="space-y-14">
-        {spreads.map((spread, s) => (
-          <div key={s} className="relative">
-            <div className="mb-4 flex items-center gap-3">
-              <span className="font-condensed text-[0.6rem] uppercase tracking-[0.35em] text-gold">
-                Página {String(s + 1).padStart(2, "0")}
-              </span>
-              <span className="gold-rule flex-1" />
-            </div>
-            <div className="grid grid-cols-12 items-start gap-x-1">
-              {spread.map((src, i) => {
-                const n = s * 6 + i + 1;
-                return (
-                  <figure
-                    key={src + i}
-                    className={`group relative border border-border bg-surface p-1.5 shadow-[var(--shadow-soft)] transition-all duration-500 hover:z-30 hover:rotate-0 hover:scale-[1.04] ${spreadPoses[i]}`}
-                  >
-                    <div className="h-full w-full overflow-hidden">
-                      <img
-                        src={src}
-                        alt={`Foto ${n} do portfólio`}
-                        loading="lazy"
-                        className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
-                      />
-                    </div>
-                    <figcaption className="font-condensed absolute bottom-2 left-2 bg-background/80 px-1.5 text-[0.55rem] tracking-[0.3em] text-gold/90">
-                      {String(n).padStart(2, "0")}
-                    </figcaption>
-                  </figure>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-      </div>
+      <GalleryAlbum images={gallery} />
     </Section>
   );
 }
+
 
 
 export function Niches() {
