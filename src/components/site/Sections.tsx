@@ -2,21 +2,30 @@ import { aboutFamily, aboutWork, gallery, niches, packages } from "./data";
 import { Section } from "./Section";
 
 function Row({ images }: { images: string[] }) {
+  const poses = [
+    "col-span-5 aspect-[3/4] -rotate-[1.5deg]",
+    "col-span-4 col-start-5 mt-10 aspect-square rotate-[2deg] z-10",
+    "col-span-4 col-start-9 -mt-6 aspect-[3/5] -rotate-[1deg]",
+  ];
   return (
-    <div className="grid grid-cols-3 gap-2">
-      {images.map((src) => (
-        <div key={src} className="aspect-[3/4] overflow-hidden border border-border">
+    <div className="grid grid-cols-12 items-start gap-x-1">
+      {images.map((src, i) => (
+        <figure
+          key={src}
+          className={`relative overflow-hidden border border-border bg-surface p-1 shadow-[var(--shadow-soft)] transition-transform duration-500 hover:rotate-0 hover:scale-[1.03] ${poses[i % poses.length]}`}
+        >
           <img
             src={src}
             alt="Registro do portfólio de Denise Galvão"
             loading="lazy"
             className="h-full w-full object-cover grayscale transition-all duration-500 hover:grayscale-0"
           />
-        </div>
+        </figure>
       ))}
     </div>
   );
 }
+
 
 export function About() {
   return (
