@@ -4,31 +4,31 @@ import { Section } from "./Section";
 
 export function Events() {
   return (
-    <Section id="eventos" eyebrow="Eventos" title="Formatos de cobertura">
-      <div className="space-y-4">
-        {events.map((e) => (
-          <article
-            key={e.title}
-            className="relative h-40 overflow-hidden rounded-lg border border-border"
-          >
+    <Section id="eventos" index="04" eyebrow="Eventos" title="Formatos de cobertura">
+      <div className="space-y-3">
+        {events.map((e, i) => (
+          <article key={e.title} className="relative h-44 overflow-hidden border border-border">
             <img
               src={e.image}
               alt={`Cobertura de ${e.title}`}
               loading="lazy"
               className="absolute inset-0 h-full w-full object-cover grayscale"
             />
-            <div className="absolute inset-0 bg-background/65" />
-            <div className="relative flex h-full flex-col items-center justify-center px-5 text-center">
-              <h3 className="font-display text-2xl text-foreground">{e.title}</h3>
-              <p className="mt-1 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            <div className="absolute inset-0 bg-background/70" />
+            <div className="relative flex h-full flex-col justify-end p-5">
+              <span className="font-condensed text-[0.62rem] tracking-[0.35em] text-gold">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="display-xl mt-1 text-3xl text-foreground">{e.title}</h3>
+              <p className="font-condensed mt-1 text-[0.65rem] uppercase tracking-[0.28em] text-muted-foreground">
                 {e.subtitle}
               </p>
             </div>
           </article>
         ))}
       </div>
-      <p className="eyebrow mt-6 text-center">
-        Preencha o formulário abaixo e finalize a conversa no WhatsApp
+      <p className="font-condensed mt-6 text-center text-[0.65rem] uppercase tracking-[0.3em] text-muted-foreground">
+        Preencha o formulário e finalize no WhatsApp
       </p>
     </Section>
   );
@@ -46,11 +46,11 @@ export function Contact() {
   };
 
   const field =
-    "w-full rounded-md border border-border bg-surface px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-foreground focus:outline-none";
+    "w-full border border-border bg-surface px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-gold focus:outline-none";
 
   return (
-    <Section id="contato" eyebrow="Personalize" title="Fale comigo">
-      <form onSubmit={send} className="mx-auto max-w-lg space-y-3">
+    <Section id="contato" index="05" eyebrow="Personalize" title="Fale comigo">
+      <form onSubmit={send} className="frame-gold space-y-3 bg-surface/40 p-5">
         <input
           required
           className={field}
@@ -86,7 +86,8 @@ export function Contact() {
         />
         <button
           type="submit"
-          className="w-full rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+          className="font-condensed w-full bg-primary px-6 py-3.5 text-sm font-semibold uppercase tracking-[0.22em] text-primary-foreground transition-opacity hover:opacity-90"
+          style={{ boxShadow: "var(--shadow-gold)" }}
         >
           Enviar no WhatsApp
         </button>
@@ -97,15 +98,20 @@ export function Contact() {
 
 export function Testimonials() {
   return (
-    <Section id="feedbacks" eyebrow="Feedbacks de clientes" title="O que dizem por aí">
-      <div className="flex gap-4 overflow-x-auto pb-2 no-scrollbar">
+    <Section id="feedbacks" index="06" eyebrow="Feedbacks de clientes" title="O que dizem por aí">
+      <div className="no-scrollbar flex gap-3 overflow-x-auto pb-2">
         {testimonials.map((t) => (
           <blockquote
             key={t.name}
-            className="w-72 shrink-0 rounded-lg border border-border bg-surface p-6"
+            className="w-72 shrink-0 border border-border bg-surface p-6"
           >
-            <p className="text-sm leading-relaxed text-muted-foreground">“{t.text}”</p>
-            <footer className="eyebrow mt-4">{t.name}</footer>
+            <span aria-hidden="true" className="font-display block text-4xl leading-none text-gold">
+              “
+            </span>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t.text}</p>
+            <footer className="font-condensed mt-4 text-[0.65rem] uppercase tracking-[0.3em] text-gold">
+              {t.name}
+            </footer>
           </blockquote>
         ))}
       </div>
@@ -114,7 +120,7 @@ export function Testimonials() {
           href={BRAND.instagram}
           target="_blank"
           rel="noreferrer"
-          className="rounded-full border border-border px-6 py-3 text-center text-sm font-semibold text-foreground transition-colors hover:bg-surface"
+          className="frame-gold font-condensed px-6 py-3.5 text-center text-sm font-semibold uppercase tracking-[0.2em] text-foreground transition-colors hover:bg-surface"
         >
           Instagram
         </a>
@@ -122,7 +128,7 @@ export function Testimonials() {
           href="https://www.google.com/maps"
           target="_blank"
           rel="noreferrer"
-          className="rounded-full border border-border px-6 py-3 text-center text-sm font-semibold text-foreground transition-colors hover:bg-surface"
+          className="frame-gold font-condensed px-6 py-3.5 text-center text-sm font-semibold uppercase tracking-[0.2em] text-foreground transition-colors hover:bg-surface"
         >
           Avaliar no Google
         </a>
@@ -133,8 +139,8 @@ export function Testimonials() {
 
 export function Location() {
   return (
-    <Section id="estudio" eyebrow="Localização do estúdio" title="Onde nos encontramos">
-      <div className="overflow-hidden rounded-lg border border-border">
+    <Section id="estudio" index="07" eyebrow="Localização do estúdio" title="Onde nos encontramos">
+      <div className="frame-gold overflow-hidden p-1.5">
         <iframe
           title="Mapa da localização do estúdio"
           src="https://www.google.com/maps?q=Sao+Paulo+SP&output=embed"
@@ -142,15 +148,19 @@ export function Location() {
           loading="lazy"
         />
       </div>
-      <div className="mt-4 rounded-lg border border-border bg-surface p-6 text-center">
+      <div className="mt-4 border-l-2 border-gold bg-surface p-6">
         <p className="text-sm text-foreground">Rua das Artes, 120 — Vila Madalena, São Paulo/SP</p>
         <p className="mt-2 text-sm text-muted-foreground">
           Atendimento com hora marcada, de terça a sábado.
         </p>
       </div>
-      <footer className="mt-10 text-center">
-        <p className="eyebrow">
-          © {new Date().getFullYear()} {BRAND.name} Fotografia
+      <footer className="mt-12">
+        <span className="gold-rule block" />
+        <p className="display-xl mt-5 text-center text-4xl text-foreground">
+          {BRAND.name}
+        </p>
+        <p className="font-condensed mt-2 text-center text-[0.62rem] uppercase tracking-[0.4em] text-muted-foreground">
+          © {new Date().getFullYear()} · Fotografia · São Paulo
         </p>
       </footer>
     </Section>
