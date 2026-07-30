@@ -75,7 +75,7 @@ export function About() {
             monocromática, direção leve e entrega no prazo combinado.
           </p>
         </div>
-        <Row images={aboutWork} />
+        <Row images={aboutWork} notes={["bastidor", "luz de estúdio", "revelando"]} />
       </div>
     </Section>
   );
