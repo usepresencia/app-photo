@@ -70,9 +70,10 @@ export function GalleryAlbum({ images }: { images: string[] }) {
               return (
                 <figure
                   key={src + i}
-                  className={`group relative border border-border bg-surface p-1.5 shadow-[var(--shadow-soft)] transition-all duration-500 hover:z-30 hover:rotate-0 hover:scale-[1.04] ${spreadPoses[i]}`}
+                  style={{ ["--tape-rot" as string]: `${i % 2 ? 5 : -6}deg` }}
+                  className={`group polaroid relative transition-all duration-500 hover:z-30 hover:rotate-0 hover:scale-[1.04] ${i % 3 === 0 ? "tape" : i % 3 === 1 ? "tape-corner" : ""} ${spreadPoses[i]}`}
                 >
-                  <div className="h-full w-full overflow-hidden">
+                  <div className="h-[calc(100%-1.1rem)] w-full overflow-hidden bg-background">
                     <img
                       src={src}
                       alt={`Foto ${n} do portfólio`}
@@ -81,10 +82,14 @@ export function GalleryAlbum({ images }: { images: string[] }) {
                       className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
                     />
                   </div>
-                  <figcaption className="font-condensed absolute bottom-2 left-2 bg-background/80 px-1.5 text-[0.55rem] tracking-[0.3em] text-gold/90">
-                    {String(n).padStart(2, "0")}
+                  <figcaption className="font-hand absolute inset-x-2 bottom-1 flex items-baseline justify-between text-[0.85rem] leading-none text-[oklch(0.25_0.02_60)]">
+                    <span>{notes[(page + i) % notes.length]}</span>
+                    <span className="font-condensed text-[0.5rem] tracking-[0.25em] opacity-60">
+                      {String(n).padStart(2, "0")}
+                    </span>
                   </figcaption>
                 </figure>
+
               );
             })}
           </div>
