@@ -2,30 +2,39 @@ import { aboutFamily, aboutWork, gallery, niches, packages } from "./data";
 import { GalleryAlbum } from "./GalleryAlbum";
 import { Section } from "./Section";
 
-function Row({ images }: { images: string[] }) {
+function Row({ images, notes = [] }: { images: string[]; notes?: string[] }) {
   const poses = [
-    "col-span-5 aspect-[3/4] -rotate-[1.5deg]",
-    "col-span-4 col-start-5 mt-10 aspect-square rotate-[2deg] z-10",
-    "col-span-4 col-start-9 -mt-6 aspect-[3/5] -rotate-[1deg]",
+    "col-span-5 aspect-[3/4] -rotate-[3deg]",
+    "col-span-4 col-start-5 mt-10 aspect-square rotate-[3.5deg] z-10",
+    "col-span-4 col-start-9 -mt-6 aspect-[3/5] -rotate-[2deg]",
   ];
   return (
-    <div className="grid grid-cols-12 items-start gap-x-1">
+    <div className="grid grid-cols-12 items-start gap-x-1 pt-4">
       {images.map((src, i) => (
         <figure
           key={src}
-          className={`relative overflow-hidden border border-border bg-surface p-1 shadow-[var(--shadow-soft)] transition-transform duration-500 hover:rotate-0 hover:scale-[1.03] ${poses[i % poses.length]}`}
+          style={{ ["--tape-rot" as string]: `${i % 2 ? 6 : -7}deg` }}
+          className={`polaroid relative transition-transform duration-500 hover:rotate-0 hover:scale-[1.03] ${
+            i % 2 === 0 ? "tape" : "tape-corner"
+          } ${poses[i % poses.length]}`}
         >
-          <img
-            src={src}
-            alt="Registro do portfólio de Denise Galvão"
-            loading="lazy"
-            className="h-full w-full object-cover grayscale transition-all duration-500 hover:grayscale-0"
-          />
+          <div className="h-[calc(100%-1.1rem)] w-full overflow-hidden bg-background">
+            <img
+              src={src}
+              alt="Registro do portfólio de Denise Galvão"
+              loading="lazy"
+              className="h-full w-full object-cover grayscale transition-all duration-500 hover:grayscale-0"
+            />
+          </div>
+          <figcaption className="font-hand absolute inset-x-2 bottom-1 truncate text-[0.8rem] leading-none text-[oklch(0.25_0.02_60)]">
+            {notes[i] ?? ""}
+          </figcaption>
         </figure>
       ))}
     </div>
   );
 }
+
 
 
 export function About() {
