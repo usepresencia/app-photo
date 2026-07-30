@@ -1,13 +1,14 @@
 import { useRef, useState } from "react";
 
 const spreadPoses = [
-  "col-span-7 aspect-[4/5] -rotate-[2.4deg]",
-  "col-span-6 col-start-7 -mt-24 aspect-[3/4] rotate-[3deg] z-20",
-  "col-span-5 -mt-20 aspect-square rotate-[1.6deg] z-10",
-  "col-span-8 col-start-5 -mt-24 aspect-[16/10] -rotate-[1.6deg] z-20",
-  "col-span-6 -mt-16 aspect-[3/4] rotate-[2.4deg]",
-  "col-span-7 col-start-6 -mt-28 aspect-[4/5] -rotate-[3deg] z-20",
+  "col-span-8 col-start-1 aspect-[4/5] -rotate-[3deg] z-10",
+  "col-span-7 col-start-6 -mt-52 aspect-[4/3] rotate-[3.5deg] z-30",
+  "col-span-7 col-start-1 -mt-28 aspect-[5/4] rotate-[1.5deg] z-20",
+  "col-span-7 col-start-6 -mt-36 aspect-[3/4] -rotate-[2.5deg] z-40",
+  "col-span-6 col-start-1 -mt-40 aspect-square rotate-[4deg] z-30",
+  "col-span-8 col-start-5 -mt-32 aspect-[4/5] -rotate-[2deg] z-50",
 ];
+
 
 const notes = [
   "registros que ficam",
