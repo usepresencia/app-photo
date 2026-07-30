@@ -62,7 +62,7 @@ export function About() {
             organiza aquela caixa: com cuidado, sem pressa e com muito afeto.
           </p>
         </div>
-        <Row images={aboutFamily} />
+        <Row images={aboutFamily} notes={["nossa gente", "domingo", "colo"]} />
 
         <div className="border-l-2 border-gold bg-surface p-6 pl-5">
           <h3 className="display-xl text-3xl text-foreground">Profissão</h3>
