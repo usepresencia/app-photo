@@ -4,12 +4,13 @@ import { Section } from "./Section";
 
 function Row({ images, notes = [] }: { images: string[]; notes?: string[] }) {
   const poses = [
-    "col-span-5 aspect-[3/4] -rotate-[3deg]",
-    "col-span-4 col-start-5 mt-10 aspect-square rotate-[3.5deg] z-10",
-    "col-span-4 col-start-9 -mt-6 aspect-[3/5] -rotate-[2deg]",
+    "col-span-6 col-start-1 aspect-[3/4] -rotate-[3.5deg] z-10",
+    "col-span-6 col-start-6 -mt-24 aspect-square rotate-[4deg] z-30",
+    "col-span-5 col-start-3 -mt-16 aspect-[3/4] -rotate-[2deg] z-20",
   ];
   return (
-    <div className="grid grid-cols-12 items-start gap-x-1 pt-4">
+    <div className="grid grid-cols-12 items-start gap-x-0 pt-4">
+
       {images.map((src, i) => (
         <figure
           key={src}
