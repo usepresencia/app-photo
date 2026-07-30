@@ -1,13 +1,21 @@
 import { useRef, useState } from "react";
 
 const spreadPoses = [
-  "col-span-7 aspect-[4/5] -rotate-[1.2deg]",
-  "col-span-6 col-start-7 -mt-24 aspect-[3/4] rotate-[2deg] z-20",
-  "col-span-5 -mt-20 aspect-square rotate-[1deg] z-10",
-  "col-span-8 col-start-5 -mt-24 aspect-[16/10] -rotate-[0.8deg] z-20",
-  "col-span-6 -mt-16 aspect-[3/4] rotate-[1.6deg]",
-  "col-span-7 col-start-6 -mt-28 aspect-[4/5] -rotate-[2deg] z-20",
+  "col-span-7 aspect-[4/5] -rotate-[2.4deg]",
+  "col-span-6 col-start-7 -mt-24 aspect-[3/4] rotate-[3deg] z-20",
+  "col-span-5 -mt-20 aspect-square rotate-[1.6deg] z-10",
+  "col-span-8 col-start-5 -mt-24 aspect-[16/10] -rotate-[1.6deg] z-20",
+  "col-span-6 -mt-16 aspect-[3/4] rotate-[2.4deg]",
+  "col-span-7 col-start-6 -mt-28 aspect-[4/5] -rotate-[3deg] z-20",
 ];
+
+const notes = [
+  "registros que ficam",
+  "luz da tarde",
+  "sem pose, só verdade",
+  "o instante certo",
+];
+
 
 export function GalleryAlbum({ images }: { images: string[] }) {
   const spreads: string[][] = [];
