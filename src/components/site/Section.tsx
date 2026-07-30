@@ -14,10 +14,10 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className="relative px-5 py-16">
+    <section id={id} className="relative px-5 py-10">
       <div className="mx-auto w-full max-w-3xl">
         {(eyebrow || title) && (
-          <header className="mb-8">
+          <header className="mb-5">
             <div className="flex items-center gap-3">
               {index && <span className="section-index">{index}</span>}
               <span className="gold-rule flex-1" />
