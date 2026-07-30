@@ -65,7 +65,7 @@ export function GalleryAlbum({ images }: { images: string[] }) {
           key={page}
           className={dir === 1 ? "album-page-next" : "album-page-prev"}
         >
-          <div className="grid grid-cols-12 items-start gap-x-1">
+          <div className="grid grid-cols-12 items-start gap-x-0">
             {spread.map((src, i) => {
               const n = page * 6 + i + 1;
               return (
