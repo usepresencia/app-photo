@@ -88,6 +88,8 @@
   --gradient-fade: linear-gradient(to bottom, transparent, var(--background));
   --gradient-gold: linear-gradient(100deg, var(--gold), var(--gold-soft), var(--gold));
   --shadow-soft: 0 20px 50px -20px oklch(0 0 0 / 0.8);
+  --paper: oklch(0.95 0.012 92);
+  --tape-bg: linear-gradient(180deg, color-mix(in oklab, var(--gold) 40%, transparent), color-mix(in oklab, var(--gold) 18%, transparent));
   --shadow-gold: 0 18px 45px -22px color-mix(in oklab, var(--gold) 55%, transparent);
 }
 
@@ -259,3 +261,54 @@
   }
 }
 
+
+/* --- Scrapbook / álbum recortado --- */
+@utility font-hand {
+  font-family: "Caveat", "Barlow", cursive;
+}
+
+@utility polaroid {
+  background: var(--paper);
+  padding: 0.5rem 0.5rem 1.6rem;
+  box-shadow:
+    0 22px 45px -22px oklch(0 0 0 / 0.95),
+    0 2px 0 0 oklch(1 0 0 / 0.08) inset;
+}
+
+@utility polaroid-tight {
+  background: var(--paper);
+  padding: 0.4rem 0.4rem 0.4rem;
+  box-shadow: 0 18px 40px -22px oklch(0 0 0 / 0.9);
+}
+
+@utility tape {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: -0.7rem;
+    left: 50%;
+    width: 4.2rem;
+    height: 1.4rem;
+    transform: translateX(-50%) rotate(var(--tape-rot, -4deg));
+    background: var(--tape-bg);
+    box-shadow: 0 4px 10px -6px oklch(0 0 0 / 0.9);
+    z-index: 5;
+  }
+}
+
+@utility tape-corner {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: -0.55rem;
+    left: -0.9rem;
+    width: 3.4rem;
+    height: 1.2rem;
+    transform: rotate(-38deg);
+    background: var(--tape-bg);
+    box-shadow: 0 4px 10px -6px oklch(0 0 0 / 0.9);
+    z-index: 5;
+  }
+}
