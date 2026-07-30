@@ -5,8 +5,8 @@ import { Section } from "./Section";
 function Row({ images, notes = [] }: { images: string[]; notes?: string[] }) {
   const poses = [
     "col-span-6 col-start-1 aspect-[3/4] -rotate-[3.5deg] z-10",
-    "col-span-6 col-start-6 -mt-24 aspect-square rotate-[4deg] z-30",
-    "col-span-5 col-start-3 -mt-16 aspect-[3/4] -rotate-[2deg] z-20",
+    "col-span-6 col-start-6 -mt-36 aspect-square rotate-[4deg] z-30",
+    "col-span-6 col-start-4 -mt-40 aspect-[3/4] -rotate-[2deg] z-20",
   ];
   return (
     <div className="grid grid-cols-12 items-start gap-x-0 pt-4">
@@ -41,7 +41,7 @@ function Row({ images, notes = [] }: { images: string[]; notes?: string[] }) {
 export function About() {
   return (
     <Section id="quem-sou" index="01" eyebrow="Quem sou" title="Denise Galvão">
-      <div className="space-y-6">
+      <div className="space-y-4">
         <figure className="frame-gold relative overflow-hidden p-1.5">
           <div className="aspect-[4/5] overflow-hidden sm:aspect-[16/10]">
             <img
