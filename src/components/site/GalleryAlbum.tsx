@@ -6,7 +6,7 @@ const spreadPoses = [
   "col-span-7 col-start-1 -mt-28 aspect-[5/4] rotate-[1.5deg] z-20",
   "col-span-7 col-start-6 -mt-36 aspect-[3/4] -rotate-[2.5deg] z-40",
   "col-span-6 col-start-1 -mt-40 aspect-square rotate-[4deg] z-30",
-  "col-span-8 col-start-5 -mt-32 aspect-[4/5] -rotate-[2deg] z-50",
+  "col-span-9 col-start-3 -mt-36 aspect-[4/5] -rotate-[2deg] z-50",
 ];
 
 
