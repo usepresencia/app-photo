@@ -7,11 +7,11 @@ function FilmStrip() {
   return (
     <div
       aria-hidden="true"
-      className="film-strip pointer-events-none absolute -right-6 -top-10 bottom-[-3rem] w-[42%] p-1.5 sm:w-[38%]"
+      className="film-strip pointer-events-none absolute -right-4 -top-10 bottom-[-3rem] w-[44%] p-1.5 sm:w-[40%]"
     >
       <div className="flex h-full flex-col gap-1.5">
         {filmPhotos.map((src, i) => (
-          <div key={i} className="min-h-0 flex-1 overflow-hidden">
+          <div key={i} className="min-h-0 flex-1 overflow-hidden border border-white/10">
             <img src={src} alt="" loading="lazy" className="h-full w-full object-cover" />
           </div>
         ))}
@@ -61,13 +61,23 @@ export function Hero() {
 
       <div className="mx-auto mt-6 w-full max-w-3xl px-5">
         <div
-          className="paper-panel relative overflow-hidden px-6 pb-10 pt-10 sm:px-10 sm:pb-14 sm:pt-14"
-          style={{ boxShadow: "var(--shadow-soft)" }}
+          className="relative overflow-hidden border border-gold/20 px-6 pb-10 pt-10 sm:px-10 sm:pb-14 sm:pt-14"
+          style={{ boxShadow: "var(--shadow-gold)" }}
         >
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 opacity-30"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--gold) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--gold) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--gold) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--gold) 8%, transparent) 0 16px, transparent 17px)",
+              backgroundSize: "190px 190px",
+            }}
+          />
+
           <FilmStrip />
 
           <div className="relative z-10 max-w-[58%] sm:max-w-[55%]">
-            <h1 className="text-[2rem] font-light leading-[1.02] tracking-tight sm:text-[3.4rem]">
+            <h1 className="text-[2rem] font-light leading-[1.02] tracking-tight text-foreground sm:text-[3.4rem]">
               Transforme
               <br />
               <span className="opacity-70">momentos simples em</span>
@@ -77,13 +87,13 @@ export function Hero() {
               <strong className="font-extrabold text-gold">eternas</strong>
             </h1>
 
-            <span className="mt-5 block h-px w-16 bg-[color:var(--ink)] opacity-30" />
+            <span className="mt-5 block h-px w-16 bg-gold/50" />
 
-            <p className="mt-5 text-sm leading-snug sm:text-lg">
-              Um <strong className="font-bold">clique pode guardar</strong> o que o tempo não apaga.
+            <p className="mt-5 text-sm leading-snug text-muted-foreground sm:text-lg">
+              Um <strong className="font-bold text-foreground">clique pode guardar</strong> o que o tempo não apaga.
             </p>
 
-            <p className="font-condensed mt-6 text-[0.62rem] uppercase tracking-[0.32em] opacity-60">
+            <p className="font-condensed mt-6 text-[0.62rem] uppercase tracking-[0.32em] text-muted-foreground">
               {BRAND.city}
             </p>
           </div>
@@ -91,13 +101,13 @@ export function Hero() {
           <div className="relative z-10 mt-8 grid max-w-[58%] grid-cols-1 gap-2.5 sm:max-w-md sm:grid-cols-2">
             <a
               href="#contato"
-              className="font-condensed bg-[color:var(--ink)] px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--paper)] transition-opacity hover:opacity-85"
+              className="font-condensed bg-gold px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.22em] text-background transition-opacity hover:opacity-85"
             >
               Fale comigo
             </a>
             <a
               href="#galeria"
-              className="font-condensed border border-[color:var(--ink)]/30 px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.22em] transition-colors hover:border-[color:var(--ink)]"
+              className="font-condensed border border-gold/40 px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.22em] text-foreground transition-colors hover:border-gold hover:text-gold"
             >
               Ver galeria
             </a>
