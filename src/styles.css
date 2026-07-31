@@ -44,6 +44,8 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
   --font-display: "Bebas Neue", "Barlow Condensed", Impact, sans-serif;
   --font-condensed: "Barlow Condensed", "Barlow", sans-serif;
   --font-sans: "Barlow", system-ui, sans-serif;
