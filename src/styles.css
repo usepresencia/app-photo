@@ -93,7 +93,26 @@
   --paper: oklch(0.95 0.012 92);
   --tape-bg: linear-gradient(180deg, color-mix(in oklab, var(--gold) 40%, transparent), color-mix(in oklab, var(--gold) 18%, transparent));
   --shadow-gold: 0 18px 45px -22px color-mix(in oklab, var(--gold) 55%, transparent);
+  --ink: oklch(0.18 0.005 90);
 }
+
+@utility paper-panel {
+  background-color: var(--paper);
+  color: var(--ink);
+  background-image:
+    radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--ink) 5%, transparent) 0 14px, transparent 15px),
+    radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--ink) 4%, transparent) 0 20px, transparent 21px),
+    radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--ink) 5%, transparent) 0 18px, transparent 19px),
+    radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--ink) 4%, transparent) 0 16px, transparent 17px);
+  background-size: 190px 190px;
+}
+
+@utility film-strip {
+  background: var(--ink);
+  transform: rotate(6deg);
+}
+
+
 
 
 .dark {
