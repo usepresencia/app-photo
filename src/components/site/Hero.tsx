@@ -1,26 +1,18 @@
 import { BRAND, heroStrips } from "./data";
 import { Logo } from "./Logo";
 
-function Strip({ images, dir, dur }: { images: string[]; dir: "left" | "right"; dur: string }) {
-  const row = [...images, ...images, ...images, ...images];
+const filmPhotos = [heroStrips[0][0], heroStrips[1][1], heroStrips[2][0], heroStrips[0][2]];
+
+function FilmStrip() {
   return (
-    <div className="overflow-hidden">
-      <div
-        className={`flex w-max gap-2 ${dir === "left" ? "marquee-left" : "marquee-right"}`}
-        style={{ ["--dur" as string]: dur }}
-      >
-        {row.map((src, i) => (
-          <div
-            key={i}
-            className="h-28 w-[4.5rem] shrink-0 overflow-hidden border border-border bg-surface sm:h-36 sm:w-24"
-          >
-            <img
-              src={src}
-              alt=""
-              aria-hidden="true"
-              loading="lazy"
-              className="h-full w-full object-cover opacity-70 grayscale"
-            />
+    <div
+      aria-hidden="true"
+      className="film-strip pointer-events-none absolute -right-6 -top-10 bottom-[-3rem] w-[42%] p-1.5 sm:w-[38%]"
+    >
+      <div className="flex h-full flex-col gap-1.5">
+        {filmPhotos.map((src, i) => (
+          <div key={i} className="min-h-0 flex-1 overflow-hidden">
+            <img src={src} alt="" loading="lazy" className="h-full w-full object-cover" />
           </div>
         ))}
       </div>
@@ -52,7 +44,7 @@ function Ticker() {
 
 export function Hero() {
   return (
-    <header className="grain relative overflow-hidden pb-14">
+    <header className="grain relative overflow-hidden pb-12">
       <div className="px-5 pt-6">
         <div className="mx-auto flex w-full max-w-3xl items-center justify-between">
           <Logo />
@@ -67,40 +59,52 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="mx-auto mt-10 w-full max-w-3xl px-5">
-        <div className="flex items-center gap-3">
-          <span className="section-index">Est. 2014</span>
-          <span className="gold-rule flex-1" />
-        </div>
-        <p className="font-condensed mt-4 text-[0.7rem] font-semibold uppercase tracking-[0.42em] text-gold">
-          Fotografia autoral · Preto e branco
-        </p>
-        <h1 className="display-xl mt-3 text-[3.6rem] text-foreground sm:text-8xl">
-          Memórias em
-          <br />
-          <span className="text-gold">preto</span>, branco
-          <br />e tudo entre.
-        </h1>
-        <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">
-          Ensaios em estúdio e externos, eventos e retratos profissionais. {BRAND.city}.
-        </p>
-        <div className="mt-7 grid w-full grid-cols-1 gap-3 sm:max-w-md sm:grid-cols-2">
-          <a
-            href="#contato"
-            className="font-condensed bg-primary px-6 py-3.5 text-center text-sm font-semibold uppercase tracking-[0.22em] text-primary-foreground transition-opacity hover:opacity-90"
-            style={{ boxShadow: "var(--shadow-gold)" }}
-          >
-            Fale comigo
-          </a>
-          <a
-            href="#galeria"
-            className="frame-gold font-condensed px-6 py-3.5 text-center text-sm font-semibold uppercase tracking-[0.22em] text-foreground transition-colors hover:bg-surface"
-          >
-            Ver galeria
-          </a>
+      <div className="mx-auto mt-6 w-full max-w-3xl px-5">
+        <div
+          className="paper-panel relative overflow-hidden px-6 pb-10 pt-10 sm:px-10 sm:pb-14 sm:pt-14"
+          style={{ boxShadow: "var(--shadow-soft)" }}
+        >
+          <FilmStrip />
+
+          <div className="relative z-10 max-w-[58%] sm:max-w-[55%]">
+            <h1 className="text-[2rem] font-light leading-[1.02] tracking-tight sm:text-[3.4rem]">
+              Transforme
+              <br />
+              <span className="opacity-70">momentos simples em</span>
+              <br />
+              <strong className="font-extrabold">memórias</strong>
+              <br />
+              <strong className="font-extrabold text-gold">eternas</strong>
+            </h1>
+
+            <span className="mt-5 block h-px w-16 bg-[color:var(--ink)] opacity-30" />
+
+            <p className="mt-5 text-sm leading-snug sm:text-lg">
+              Um <strong className="font-bold">clique pode guardar</strong> o que o tempo não apaga.
+            </p>
+
+            <p className="font-condensed mt-6 text-[0.62rem] uppercase tracking-[0.32em] opacity-60">
+              {BRAND.city}
+            </p>
+          </div>
+
+          <div className="relative z-10 mt-8 grid max-w-[58%] grid-cols-1 gap-2.5 sm:max-w-md sm:grid-cols-2">
+            <a
+              href="#contato"
+              className="font-condensed bg-[color:var(--ink)] px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--paper)] transition-opacity hover:opacity-85"
+            >
+              Fale comigo
+            </a>
+            <a
+              href="#galeria"
+              className="font-condensed border border-[color:var(--ink)]/30 px-5 py-3 text-center text-xs font-semibold uppercase tracking-[0.22em] transition-colors hover:border-[color:var(--ink)]"
+            >
+              Ver galeria
+            </a>
+          </div>
         </div>
 
-        <dl className="mt-10 grid grid-cols-3 border-y border-border">
+        <dl className="mt-8 grid grid-cols-3 border-y border-border">
           {[
             ["10+", "anos"],
             ["300+", "ensaios"],
@@ -116,17 +120,7 @@ export function Hero() {
         </dl>
       </div>
 
-      <div className="relative mt-12 space-y-2">
-        <Strip images={heroStrips[0]} dir="left" dur="26s" />
-        <Strip images={heroStrips[1]} dir="right" dur="32s" />
-        <Strip images={heroStrips[2]} dir="left" dur="38s" />
-        <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
-          style={{ background: "var(--gradient-fade)" }}
-        />
-      </div>
-
-      <div className="mt-10">
+      <div className="mt-8">
         <Ticker />
       </div>
     </header>
