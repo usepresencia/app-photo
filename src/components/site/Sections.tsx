@@ -95,68 +95,43 @@ export function Gallery() {
 export function Niches() {
   return (
     <Section id="ensaios" index="03" eyebrow="Nichos — estúdio e externo" title="Ensaios para cada momento">
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="grid grid-cols-2 gap-2">
-          {niches.map((n) => (
-            <div key={n.title} className="relative aspect-square overflow-hidden border border-border">
+      <p className="text-sm leading-relaxed text-muted-foreground">
+        Arraste para o lado e toque no ensaio para ver a descrição completa, os pacotes e a galeria.
+      </p>
+
+      <div className="no-scrollbar -mx-5 mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-3">
+        {niches.map((n) => (
+          <Link
+            key={n.slug}
+            to="/ensaios/$slug"
+            params={{ slug: n.slug }}
+            className="group relative w-[78%] max-w-sm shrink-0 snap-center overflow-hidden border border-border bg-surface transition-colors hover:border-gold"
+          >
+            <div className="aspect-[4/5] overflow-hidden">
               <img
                 src={n.image}
                 alt={`Ensaio de ${n.title}`}
                 loading="lazy"
-                className="h-full w-full object-cover grayscale"
+                className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.04]"
               />
-              <span className="font-condensed absolute inset-x-0 bottom-0 bg-background/85 px-2 py-2 text-center text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gold">
-                {n.title}
+            </div>
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background via-background/85 to-transparent p-5 pt-12">
+              <span className="font-condensed text-[0.6rem] uppercase tracking-[0.32em] text-muted-foreground">
+                {n.subtitle}
+              </span>
+              <h3 className="display-xl mt-1 text-3xl text-foreground">{n.title}</h3>
+              <span className="font-condensed mt-3 inline-block border border-gold/50 px-3 py-1.5 text-[0.6rem] uppercase tracking-[0.25em] text-gold">
+                Ver serviço →
               </span>
             </div>
-          ))}
-        </div>
-        <div className="flex flex-col justify-center border border-border bg-surface p-6">
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            Todos os nichos seguem o mesmo cuidado: conversa antes do ensaio, direção durante e
-            seleção feita a quatro mãos. Você escolhe estúdio — com fundo controlado e luz contínua
-            — ou uma locação externa na cidade.
-          </p>
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            Os pacotes abaixo valem para qualquer nicho.
-          </p>
-        </div>
+          </Link>
+        ))}
       </div>
 
-      <div className="mt-8 space-y-4">
-        {packages.map((p) => (
-          <div
-            key={p.name}
-            className={`relative border p-6 ${
-              p.featured ? "border-gold bg-surface-2" : "border-border bg-surface"
-            }`}
-            style={p.featured ? { boxShadow: "var(--shadow-gold)" } : undefined}
-          >
-            {p.featured && (
-              <span className="font-condensed absolute -top-2.5 left-6 bg-gold px-2 py-0.5 text-[0.6rem] uppercase tracking-[0.25em] text-primary-foreground">
-                Mais escolhido
-              </span>
-            )}
-            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-4">
-              <h3 className="display-xl truncate text-2xl text-foreground">{p.name}</h3>
-              <span className="font-display shrink-0 text-2xl text-gold">{p.price}</span>
-            </div>
-            <ul className="mt-4 space-y-2">
-              {p.items.map((i) => (
-                <li key={i} className="flex gap-2 text-sm text-muted-foreground">
-                  <span aria-hidden="true" className="text-gold">
-                    —
-                  </span>
-                  {i}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-        <p className="font-condensed text-center text-[0.65rem] uppercase tracking-[0.3em] text-muted-foreground">
-          Pix, dinheiro ou cartão em até 6x
-        </p>
-      </div>
+      <p className="font-condensed mt-4 text-center text-[0.62rem] uppercase tracking-[0.3em] text-muted-foreground">
+        Os pacotes valem para qualquer nicho
+      </p>
     </Section>
   );
 }
+
