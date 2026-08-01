@@ -96,34 +96,60 @@ function ServicePage() {
           <span className="section-index">01</span>
           <span className="gold-rule flex-1" />
         </div>
-        <h2 className="display-xl mt-4 text-4xl text-foreground">Escolha o pacote</h2>
-        <div className="mt-5 grid gap-3 sm:grid-cols-3">
-          {packages.map((p) => {
-            const active = p.name === selected;
-            return (
-              <button
-                key={p.name}
-                type="button"
-                onClick={() => setSelected(p.name)}
-                aria-pressed={active}
-                className={`border p-5 text-left transition-colors ${
-                  active ? "border-gold bg-surface-2" : "border-border bg-surface hover:border-gold/50"
-                }`}
-                style={active ? { boxShadow: "var(--shadow-gold)" } : undefined}
-              >
-                <h3 className="display-xl text-2xl text-foreground">{p.name}</h3>
-                <span className="font-display mt-1 block text-2xl text-gold">{p.price}</span>
-                <span className="font-condensed mt-3 block text-[0.6rem] uppercase tracking-[0.25em] text-muted-foreground">
-                  {active ? "Selecionado" : "Ver o que inclui"}
-                </span>
-              </button>
-            );
-          })}
+        <div className="flex items-baseline justify-between gap-4">
+          <h2 className="display-xl mt-4 text-4xl text-foreground">Escolha o pacote</h2>
+          {pack && (
+            <button
+              type="button"
+              onClick={() => setSelected(null)}
+              className="font-condensed shrink-0 border border-gold/40 px-3 py-1.5 text-[0.6rem] uppercase tracking-[0.25em] text-gold transition-colors hover:bg-surface"
+            >
+              ← Trocar pacote
+            </button>
+          )}
+        </div>
+
+        <div className="album-stage mt-5">
+          <div
+            key={selected ?? "todos"}
+            className={selected ? "album-page-next" : "album-page-prev"}
+          >
+            <div className={`grid gap-3 ${pack ? "" : "sm:grid-cols-3"}`}>
+              {(pack ? [pack] : packages).map((p) => {
+                const active = p.name === selected;
+                return (
+                  <button
+                    key={p.name}
+                    type="button"
+                    onClick={() => setSelected(active ? null : p.name)}
+                    aria-pressed={active}
+                    className={`border p-5 text-left transition-colors ${
+                      active
+                        ? "border-gold bg-surface-2"
+                        : "border-border bg-surface hover:border-gold/50"
+                    }`}
+                    style={active ? { boxShadow: "var(--shadow-gold)" } : undefined}
+                  >
+                    <h3 className="display-xl text-2xl text-foreground">{p.name}</h3>
+                    <span className="font-display mt-1 block text-2xl text-gold">{p.price}</span>
+                    <span className="font-condensed mt-3 block text-[0.6rem] uppercase tracking-[0.25em] text-muted-foreground">
+                      {active ? "Selecionado" : "Ver o que inclui"}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </section>
 
+
       {pack && (
-        <section className="mx-auto w-full max-w-3xl px-5 pb-16 pt-6">
+        <section
+          key={pack.name}
+          className="album-stage album-page-next mx-auto w-full max-w-3xl px-5 pb-16 pt-6"
+        >
+
           <div className="frame-gold bg-surface/40 p-6">
             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-4">
               <h3 className="display-xl text-3xl text-foreground">{pack.name}</h3>
