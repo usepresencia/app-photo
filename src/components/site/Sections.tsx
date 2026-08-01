@@ -1,6 +1,8 @@
+import { Link } from "@tanstack/react-router";
 import { aboutFamily, aboutWork, gallery, niches, packages } from "./data";
 import { GalleryAlbum } from "./GalleryAlbum";
 import { Section } from "./Section";
+
 
 function Row({ images, notes = [] }: { images: string[]; notes?: string[] }) {
   const poses = [

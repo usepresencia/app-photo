@@ -31,7 +31,8 @@ export const Route = createFileRoute("/ensaios/$slug")({
 });
 
 function ServicePage() {
-  const { niche } = Route.useLoaderData();
+  const { niche } = Route.useLoaderData() as { niche: (typeof niches)[number] };
+
   const [selected, setSelected] = useState<string | null>(null);
   const pack = packages.find((p) => p.name === selected);
 

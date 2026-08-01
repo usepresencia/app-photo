@@ -33,25 +33,7 @@ function Index() {
       <Contact />
       <Testimonials />
       <Location />
-
-      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-background/95 px-4 py-3 backdrop-blur">
-        <div className="mx-auto flex max-w-3xl items-center gap-3">
-          <a
-            href="#galeria"
-            className="font-condensed flex-1 border border-border py-2.5 text-center text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-foreground"
-          >
-            Galeria
-          </a>
-          <a
-            href={BRAND.whatsapp}
-            target="_blank"
-            rel="noreferrer"
-            className="font-condensed flex-1 bg-primary py-2.5 text-center text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-primary-foreground"
-          >
-            WhatsApp
-          </a>
-        </div>
-      </nav>
     </main>
+
   );
 }
