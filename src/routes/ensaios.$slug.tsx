@@ -145,7 +145,11 @@ function ServicePage() {
 
 
       {pack && (
-        <section className="mx-auto w-full max-w-3xl px-5 pb-16 pt-6">
+        <section
+          key={pack.name}
+          className="album-stage album-page-next mx-auto w-full max-w-3xl px-5 pb-16 pt-6"
+        >
+
           <div className="frame-gold bg-surface/40 p-6">
             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-4">
               <h3 className="display-xl text-3xl text-foreground">{pack.name}</h3>
