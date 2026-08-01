@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Hero } from "@/components/site/Hero";
 import { About, Gallery, Niches } from "@/components/site/Sections";
 import { Contact, Events, Location, Testimonials } from "@/components/site/Sections2";
-import { BRAND } from "@/components/site/data";
+
 
 const title = "Denise Galvão | Fotografia de ensaios e eventos";
 const description =
