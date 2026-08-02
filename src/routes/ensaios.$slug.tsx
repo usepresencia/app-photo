@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BRAND, niches, packages } from "@/components/site/data";
 
 export const Route = createFileRoute("/ensaios/$slug")({
