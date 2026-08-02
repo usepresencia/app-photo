@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BRAND, niches, packages } from "@/components/site/data";
 
 export const Route = createFileRoute("/ensaios/$slug")({
@@ -30,6 +30,119 @@ export const Route = createFileRoute("/ensaios/$slug")({
   component: ServicePage,
 });
 
+function HeaderSlide({ images }: { images: string[] }) {
+  const slides = images.length ? images : [""];
+  const [idx, setIdx] = useState(0);
+  const [dir, setDir] = useState<1 | -1>(1);
+  const startX = useRef<number | null>(null);
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const go = (next: number) => {
+    if (next < 0 || next >= slides.length || next === idx) return;
+    setDir(next > idx ? 1 : -1);
+    setIdx(next);
+  };
+
+  const resetTimer = () => {
+    if (timer.current) clearInterval(timer.current);
+    timer.current = setInterval(() => {
+      setIdx((prev) => {
+        const next = prev === slides.length - 1 ? 0 : prev + 1;
+        setDir(next > prev ? 1 : -1);
+        return next;
+      });
+    }, 5000);
+  };
+
+  useEffect(() => {
+    resetTimer();
+    return () => {
+      if (timer.current) clearInterval(timer.current);
+    };
+  }, [slides.length]);
+
+  const onStart = (x: number) => {
+    startX.current = x;
+  };
+  const onEnd = (x: number) => {
+    if (startX.current === null) return;
+    const dx = x - startX.current;
+    startX.current = null;
+    if (Math.abs(dx) < 45) return;
+    go(dx < 0 ? idx + 1 : idx - 1);
+    resetTimer();
+  };
+
+  return (
+    <div className="absolute inset-0">
+      <div
+        className="album-stage relative h-full w-full overflow-hidden"
+        onTouchStart={(e) => onStart(e.touches[0].clientX)}
+        onTouchEnd={(e) => onEnd(e.changedTouches[0].clientX)}
+        onPointerDown={(e) => e.pointerType === "mouse" && onStart(e.clientX)}
+        onPointerUp={(e) => e.pointerType === "mouse" && onEnd(e.clientX)}
+      >
+        {slides.map((src, i) =>
+          i === idx ? (
+            <div
+              key={src + i}
+              className={dir === 1 ? "album-page-next" : "album-page-prev"}
+            >
+              <img
+                src={src}
+                alt={`Foto ${String(i + 1).padStart(2, "0")} do ensaio`}
+                className="absolute inset-0 h-full w-full object-cover grayscale"
+              />
+            </div>
+          ) : null,
+        )}
+      </div>
+
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
+
+      <div className="absolute bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-3">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            type="button"
+            aria-label={`Ir para a foto ${i + 1}`}
+            onClick={() => {
+              go(i);
+              resetTimer();
+            }}
+            className={`h-1.5 rounded-full transition-all ${
+              i === idx ? "w-8 bg-gold" : "w-1.5 bg-white/30"
+            }`}
+          />
+        ))}
+      </div>
+
+      <button
+        type="button"
+        onClick={() => {
+          go(idx === 0 ? slides.length - 1 : idx - 1);
+          resetTimer();
+        }}
+        aria-label="Foto anterior"
+        className="font-condensed absolute left-3 top-1/2 z-30 -translate-y-1/2 border border-white/20 bg-background/50 px-2 py-3 text-[0.6rem] uppercase tracking-[0.2em] text-foreground backdrop-blur-sm"
+      >
+        ←
+      </button>
+      <button
+        type="button"
+        onClick={() => {
+          go(idx === slides.length - 1 ? 0 : idx + 1);
+          resetTimer();
+        }}
+        aria-label="Próxima foto"
+        className="font-condensed absolute right-3 top-1/2 z-30 -translate-y-1/2 border border-white/20 bg-background/50 px-2 py-3 text-[0.6rem] uppercase tracking-[0.2em] text-foreground backdrop-blur-sm"
+      >
+        →
+      </button>
+    </div>
+  );
+}
+
 function ServicePage() {
   const { niche } = Route.useLoaderData() as { niche: (typeof niches)[number] };
 
@@ -42,16 +155,13 @@ function ServicePage() {
     }.`,
   )}`;
 
+  const headerImages = [niche.image, ...niche.gallery];
+
   return (
     <main className="min-h-screen bg-background">
       <header className="relative h-[62vh] min-h-[380px] overflow-hidden">
-        <img
-          src={niche.image}
-          alt={`Ensaio de ${niche.title}`}
-          className="absolute inset-0 h-full w-full object-cover grayscale"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/30" />
-        <div className="relative mx-auto flex h-full w-full max-w-3xl flex-col justify-end px-5 pb-8">
+        <HeaderSlide images={headerImages} />
+        <div className="relative mx-auto flex h-full w-full max-w-3xl flex-col justify-end px-5 pb-14">
           <Link
             to="/"
             className="font-condensed absolute left-5 top-6 border border-gold/40 px-3 py-1.5 text-[0.62rem] uppercase tracking-[0.28em] text-gold"
