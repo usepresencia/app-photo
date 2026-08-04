@@ -86,7 +86,7 @@ function HeaderSlide({ images }: { images: string[] }) {
           i === idx ? (
             <div
               key={src + i}
-              className={dir === 1 ? "album-page-next" : "album-page-prev"}
+              className={`absolute inset-0 ${dir === 1 ? "album-page-next" : "album-page-prev"}`}
             >
               <img
                 src={src}
