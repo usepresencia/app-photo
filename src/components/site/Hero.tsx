@@ -15,6 +15,7 @@ function RotatingPhoto({
 }) {
   const [srcs, setSrcs] = useState([photos[start % photos.length], photos[(start + 1) % photos.length]]);
   const [active, setActive] = useState(0);
+  const [flash, setFlash] = useState(false);
 
   useEffect(() => {
     let nextIndex = (start + 2) % photos.length;
@@ -27,8 +28,11 @@ function RotatingPhoto({
         return next;
       });
       setActive(nextActive);
+      setFlash(true);
+      const timeout = setTimeout(() => setFlash(false), 220);
       currentActive = nextActive;
       nextIndex = (nextIndex + 1) % photos.length;
+      return () => clearTimeout(timeout);
     }, interval);
     return () => clearInterval(id);
   }, [start, photos, interval]);
@@ -44,9 +48,14 @@ function RotatingPhoto({
           className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out ${i === active ? "opacity-100" : "opacity-0"}`}
         />
       ))}
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-0 bg-white transition-opacity duration-150 ease-out ${flash ? "opacity-100" : "opacity-0"}`}
+      />
     </div>
   );
 }
+
 
 function FilmStrip() {
   return (
