@@ -1,7 +1,52 @@
+import { useEffect, useState } from "react";
 import { BRAND, heroStrips } from "./data";
 import { Logo } from "./Logo";
 
-const filmPhotos = [heroStrips[0][0], heroStrips[1][1], heroStrips[2][0], heroStrips[0][2]];
+const photos = heroStrips.flat();
+
+function RotatingPhoto({
+  start,
+  photos,
+  interval = 4200,
+}: {
+  start: number;
+  photos: string[];
+  interval?: number;
+}) {
+  const [srcs, setSrcs] = useState([photos[start % photos.length], photos[(start + 1) % photos.length]]);
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    let nextIndex = (start + 2) % photos.length;
+    let currentActive = 0;
+    const id = setInterval(() => {
+      const nextActive = 1 - currentActive;
+      setSrcs((prev) => {
+        const next = [...prev];
+        next[nextActive] = photos[nextIndex];
+        return next;
+      });
+      setActive(nextActive);
+      currentActive = nextActive;
+      nextIndex = (nextIndex + 1) % photos.length;
+    }, interval);
+    return () => clearInterval(id);
+  }, [start, photos, interval]);
+
+  return (
+    <div className="relative h-full w-full overflow-hidden">
+      {srcs.map((src, i) => (
+        <img
+          key={src}
+          src={src}
+          alt=""
+          loading="lazy"
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out ${i === active ? "opacity-100" : "opacity-0"}`}
+        />
+      ))}
+    </div>
+  );
+}
 
 function FilmStrip() {
   return (
@@ -10,15 +55,20 @@ function FilmStrip() {
       className="film-strip pointer-events-none absolute -right-4 -top-10 bottom-[-3rem] w-[44%] p-1.5 sm:w-[40%]"
     >
       <div className="flex h-full flex-col gap-1.5">
-        {filmPhotos.map((src, i) => (
-          <div key={i} className="min-h-0 flex-1 overflow-hidden border border-white/10">
-            <img src={src} alt="" loading="lazy" className="h-full w-full object-cover" />
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div
+            key={i}
+            className="min-h-0 flex-1 overflow-hidden border border-white/10 animate-fade-in"
+            style={{ animationDelay: `${i * 150}ms` }}
+          >
+            <RotatingPhoto start={i} photos={photos} interval={4000 + i * 350} />
           </div>
         ))}
       </div>
     </div>
   );
 }
+
 
 function Ticker() {
   const words = ["Retratos", "Gestante", "Família", "Casamento", "Editorial", "Aniversário"];
