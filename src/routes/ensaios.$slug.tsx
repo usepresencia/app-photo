@@ -276,11 +276,11 @@ function ServicePage() {
           <h4 className="font-condensed mt-10 text-[0.68rem] uppercase tracking-[0.4em] text-gold">
             Galeria do ensaio
           </h4>
-          <div className="mt-4 grid grid-cols-2 gap-2">
+          <div className="mt-4 columns-2 gap-2">
             {niche.gallery.map((src, i) => (
               <figure
                 key={src}
-                className={`polaroid ${i % 2 ? "tape-corner" : "tape"} ${
+                className={`polaroid mb-2 break-inside-avoid ${i % 2 ? "tape-corner" : "tape"} ${
                   i % 3 === 0 ? "aspect-[3/4]" : "aspect-square"
                 }`}
                 style={{ ["--tape-rot" as string]: `${i % 2 ? 5 : -6}deg` }}
