@@ -20,6 +20,7 @@ function RotatingPhoto({
   useEffect(() => {
     let nextIndex = (start + 2) % photos.length;
     let currentActive = 0;
+    let flashTimer: ReturnType<typeof setTimeout> | null = null;
     const id = setInterval(() => {
       const nextActive = 1 - currentActive;
       setSrcs((prev) => {
@@ -29,13 +30,17 @@ function RotatingPhoto({
       });
       setActive(nextActive);
       setFlash(true);
-      const timeout = setTimeout(() => setFlash(false), 220);
+      if (flashTimer) clearTimeout(flashTimer);
+      flashTimer = setTimeout(() => setFlash(false), 220);
       currentActive = nextActive;
       nextIndex = (nextIndex + 1) % photos.length;
-      return () => clearTimeout(timeout);
     }, interval);
-    return () => clearInterval(id);
+    return () => {
+      clearInterval(id);
+      if (flashTimer) clearTimeout(flashTimer);
+    };
   }, [start, photos, interval]);
+
 
   return (
     <div className="relative h-full w-full overflow-hidden">
