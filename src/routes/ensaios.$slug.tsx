@@ -219,38 +219,28 @@ function ServicePage() {
           )}
         </div>
 
-        <div className="album-stage mt-5">
-          <div
-            key={selected ?? "todos"}
-            className={selected ? "album-page-next" : "album-page-prev"}
-          >
-            <div className={`grid gap-3 ${pack ? "" : "sm:grid-cols-3"}`}>
-              {(pack ? [pack] : packages).map((p) => {
-                const active = p.name === selected;
-                return (
+        {!pack && (
+          <div className="album-stage mt-5">
+            <div key="todos" className="album-page-prev">
+              <div className="grid gap-3 sm:grid-cols-3">
+                {packages.map((p) => (
                   <button
                     key={p.name}
                     type="button"
-                    onClick={() => setSelected(active ? null : p.name)}
-                    aria-pressed={active}
-                    className={`border p-5 text-left transition-colors ${
-                      active
-                        ? "border-gold bg-surface-2"
-                        : "border-border bg-surface hover:border-gold/50"
-                    }`}
-                    style={active ? { boxShadow: "var(--shadow-gold)" } : undefined}
+                    onClick={() => setSelected(p.name)}
+                    className="border border-border bg-surface p-5 text-left transition-colors hover:border-gold/50"
                   >
                     <h3 className="display-xl text-2xl text-foreground">{p.name}</h3>
                     <span className="font-display mt-1 block text-2xl text-gold">{p.price}</span>
                     <span className="font-condensed mt-3 block text-[0.6rem] uppercase tracking-[0.25em] text-muted-foreground">
-                      {active ? "Selecionado" : "Ver o que inclui"}
+                      Ver o que inclui
                     </span>
                   </button>
-                );
-              })}
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </section>
 
 
