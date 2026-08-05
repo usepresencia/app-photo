@@ -1,3 +1,35 @@
-export default function HomePage() {
-  return <main className="min-h-screen bg-background p-10 text-foreground">Em construção.</main>;
+import type { Metadata } from "next";
+import { getBrand } from "@/actions/brand";
+import { getGalleryPhotos } from "@/actions/gallery";
+import { Hero } from "./_components/Hero";
+import { About } from "./_components/About";
+import { Gallery } from "./_components/Gallery";
+import { Niches } from "./_components/Niches";
+import { Events } from "./_components/Events";
+import { Testimonials } from "./_components/Testimonials";
+
+const title = "Denise Galvão | Fotografia de ensaios e eventos";
+const description =
+  "Valorize sua imagem com um ensaio pensado nos mínimos detalhes, unindo direção estratégica, estética e autenticidade. Cada sessão é conduzida de forma personalizada, respeitando seu estilo, objetivo e essência.";
+
+export const metadata: Metadata = {
+  title,
+  description,
+  openGraph: { title, description, type: "website" },
+  twitter: { card: "summary_large_image" },
+};
+
+export default async function HomePage() {
+  const [brand, galleryPhotos] = await Promise.all([getBrand(), getGalleryPhotos()]);
+
+  return (
+    <main className="min-h-screen bg-background">
+      <Hero />
+      <About />
+      <Gallery photos={galleryPhotos} />
+      <Niches />
+      <Events whatsapp={brand.whatsapp} />
+      <Testimonials />
+    </main>
+  );
 }
