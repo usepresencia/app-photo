@@ -39,6 +39,3 @@ dist-ssr
 next-env.d.ts.bak
 tsconfig.tsbuildinfo
 
-# Fotos geradas por scripts/optimize-photos.ts (rodar `npm run optimize-photos` localmente)
-/public/fotos/
-/src/actions/_mock/photos.json
