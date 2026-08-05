@@ -36,13 +36,14 @@ export async function Niches() {
                   {n.subtitle}
                 </span>
                 <span
-                  className="gradient-border-gold font-condensed block w-fit shrink-0 rounded-full px-6 py-2 text-[0.6rem] uppercase tracking-[0.25em] text-gold"
+                  className="gradient-border-gold font-condensed block w-fit shrink-0 rounded-full px-4 py-2 text-[0.6rem] uppercase tracking-[0.25em] text-gold sm:px-6"
                   style={{
                     boxShadow:
                       "0 10px 25px -8px color-mix(in oklab, var(--gold) 55%, transparent), 0 4px 10px -4px color-mix(in oklab, var(--gold) 35%, transparent)",
                   }}
                 >
-                  Ver detalhes
+                  <span className="sm:hidden">Ver</span>
+                  <span className="hidden sm:inline">Ver detalhes</span>
                 </span>
               </div>
             </div>
