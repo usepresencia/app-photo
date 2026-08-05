@@ -9,9 +9,9 @@ export interface Brand {
 const BRAND: Brand = {
   name: "Denise Galvão",
   tagline: "Fotografia & Marketing",
-  city: "Estúdio & externo — São Paulo, SP",
-  whatsapp: "https://wa.me/5511999999999", // TODO: substituir pelo número real da cliente
-  instagram: "https://instagram.com", // TODO: substituir pelo perfil real da cliente
+  city: "Toledo, Paraná",
+  whatsapp: "https://wa.me/5545991250446",
+  instagram: "https://instagram.com/eu.defotografia",
 };
 
 export async function getBrand(): Promise<Brand> {
