@@ -56,7 +56,9 @@
     "vitest": "^2.1.8"
   },
   "config": {
-    "commitizen": { "path": "./node_modules/cz-conventional-changelog" }
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "lint-staged": {
     "**/*.{css,ts,tsx,json,md}": "prettier --write"
