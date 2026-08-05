@@ -1,20 +1,33 @@
+import { FaInstagram } from "react-icons/fa";
 import { getBrand } from "@/actions/brand";
 import { getHeroPhotos } from "@/actions/gallery";
 import { Logo } from "@/shared/_components/Logo";
 import { CtaLink } from "@/shared/_components/CtaLink";
-import { ThemeToggle } from "@/shared/_components/ThemeToggle";
 import { HeroFilmStrip } from "./_HeroFilmStrip";
 
 function Ticker() {
   const words = ["Retratos", "Gestante", "Família", "Casamento", "Editorial", "Aniversário"];
   const row = [...words, ...words, ...words, ...words];
   return (
-    <div className="overflow-hidden border-y border-border bg-surface py-2">
-      <div className="ticker flex w-max items-center gap-6" style={{ ["--dur" as string]: "34s" }}>
+    <div className="relative overflow-hidden py-2">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
+        style={{
+          boxShadow: "var(--shadow-gold)",
+          maskImage: "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent)",
+        }}
+      />
+      <div
+        className="ticker relative flex w-max items-center gap-6"
+        style={{ ["--dur" as string]: "34s" }}
+      >
         {row.map((w, i) => (
           <span
             key={i}
-            className="font-condensed flex items-center gap-6 text-[0.7rem] font-semibold uppercase tracking-[0.35em] text-muted-foreground"
+            className="font-condensed flex items-center gap-6 text-[0.7rem] font-semibold uppercase tracking-[0.35em] text-foreground"
           >
             {w}
             <span aria-hidden="true" className="text-gold">
@@ -31,7 +44,7 @@ export async function Hero() {
   const [brand, photos] = await Promise.all([getBrand(), getHeroPhotos()]);
 
   return (
-    <header className="grain relative overflow-hidden pb-12">
+    <header className="grain relative overflow-hidden">
       <div className="px-5 pt-6">
         <div className="mx-auto flex w-full max-w-3xl items-center justify-between">
           <Logo />
@@ -40,11 +53,11 @@ export async function Hero() {
               href={brand.instagram}
               target="_blank"
               rel="noreferrer"
-              className="font-condensed hidden text-[0.7rem] uppercase tracking-[0.3em] text-muted-foreground transition-colors hover:text-gold sm:block"
+              aria-label="Instagram"
+              className="text-gold transition-opacity hover:opacity-70"
             >
-              Instagram
+              <FaInstagram className="size-7" />
             </a>
-            <ThemeToggle />
           </div>
         </div>
       </div>
@@ -83,13 +96,9 @@ export async function Hero() {
               Um <strong className="font-bold text-foreground">clique pode guardar</strong> o que o
               tempo não apaga.
             </p>
-
-            <p className="font-condensed mt-6 text-[0.62rem] uppercase tracking-[0.32em] text-muted-foreground">
-              {brand.city}
-            </p>
           </div>
 
-          <div className="relative z-10 mt-8 grid max-w-[58%] grid-cols-1 gap-2.5 sm:max-w-md sm:grid-cols-2">
+          <div className="relative z-10 mt-8 grid max-w-[46%] grid-cols-1 gap-2.5 sm:max-w-[55%] sm:grid-cols-2">
             <CtaLink href="#contato" variant="solid">
               Fale comigo
             </CtaLink>
@@ -101,11 +110,11 @@ export async function Hero() {
 
         <dl className="mt-8 grid grid-cols-3 border-y border-border">
           {[
-            ["10+", "anos"],
+            ["+2 anos", "marcando momentos"],
             ["300+", "ensaios"],
-            ["7d", "entrega"],
+            ["15d", "entrega"],
           ].map(([n, l]) => (
-            <div key={l} className="border-r border-border py-4 last:border-r-0">
+            <div key={l} className="border-r border-border py-4 text-center last:border-r-0">
               <dt className="font-display text-3xl leading-none text-gold">{n}</dt>
               <dd className="font-condensed mt-1 text-[0.62rem] uppercase tracking-[0.3em] text-muted-foreground">
                 {l}
@@ -115,7 +124,7 @@ export async function Hero() {
         </dl>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-10">
         <Ticker />
       </div>
     </header>

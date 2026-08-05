@@ -2,42 +2,81 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useSlideshow } from "@/shared/_hooks/useSlideshow";
 import type { Photo } from "@/actions/_mock/types";
 
-function RotatingPhoto({
-  photos,
-  offset,
-  intervalMs,
-}: {
-  photos: Photo[];
-  offset: number;
-  intervalMs: number;
-}) {
-  const { index } = useSlideshow({ count: photos.length, autoplayMs: intervalMs });
-  const current = (index + offset) % photos.length;
-  const previous = (index - 1 + offset + photos.length) % photos.length;
-  const [flash, setFlash] = useState(false);
+const SLOT_COUNT = 4;
+
+/**
+ * Mantém `SLOT_COUNT` índices sempre distintos entre si, cada um avançando no
+ * seu próprio intervalo (efeito de rotação dessincronizada do filme). Ao
+ * avançar, pula qualquer candidato já exibido em outro slot.
+ */
+function useDistinctRotation(length: number, baseIntervalMs: number) {
+  const [slots, setSlots] = useState<number[]>(() =>
+    Array.from({ length: SLOT_COUNT }, (_, i) => i % Math.max(length, 1)),
+  );
 
   useEffect(() => {
+    if (length <= 1) return;
+    const timers = Array.from({ length: SLOT_COUNT }, (_, slot) =>
+      setInterval(
+        () => {
+          setSlots((prev) => {
+            const others = new Set(prev.filter((_, i) => i !== slot));
+            let next = (prev[slot] + 1) % length;
+            while (others.has(next) && others.size < length) {
+              next = (next + 1) % length;
+            }
+            if (next === prev[slot]) return prev;
+            const updated = [...prev];
+            updated[slot] = next;
+            return updated;
+          });
+        },
+        baseIntervalMs + slot * 350,
+      ),
+    );
+    return () => timers.forEach(clearInterval);
+  }, [length, baseIntervalMs]);
+
+  return slots;
+}
+
+function RotatingPhoto({ photo }: { photo: Photo }) {
+  const [current, setCurrent] = useState(photo);
+  const [previous, setPrevious] = useState(photo);
+  const [flash, setFlash] = useState(false);
+
+  if (photo !== current) {
+    setPrevious(current);
+    setCurrent(photo);
     setFlash(true);
+  }
+
+  useEffect(() => {
+    if (!flash) return;
     const id = setTimeout(() => setFlash(false), 220);
     return () => clearTimeout(id);
-  }, [index]);
+  }, [flash]);
 
   return (
     <div className="relative h-full w-full overflow-hidden">
-      {[previous, current].map((photoIndex, i) => (
-        <Image
-          key={photoIndex}
-          src={photos[photoIndex].src}
-          alt=""
-          fill
-          sizes="200px"
-          placeholder="blur"
-          blurDataURL={photos[photoIndex].blurDataURL}
-          className={`object-cover transition-opacity duration-700 ease-in-out ${i === 1 ? "opacity-100" : "opacity-0"}`}
-        />
+      {[previous, current].map((p, i) => (
+        <div
+          key={`${i}-${p.src}`}
+          className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${i === 1 ? "opacity-100" : "opacity-0"}`}
+        >
+          <Image
+            src={p.src}
+            alt=""
+            fill
+            sizes="200px"
+            aria-hidden="true"
+            placeholder="blur"
+            blurDataURL={p.blurDataURL}
+            className="object-contain"
+          />
+        </div>
       ))}
       <div
         aria-hidden="true"
@@ -48,19 +87,21 @@ function RotatingPhoto({
 }
 
 export function HeroFilmStrip({ photos }: { photos: Photo[] }) {
+  const slots = useDistinctRotation(photos.length, 4000);
+
   return (
     <div
       aria-hidden="true"
-      className="film-strip pointer-events-none absolute -right-4 -top-10 bottom-[-3rem] w-[44%] p-1.5 sm:w-[40%]"
+      className="film-strip pointer-events-none absolute -right-4 -top-10 w-[44%] p-1.5 sm:w-[40%]"
     >
-      <div className="flex h-full flex-col gap-1.5">
-        {Array.from({ length: 4 }).map((_, i) => (
+      <div className="flex flex-col gap-1.5">
+        {slots.map((photoIndex, i) => (
           <div
             key={i}
-            className="hero-strip-fade-in min-h-0 flex-1 overflow-hidden border border-white/10"
+            className="hero-strip-fade-in aspect-[3/2] overflow-hidden border border-white/10"
             style={{ animationDelay: `${i * 150}ms` }}
           >
-            <RotatingPhoto photos={photos} offset={i} intervalMs={4000 + i * 350} />
+            <RotatingPhoto photo={photos[photoIndex]} />
           </div>
         ))}
       </div>
