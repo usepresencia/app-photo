@@ -34,7 +34,7 @@ export function Polaroid({
           sizes={sizes}
           placeholder="blur"
           blurDataURL={photo.blurDataURL}
-          className="object-cover grayscale transition-all duration-500 hover:grayscale-0"
+          className="object-cover grayscale transition-all duration-500 hover:grayscale-0 active:grayscale-0"
         />
       </div>
       {caption && (

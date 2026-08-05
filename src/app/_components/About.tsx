@@ -15,7 +15,7 @@ function Row({ photos, notes = [] }: { photos: Photo[]; notes?: string[] }) {
       {photos.map((photo, i) => (
         <div
           key={photo.src}
-          className={`transition-transform duration-500 hover:rotate-0 hover:scale-[1.03] ${poses[i % poses.length]}`}
+          className={`transition-transform duration-500 hover:z-40 hover:rotate-0 hover:scale-[1.03] active:z-40 active:rotate-0 active:scale-[1.03] ${poses[i % poses.length]}`}
         >
           <Polaroid
             photo={photo}
@@ -46,13 +46,26 @@ export async function About() {
             />
           </div>
           <figcaption className="font-condensed absolute bottom-3 left-3 bg-background/85 px-3 py-1 text-[0.62rem] uppercase tracking-[0.3em] text-gold">
-            Atrás da câmera desde 2014
+            Há vários anos marcando momentos
           </figcaption>
         </figure>
 
-        <div className="border-l-2 border-gold bg-surface p-6 pl-5">
-          <h3 className="display-xl text-3xl text-foreground">Família</h3>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+        <div className="relative overflow-hidden border-l-2 border-gold p-6 pl-5">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
+            style={{
+              boxShadow: "var(--shadow-gold)",
+              maskImage:
+                "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
+              maskComposite: "intersect",
+              WebkitMaskComposite: "source-in",
+            }}
+          />
+          <h3 className="display-xl relative text-3xl text-foreground">Família</h3>
+          <p className="relative mt-3 text-sm leading-relaxed text-foreground">
             Cresci vendo minha mãe guardar fotos em caixas de sapato. Foi ali que entendi que uma
             imagem é a forma mais honesta de segurar o tempo. Hoje fotografo famílias como quem
             organiza aquela caixa: com cuidado, sem pressa e com muito afeto.
@@ -60,14 +73,27 @@ export async function About() {
         </div>
         <Row photos={family} notes={["nossa gente", "domingo", "colo"]} />
 
-        <div className="border-l-2 border-gold bg-surface p-6 pl-5">
-          <h3 className="display-xl text-3xl text-foreground">Profissão</h3>
-          <p className="font-condensed mt-1 text-[0.65rem] uppercase tracking-[0.35em] text-gold">
+        <div className="relative overflow-hidden border-l-2 border-gold p-6 pl-5">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
+            style={{
+              boxShadow: "var(--shadow-gold)",
+              maskImage:
+                "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
+              maskComposite: "intersect",
+              WebkitMaskComposite: "source-in",
+            }}
+          />
+          <h3 className="display-xl relative text-3xl text-foreground">Profissão</h3>
+          <p className="font-condensed relative mt-1 text-[0.65rem] uppercase tracking-[0.35em] text-gold">
             Formação e trajetória
           </p>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          <p className="relative mt-3 text-sm leading-relaxed text-foreground">
             Formada em Fotografia, com especialização em retrato e luz de estúdio. São mais de dez
-            anos entre ensaios autorais, casamentos e projetos editoriais — sempre com uma estética
+            anos entre ensaios autorais, casamentos e projetos editoriais, sempre com uma estética
             monocromática, direção leve e entrega no prazo combinado.
           </p>
         </div>

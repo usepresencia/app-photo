@@ -78,7 +78,7 @@
 @utility gold-rule {
   height: 1px;
   width: 100%;
-  background: var(--gradient-gold);
+  background: linear-gradient(to right, var(--gold), transparent 50%);
   opacity: 0.7;
 }
 
@@ -216,12 +216,40 @@
   animation: hero-strip-fade-in 500ms ease-out both;
 }
 
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes gradient-rotate {
+  from {
+    --gradient-angle: 0deg;
+  }
+  to {
+    --gradient-angle: 360deg;
+  }
+}
+
+@utility gradient-border-gold {
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  background-image:
+    linear-gradient(var(--background), var(--background)),
+    conic-gradient(from var(--gradient-angle, 0deg), var(--gold), var(--gold-soft), var(--gold));
+  background-clip: padding-box, border-box;
+  -webkit-background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  animation: gradient-rotate 5s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ticker,
   .marquee-left,
   .hero-strip-fade-in,
   .album-page-next,
-  .album-page-prev {
+  .album-page-prev,
+  .gradient-border-gold {
     animation: none !important;
   }
 }
