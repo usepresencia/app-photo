@@ -92,7 +92,7 @@ export function HeroFilmStrip({ photos }: { photos: Photo[] }) {
   return (
     <div
       aria-hidden="true"
-      className="film-strip pointer-events-none absolute -right-4 -top-10 w-[44%] p-1.5 sm:w-[40%]"
+      className="film-strip pointer-events-none absolute -right-8 top-1/2 w-[44%] -translate-y-1/2 p-1.5 sm:-right-4 sm:-top-10 sm:w-[40%] sm:translate-y-0"
     >
       <div className="flex flex-col gap-1.5">
         {slots.map((photoIndex, i) => (
