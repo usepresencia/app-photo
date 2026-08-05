@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/useagendaflow/pixel-perfect-portfolio/compare/v0.1.1...v0.1.2) (2026-08-05)
+
+### Bug Fixes
+
+- **contact:** contain date input to prevent mobile overflow ([e2cc80c](https://github.com/useagendaflow/pixel-perfect-portfolio/commit/e2cc80c99e621b83f48ae26420c512f98e786e62))
+- **hero:** center film strip vertically on mobile ([06ff4e3](https://github.com/useagendaflow/pixel-perfect-portfolio/commit/06ff4e3625bae31b9a3ba07930fa84099a46ac24))
+- **niches:** shorten cta label on mobile niche card ([0464e98](https://github.com/useagendaflow/pixel-perfect-portfolio/commit/0464e9853740c82e389b4aa60c226bfbe51d4752))
+
 ### 0.1.1 (2026-08-05)
 
 ### Features
