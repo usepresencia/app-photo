@@ -164,13 +164,16 @@ export function ContactForm({ whatsapp }: { whatsapp: string }) {
           />
         </div>
 
-        <div className="relative" onClick={() => dataInputRef.current?.showPicker?.()}>
+        <div
+          className="relative max-w-full overflow-hidden"
+          onClick={() => dataInputRef.current?.showPicker?.()}
+        >
           <input
             ref={dataInputRef}
             id={dataId}
             type="date"
             required
-            className={`${plainInput} text-foreground [color-scheme:light] [&::-webkit-calendar-picker-indicator]:opacity-0`}
+            className={`${plainInput} min-w-0 max-w-full text-foreground [color-scheme:light] [&::-webkit-calendar-picker-indicator]:opacity-0`}
             value={form.data}
             onChange={(e) => setForm({ ...form, data: e.target.value })}
           />
