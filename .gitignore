@@ -33,3 +33,11 @@ dist-ssr
 
 # Superpowers SDD workspace
 .superpowers/
+
+# Next.js
+.next/
+next-env.d.ts.bak
+
+# Fotos geradas por scripts/optimize-photos.ts (rodar `npm run optimize-photos` localmente)
+/public/fotos/
+/src/actions/_mock/photos.json
