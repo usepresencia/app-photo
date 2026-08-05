@@ -21,8 +21,11 @@ describe("getAboutPhotos", () => {
 });
 
 describe("getHeroPhotos", () => {
-  it("retorna 12 fotos combinando família, gestante e evento-aniversário", async () => {
+  it("retorna apenas fotos horizontais", async () => {
     const photos = await getHeroPhotos();
-    expect(photos).toHaveLength(12);
+    expect(photos.length).toBeGreaterThan(0);
+    for (const photo of photos) {
+      expect(photo.width).toBeGreaterThan(photo.height);
+    }
   });
 });

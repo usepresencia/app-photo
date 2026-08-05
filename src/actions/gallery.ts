@@ -22,10 +22,14 @@ export async function getAboutPhotos(): Promise<{ family: Photo[]; work: Photo[]
   };
 }
 
+function isHorizontal(photo: Photo): boolean {
+  return photo.width > photo.height;
+}
+
 export async function getHeroPhotos(): Promise<Photo[]> {
   return [
-    ...photos.familia.slice(0, 4),
-    ...photos.gestante.slice(0, 4),
-    ...photos["evento-aniversario"].slice(0, 4),
+    ...photos.familia.filter(isHorizontal).slice(0, 4),
+    ...photos.gestante.filter(isHorizontal).slice(0, 4),
+    ...photos["evento-aniversario"].filter(isHorizontal).slice(0, 4),
   ];
 }

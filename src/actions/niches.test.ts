@@ -8,9 +8,9 @@ describe("getNiches", () => {
     expect(new Set(niches.map((n) => n.slug)).size).toBe(7);
   });
 
-  it("deixa intro/description/highlights vazios só nos 3 nichos que aguardam doc da cliente", async () => {
+  it("deixa intro/description/highlights vazios só nos nichos que aguardam doc da cliente", async () => {
     const niches = await getNiches();
-    const pending = ["making-of-da-noiva", "casamento-civil", "comercial"];
+    const pending = ["making-of-da-noiva"];
     for (const niche of niches) {
       const isPending = pending.includes(niche.slug);
       expect(niche.intro === "").toBe(isPending);
