@@ -1,14 +1,14 @@
 :root {
-  --gold: oklch(0.75 0.115 88);
+  --gold: #db2777;
   --gold-soft: oklch(0.88 0.085 92);
-  --background: oklch(0.11 0 0);
-  --foreground: oklch(0.97 0 0);
-  --surface: oklch(0.15 0.004 90);
-  --surface-2: oklch(0.2 0.006 90);
+  --background: #fefaf0;
+  --foreground: #241a0a;
+  --surface: #efe0bd;
+  --surface-2: #e3cf9a;
   --primary: var(--gold);
-  --primary-foreground: oklch(0.11 0 0);
-  --muted-foreground: oklch(0.71 0.005 90);
-  --border: oklch(0.28 0.008 90);
+  --primary-foreground: #fefaf0;
+  --muted-foreground: #7a6748;
+  --border: #e3cf9a;
   --paper: oklch(0.95 0.012 92);
   --ink: oklch(0.18 0.005 90);
   --gradient-gold: linear-gradient(100deg, var(--gold), var(--gold-soft), var(--gold));
@@ -18,23 +18,4 @@
     color-mix(in oklab, var(--gold) 18%, transparent)
   );
   --shadow-gold: 0 18px 45px -22px color-mix(in oklab, var(--gold) 55%, transparent);
-}
-
-/*
- * O toggle de tema (next-themes, atributo data-theme) sobrescreve só os
- * seis tokens que o spec define explicitamente (tabela "Temas"). gold-soft,
- * paper, ink, tape-bg, shadow-gold e gradient-gold ficam constantes nos dois
- * temas — são acabamento do polaroid/film-strip, não dependem do tema ativo.
- * Ver spec seção "Temas" para a decisão registrada.
- */
-[data-theme="light"] {
-  --gold: #db2777;
-  --background: #fefaf0;
-  --foreground: #241a0a;
-  --surface: #efe0bd;
-  --surface-2: #e3cf9a;
-  --primary: var(--gold);
-  --primary-foreground: #fefaf0;
-  --muted-foreground: #7a6748;
-  --border: #e3cf9a;
 }
