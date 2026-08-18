@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/useagendaflow/pixel-perfect-portfolio/compare/v0.1.3...v0.1.4) (2026-08-18)
+
+### Features
+
+- **hero:** atualizar estatísticas e tipografia dos números ([f5fe182](https://github.com/useagendaflow/pixel-perfect-portfolio/commit/f5fe1820f256440945c0ec9f78d0dead7578ed86))
+- **quem-sou:** reescrever copy, reordenar blocos e destacar a foto do altar ([cbf89a6](https://github.com/useagendaflow/pixel-perfect-portfolio/commit/cbf89a6560fd0846d73191f6b335ed0e31d8fde2))
+
+### Bug Fixes
+
+- **dev:** liberar acesso ao dev server pelo IP da rede local ([a4d58cf](https://github.com/useagendaflow/pixel-perfect-portfolio/commit/a4d58cf3d23a8aa9a45f6588fdabccfdb7a10273))
+- **galeria:** restaurar portfólio variado e legendar pela categoria ([55d6920](https://github.com/useagendaflow/pixel-perfect-portfolio/commit/55d69202412b11f78a0699e3db1dfcb776b0329d))
+- **hero:** sincronizar o flash com o dissolve na troca do film strip ([5005181](https://github.com/useagendaflow/pixel-perfect-portfolio/commit/50051815a9fc6e2df8b7ac9b1b66328ad3a991b5))
+
 ### [0.1.3](https://github.com/useagendaflow/pixel-perfect-portfolio/compare/v0.1.2...v0.1.3) (2026-08-05)
 
 ### Bug Fixes
