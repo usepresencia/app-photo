@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Section } from "@/shared/_components/Section";
 import { useSwipe } from "@/shared/_hooks/useSwipe";
 import { useSlideshow } from "@/shared/_hooks/useSlideshow";
-import type { Photo } from "@/actions/_mock/types";
+import type { GalleryPhoto } from "@/actions/gallery";
 
 const AUTOPLAY_MS = 6000;
 
@@ -18,10 +18,8 @@ const spreadPoses = [
   "col-span-9 col-start-3 -mt-36 aspect-[4/5] -rotate-[2deg] z-50",
 ];
 
-const notes = ["registros que ficam", "luz da tarde", "sem pose, só verdade", "o instante certo"];
-
-function GalleryAlbum({ photos }: { photos: Photo[] }) {
-  const spreads: Photo[][] = [];
+function GalleryAlbum({ photos }: { photos: GalleryPhoto[] }) {
+  const spreads: GalleryPhoto[][] = [];
   for (let i = 0; i < photos.length; i += 6) spreads.push(photos.slice(i, i + 6));
 
   const [isHovered, setIsHovered] = useState(false);
@@ -55,7 +53,7 @@ function GalleryAlbum({ photos }: { photos: Photo[] }) {
                   style={{ ["--tape-rot" as string]: `${i % 2 ? 5 : -6}deg` }}
                   className={`group polaroid relative transition-all duration-500 hover:z-[60] hover:rotate-0 hover:scale-[1.04] active:z-[60] active:rotate-0 active:scale-[1.04] ${i % 3 === 0 ? "tape" : i % 3 === 1 ? "tape-corner" : ""} ${spreadPoses[i]}`}
                 >
-                  <div className="relative h-[calc(100%-1.1rem)] w-full overflow-hidden bg-background">
+                  <div className="relative h-[calc(100%-var(--polaroid-legenda))] w-full overflow-hidden bg-background">
                     <Image
                       src={photo.src}
                       alt={`Foto ${n} do portfólio`}
@@ -67,7 +65,7 @@ function GalleryAlbum({ photos }: { photos: Photo[] }) {
                     />
                   </div>
                   <figcaption className="font-hand absolute inset-x-2 bottom-1 flex items-baseline justify-between text-[0.85rem] leading-none text-[oklch(0.25_0.02_60)]">
-                    <span>{notes[(page + i) % notes.length]}</span>
+                    <span>{photo.label}</span>
                     <span className="font-condensed text-[0.5rem] tracking-[0.25em] opacity-60">
                       {String(n).padStart(2, "0")}
                     </span>
@@ -97,7 +95,7 @@ function GalleryAlbum({ photos }: { photos: Photo[] }) {
   );
 }
 
-export function Gallery({ photos }: { photos: Photo[] }) {
+export function Gallery({ photos }: { photos: GalleryPhoto[] }) {
   return (
     <Section id="galeria" index="02" eyebrow="Portfólio" title="Meus trabalhos">
       <GalleryAlbum photos={photos} />
