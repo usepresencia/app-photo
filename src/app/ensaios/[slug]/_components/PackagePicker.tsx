@@ -54,7 +54,7 @@ export function PackagePicker({
                       }}
                     />
                     <h3 className="display-xl relative z-10 text-2xl text-foreground">{p.name}</h3>
-                    <span className="font-display relative z-10 mt-1 block text-2xl text-gold">
+                    <span className="font-condensed relative z-10 mt-1 block text-2xl font-normal text-gold">
                       {p.price}
                     </span>
                     <span className="font-condensed relative z-10 mt-3 block text-[0.6rem] uppercase tracking-[0.25em] text-muted-foreground">
@@ -95,7 +95,9 @@ export function PackagePicker({
               <div className="flex-1">
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-4">
                   <h3 className="display-xl text-3xl text-foreground">{pack.name}</h3>
-                  <span className="font-display shrink-0 text-3xl text-gold">{pack.price}</span>
+                  <span className="font-condensed shrink-0 text-3xl font-normal text-gold">
+                    {pack.price}
+                  </span>
                 </div>
                 <p className="font-condensed mt-1 text-[0.62rem] uppercase tracking-[0.3em] text-muted-foreground">
                   Ensaio de {nicheTitle}

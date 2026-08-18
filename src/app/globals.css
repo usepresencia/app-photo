@@ -157,8 +157,11 @@
 }
 
 @utility polaroid {
+  /* Altura da tarja branca de baixo, onde entra a legenda escrita à mão.
+     Fica em variável porque a altura da foto é calculada a partir dela. */
+  --polaroid-legenda: 1.1rem;
   background: var(--paper);
-  padding: 0.5rem 0.5rem 1.6rem;
+  padding: 0.5rem 0.5rem calc(0.5rem + var(--polaroid-legenda));
   box-shadow:
     0 22px 45px -22px oklch(0 0 0 / 0.95),
     0 2px 0 0 oklch(1 0 0 / 0.08) inset;
@@ -216,6 +219,41 @@
   animation: hero-strip-fade-in 500ms ease-out both;
 }
 
+/* Troca de foto do film strip: o dissolve e o flash são duas animações de mesma
+   duração, disparadas pela mesma remontagem, para tocarem em sincronia. Precisam
+   ser animação e não transição — transition não dispara na montagem. */
+@keyframes hero-photo-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@utility hero-photo-in {
+  animation: hero-photo-in var(--hero-troca, 320ms) ease-in-out both;
+}
+
+@keyframes hero-flash {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@utility hero-flash {
+  /* opacity base mantém o overlay invisível caso a animação seja desligada
+     (prefers-reduced-motion), senão o branco cobriria a foto para sempre. */
+  opacity: 0;
+  animation: hero-flash var(--hero-troca, 320ms) ease-out both;
+}
+
 @property --gradient-angle {
   syntax: "<angle>";
   initial-value: 0deg;
@@ -247,6 +285,8 @@
   .ticker,
   .marquee-left,
   .hero-strip-fade-in,
+  .hero-photo-in,
+  .hero-flash,
   .album-page-next,
   .album-page-prev,
   .gradient-border-gold {

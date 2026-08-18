@@ -110,13 +110,15 @@ export async function Hero() {
 
         <dl className="mt-8 grid grid-cols-3 border-y border-border">
           {[
-            ["+2 anos", "marcando momentos"],
-            ["300+", "ensaios"],
-            ["15d", "entrega"],
+            ["+2 anos", "registrando momentos e memórias"],
+            ["+500", "clientes e conexões"],
+            ["Especialista", "em posicionamento e direção fotográfica"],
           ].map(([n, l]) => (
             <div key={l} className="border-r border-border py-4 text-center last:border-r-0">
-              <dt className="font-display text-3xl leading-none text-gold">{n}</dt>
-              <dd className="font-condensed mt-1 text-[0.62rem] uppercase tracking-[0.3em] text-muted-foreground">
+              <dt className="font-condensed text-xl font-normal leading-none text-gold sm:text-2xl">
+                {n}
+              </dt>
+              <dd className="font-condensed mt-1.5 text-[0.62rem] uppercase leading-snug tracking-[0.2em] text-muted-foreground">
                 {l}
               </dd>
             </div>

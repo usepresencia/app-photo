@@ -193,48 +193,76 @@
     {
       "slug": "familia-01",
       "src": "/fotos/familia/familia-01.webp",
-      "width": 1600,
-      "height": 1067,
-      "blurDataURL": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAAAwAgCdASoQAAsAAUAmJZwCdAYtBWeYuKGbAAD+9iw0Xr9FClnqZeL90TxIPh6foQG+XBCInB78Y9X/4Um7EAsrDTPkc99bOn+pYy9l9CLlJVLjzFanb+l4DBo2jitbpE6/SGJhdCOLmIRjnCSAAA=="
+      "width": 935,
+      "height": 1280,
+      "blurDataURL": "data:image/webp;base64,UklGRs4AAABXRUJQVlA4IMIAAADwBACdASoQABYAPm0qkkWkIqGYBABABsSxgE6ZQY/tOqM8AKUo2pZa6d4J8d/YXrAA/vXcUPSxGBHDLb5yyTRJAGH5VxMsY087D/x17elq8/59q9bHcMZU11uT9vlRphBsjR/ejBOvKJohBnYyMR9E++tm4DaiUJebn4NLaViBr+hJ1aJZpHE43r13WlWv685fA737OP+dy6FTnwp57tnz3PAj9PqtnfUazp/4p2qzJRXx96xFtDCZXtqJ64TGiUAAAA=="
     },
     {
       "slug": "familia-02",
       "src": "/fotos/familia/familia-02.webp",
-      "width": 1600,
-      "height": 2400,
-      "blurDataURL": "data:image/webp;base64,UklGRhoBAABXRUJQVlA4IA4BAACQBQCdASoQABgAPm0skkWkIqGYBABABsSyAE6ZQKsA3jH/pVoA2Kh2dUToV5PjrXnfMr5XYAD+/Ond7PKPPdDFm3w8J79CpwRLvZ/kJPfKuhF2NRnMvO+YDbxFhuu8BqKLfjlbj8ZHPtX8F69JTN/+zIdEUTpW4RoYgvfBpsA4PdDlL5GXeMzyhwNZnc2g5Izw80C//LwB55KXYy3x7vrs4te+3T/jktL57Lu6/5tqtpy9Hfnkvftcf/ip3y5tY/24v3l/Te5I4iwNnfp//k/t/1O82NPcKWh71Pyrq9FQfv5D967RonYSNhoqLwVKbvGNC45hPb9r7/ijysdiHuxmeeMDjuyH4zCU9TQAAAA="
+      "width": 1179,
+      "height": 2096,
+      "blurDataURL": "data:image/webp;base64,UklGRjIBAABXRUJQVlA4ICYBAACwBgCdASoQABwAPm0skkWkIqGYBABABsS2AE6XqKsBtgLsA3m6uAqklsBhlWeN9gEpnRucXlXWFku/OH5EAAD+9X5nW/XVApfhlvqpi7k7HJQHsS/14PspYEzFouTphWztVXpTFfHViQLdad2sU4MS2Xjc+mIDKKXerozCFqzhJrYrONqg+v3DsmKucJgTmqF6mwJcOpNuLtvV6AeP54+05UAdMcqNS1IHwwdd1wW7LbW2V1umHL7/UVtdewq6jX/v/efzepw9ps0o6BvQnPZJzqfHxxUTU7dO79/mlsSg4jrRthW3oW57iZcEBjS2Y7fHlydm7qWz+9cE/Eq87VhHtmI/rbt4GY2ljP/HmnU8AhHl9tY4iM+fynP5nbMCbhL/rEfxAAA="
     },
     {
       "slug": "familia-03",
       "src": "/fotos/familia/familia-03.webp",
       "width": 1600,
-      "height": 2400,
-      "blurDataURL": "data:image/webp;base64,UklGRgoBAABXRUJQVlA4IP4AAABQBQCdASoQABgAPm0skkWkIqGYBABABsSgCdMoRwEGZxoA58rOIS3sqwwD7RS5OZb+nsAA/v7KCu731F8kbsMbHDsTOqDv+8j1dhOWS//8THHEFpezBOiIy0li9pJm5KMj/XKC/vgLzQ/7bunD6hRAbXElY/lBMvzg8XpL//aZQ6zZyCbtff0H3vq7ouzcmn+9qH/DX41utFqlP+tt/2ilZ/W41coOwWxYyD9DBhxyncHfmjXuMoH9SRjazcRU9s+t83ERrKefDJ9mqVaq6nZJ1ysCnEAgxPpq5Ic2kJrxHh9JBR++RHpsFAtGTcZsJCs2ZD3Y+r46siBvy05AAA=="
+      "height": 1067,
+      "blurDataURL": "data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAABwAgCdASoQAAsAAUAmJYwCdAYsjzkLCX/yJIQAAP771sQXJLTYva/1RMN/BIpK8+f+xkoaaF+CpygtXIqyf6Npg93w3NN8AskyXNoirsAUSP+ErvoMS4f3jf0IVK4kkXP9yX75uBR31v7DimD0egcvtsc2egSQgh11tlNhrOJvS9/jyT7D64KgmOSw2o+SAqXDNX/zAAA="
     },
     {
       "slug": "familia-04",
       "src": "/fotos/familia/familia-04.webp",
       "width": 1600,
-      "height": 1066,
-      "blurDataURL": "data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAAAwAgCdASoQAAsAAUAmJQBOgBmh+E9zLNHUAAD+8pBcYIvX1Krsufh3BOMUOtUdmw36+y1UNXp9mT93lOvvSDseSGeOJ0gxe23KVOFOFHjOIEw/F030ZLVEPJs4dgsZWZ/gYS2QsmHv1v4ICv2zzLEwLRHy/CKWfG3HD8FfkkJtmQQzhZxoStmFigT1v0kIAAA="
+      "height": 2397,
+      "blurDataURL": "data:image/webp;base64,UklGRsoAAABXRUJQVlA4IL4AAACwBACdASoQABgAPm0skkWkIqGYBABABsSygF2ZQBLdfrWMJfViFZf6jVXfaUwQAP79Cy5JxFnbSLdWR16Q4mb/jC/BIK3uaTIdN3tROwHUYO7XtZikkQ+a+PGFjcCCqZgAD8A3/vCmomWmfb/EevINznIYBJ0mPkHv/rhKnBzwb3vkWpRxSs/24gez1wAGpzSOycmbu3j72BXSRqwLn/evTeRb3nCr0E91AlKOvS2oXO6A2CbiaKQxcxATYAAA"
     },
     {
       "slug": "familia-05",
       "src": "/fotos/familia/familia-05.webp",
       "width": 1600,
       "height": 1067,
-      "blurDataURL": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAACwAgCdASoQAAsAAUAmJZwCdDiAN5ABWf4fRimd5KAA/vpC3BUxgoMJ4R1j53qKIX/szrRpZ+8hmogpvaz28ec0LV7/4X8oT5gkS3vmUeydjrWBevxx4/N+a+lovCwID2dgOfMtNSIOzDf1BrJFmG1loQUAAA=="
+      "blurDataURL": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAAAwAgCdASoQAAsAAUAmJZwCdAYtBWeYuKGbAAD+9iw0Xr9FClnqZeL90TxIPh6foQG+XBCInB78Y9X/4Um7EAsrDTPkc99bOn+pYy9l9CLlJVLjzFanb+l4DBo2jitbpE6/SGJhdCOLmIRjnCSAAA=="
     },
     {
       "slug": "familia-06",
       "src": "/fotos/familia/familia-06.webp",
       "width": 1600,
       "height": 2400,
-      "blurDataURL": "data:image/webp;base64,UklGRsoAAABXRUJQVlA4IL4AAAAQBACdASoQABgAPm0skkWkIqGYBABABsSygF2AxYd2/klyjTR98Xf9wAD+91Rhsn3BE5378v4jfodakPeO4tvHU6mu7wY5drhlbjlbya/RRsbCA7/zf/Ar4zTbddOOR9Uhu5BYYHBVysSkxxHpeevXStK65Efyna+WGXUyPHZB8fjxg470GZ/26CT6VMjgM0cBbBnDi8k2uXjEWAPp1KLkhyQ6JB+v/T/7Wox8r/SYMr/lN/8f9fvpx2Qz4AAA"
+      "blurDataURL": "data:image/webp;base64,UklGRhoBAABXRUJQVlA4IA4BAACQBQCdASoQABgAPm0skkWkIqGYBABABsSyAE6ZQKsA3jH/pVoA2Kh2dUToV5PjrXnfMr5XYAD+/Ond7PKPPdDFm3w8J79CpwRLvZ/kJPfKuhF2NRnMvO+YDbxFhuu8BqKLfjlbj8ZHPtX8F69JTN/+zIdEUTpW4RoYgvfBpsA4PdDlL5GXeMzyhwNZnc2g5Izw80C//LwB55KXYy3x7vrs4te+3T/jktL57Lu6/5tqtpy9Hfnkvftcf/ip3y5tY/24v3l/Te5I4iwNnfp//k/t/1O82NPcKWh71Pyrq9FQfv5D967RonYSNhoqLwVKbvGNC45hPb9r7/ijysdiHuxmeeMDjuyH4zCU9TQAAAA="
     },
     {
       "slug": "familia-07",
       "src": "/fotos/familia/familia-07.webp",
+      "width": 1600,
+      "height": 2400,
+      "blurDataURL": "data:image/webp;base64,UklGRgoBAABXRUJQVlA4IP4AAABQBQCdASoQABgAPm0skkWkIqGYBABABsSgCdMoRwEGZxoA58rOIS3sqwwD7RS5OZb+nsAA/v7KCu731F8kbsMbHDsTOqDv+8j1dhOWS//8THHEFpezBOiIy0li9pJm5KMj/XKC/vgLzQ/7bunD6hRAbXElY/lBMvzg8XpL//aZQ6zZyCbtff0H3vq7ouzcmn+9qH/DX41utFqlP+tt/2ilZ/W41coOwWxYyD9DBhxyncHfmjXuMoH9SRjazcRU9s+t83ERrKefDJ9mqVaq6nZJ1ysCnEAgxPpq5Ic2kJrxHh9JBR++RHpsFAtGTcZsJCs2ZD3Y+r46siBvy05AAA=="
+    },
+    {
+      "slug": "familia-08",
+      "src": "/fotos/familia/familia-08.webp",
+      "width": 1600,
+      "height": 1066,
+      "blurDataURL": "data:image/webp;base64,UklGRpwAAABXRUJQVlA4IJAAAAAwAgCdASoQAAsAAUAmJQBOgBmh+E9zLNHUAAD+8pBcYIvX1Krsufh3BOMUOtUdmw36+y1UNXp9mT93lOvvSDseSGeOJ0gxe23KVOFOFHjOIEw/F030ZLVEPJs4dgsZWZ/gYS2QsmHv1v4ICv2zzLEwLRHy/CKWfG3HD8FfkkJtmQQzhZxoStmFigT1v0kIAAA="
+    },
+    {
+      "slug": "familia-09",
+      "src": "/fotos/familia/familia-09.webp",
+      "width": 1600,
+      "height": 1067,
+      "blurDataURL": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAACwAgCdASoQAAsAAUAmJZwCdDiAN5ABWf4fRimd5KAA/vpC3BUxgoMJ4R1j53qKIX/szrRpZ+8hmogpvaz28ec0LV7/4X8oT5gkS3vmUeydjrWBevxx4/N+a+lovCwID2dgOfMtNSIOzDf1BrJFmG1loQUAAA=="
+    },
+    {
+      "slug": "familia-10",
+      "src": "/fotos/familia/familia-10.webp",
+      "width": 1600,
+      "height": 2400,
+      "blurDataURL": "data:image/webp;base64,UklGRsoAAABXRUJQVlA4IL4AAAAQBACdASoQABgAPm0skkWkIqGYBABABsSygF2AxYd2/klyjTR98Xf9wAD+91Rhsn3BE5378v4jfodakPeO4tvHU6mu7wY5drhlbjlbya/RRsbCA7/zf/Ar4zTbddOOR9Uhu5BYYHBVysSkxxHpeevXStK65Efyna+WGXUyPHZB8fjxg470GZ/26CT6VMjgM0cBbBnDi8k2uXjEWAPp1KLkhyQ6JB+v/T/7Wox8r/SYMr/lN/8f9fvpx2Qz4AAA"
+    },
+    {
+      "slug": "familia-11",
+      "src": "/fotos/familia/familia-11.webp",
       "width": 1600,
       "height": 2360,
       "blurDataURL": "data:image/webp;base64,UklGRuQAAABXRUJQVlA4INgAAAAwBACdASoQABgAPm0skkWkIqGYBABABsS0gAIg34zjTxTEhS2ecQ3wJoAA/vi5G8hgehmg+X8f+OOGHrKATgZv9Y/Oy58tFc43+IcLSlLLZGvpHSboRT9zmLkBPhK/jiRvDN8evOoC+jKiTJFaADYO/GWtHO/+9Z/5lqNYTr995E8ZQZ3M8foqWwoy3jdagRD3/ahoc5evuRrUUddvp7wLv8gTdRVvnv/Ht44f3w5RKwYW5oY90wEIH7a+1LelnSpr9Kidj+D9Rc8et38OeuXfYW/it+eIAAA="

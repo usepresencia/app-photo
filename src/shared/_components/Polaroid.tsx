@@ -5,6 +5,8 @@ interface PolaroidProps {
   photo: Photo;
   alt: string;
   caption?: string;
+  /** Proporção da foto. A altura do cartão vem daqui mais a legenda. */
+  aspect?: string;
   tape?: "top" | "corner" | "none";
   tapeRotationDeg?: number;
   className?: string;
@@ -15,6 +17,7 @@ export function Polaroid({
   photo,
   alt,
   caption,
+  aspect = "aspect-[3/4]",
   tape = "top",
   tapeRotationDeg = -6,
   className = "",
@@ -26,7 +29,7 @@ export function Polaroid({
       style={{ ["--tape-rot" as string]: `${tapeRotationDeg}deg` }}
       className={`polaroid relative ${tapeClass} ${className}`}
     >
-      <div className="relative h-[calc(100%-1.1rem)] w-full overflow-hidden bg-background">
+      <div className={`relative w-full overflow-hidden bg-background ${aspect}`}>
         <Image
           src={photo.src}
           alt={alt}
@@ -37,8 +40,10 @@ export function Polaroid({
           className="object-cover grayscale transition-all duration-500 hover:grayscale-0 active:grayscale-0"
         />
       </div>
+      {/* A legenda corre no fluxo abaixo da foto, e não presa dentro da tarja:
+          assim o cartão cresce com o texto em vez de cortá-lo. */}
       {caption && (
-        <figcaption className="font-hand absolute inset-x-2 bottom-1 truncate text-[0.8rem] leading-none text-[oklch(0.25_0.02_60)]">
+        <figcaption className="font-hand mt-2 px-1 text-sm leading-snug text-[oklch(0.25_0.02_60)] sm:text-base">
           {caption}
         </figcaption>
       )}
