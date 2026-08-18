@@ -5,6 +5,9 @@ import Image from "next/image";
 import type { Photo } from "@/actions/_mock/types";
 
 const SLOT_COUNT = 4;
+/** Ritmo da troca. A defasagem evita que os quatro quadros virem em bloco. */
+const INTERVALO_MS = 2600;
+const DEFASAGEM_MS = 250;
 
 /**
  * Mantém `SLOT_COUNT` índices sempre distintos entre si, cada um avançando no
@@ -33,7 +36,7 @@ function useDistinctRotation(length: number, baseIntervalMs: number) {
             return updated;
           });
         },
-        baseIntervalMs + slot * 350,
+        baseIntervalMs + slot * DEFASAGEM_MS,
       ),
     );
     return () => timers.forEach(clearInterval);
@@ -42,52 +45,54 @@ function useDistinctRotation(length: number, baseIntervalMs: number) {
   return slots;
 }
 
-function RotatingPhoto({ photo }: { photo: Photo }) {
-  const [current, setCurrent] = useState(photo);
-  const [previous, setPrevious] = useState(photo);
-  const [flash, setFlash] = useState(false);
-
-  if (photo !== current) {
-    setPrevious(current);
-    setCurrent(photo);
-    setFlash(true);
-  }
-
-  useEffect(() => {
-    if (!flash) return;
-    const id = setTimeout(() => setFlash(false), 220);
-    return () => clearTimeout(id);
-  }, [flash]);
-
+function Quadro({ photo, className = "" }: { photo: Photo; className?: string }) {
   return (
-    <div className="relative h-full w-full overflow-hidden">
-      {[previous, current].map((p, i) => (
-        <div
-          key={`${i}-${p.src}`}
-          className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${i === 1 ? "opacity-100" : "opacity-0"}`}
-        >
-          <Image
-            src={p.src}
-            alt=""
-            fill
-            sizes="200px"
-            aria-hidden="true"
-            placeholder="blur"
-            blurDataURL={p.blurDataURL}
-            className="object-contain"
-          />
-        </div>
-      ))}
-      <div
+    <div className={`absolute inset-0 ${className}`}>
+      <Image
+        src={photo.src}
+        alt=""
+        fill
+        sizes="200px"
         aria-hidden="true"
-        className={`pointer-events-none absolute inset-0 bg-white transition-opacity duration-150 ease-out ${flash ? "opacity-100" : "opacity-0"}`}
+        placeholder="blur"
+        blurDataURL={photo.blurDataURL}
+        className="object-contain"
       />
     </div>
   );
 }
 
+function RotatingPhoto({ photo }: { photo: Photo }) {
+  const [current, setCurrent] = useState(photo);
+  const [previous, setPrevious] = useState<Photo | null>(null);
+  const [troca, setTroca] = useState(0);
+
+  if (photo !== current) {
+    setPrevious(current);
+    setCurrent(photo);
+    setTroca((t) => t + 1);
+  }
+
+  // Dissolve e flash são remontados juntos pela mesma troca, então as duas
+  // animações começam no mesmo quadro e terminam juntas — a sincronia não
+  // depende de nenhum timer em JS.
+  return (
+    <div className="relative h-full w-full overflow-hidden">
+      {previous && <Quadro photo={previous} />}
+      <Quadro key={`foto-${troca}`} photo={current} className="hero-photo-in" />
+      {troca > 0 && (
+        <div
+          key={`flash-${troca}`}
+          aria-hidden="true"
+          className="hero-flash pointer-events-none absolute inset-0 bg-white"
+        />
+      )}
+    </div>
+  );
+}
+
 export function HeroFilmStrip({ photos }: { photos: Photo[] }) {
-  const slots = useDistinctRotation(photos.length, 4000);
+  const slots = useDistinctRotation(photos.length, INTERVALO_MS);
 
   return (
     <div
