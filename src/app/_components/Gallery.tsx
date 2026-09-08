@@ -51,7 +51,7 @@ function GalleryAlbum({ photos }: { photos: GalleryPhoto[] }) {
                 <figure
                   key={photo.src}
                   style={{ ["--tape-rot" as string]: `${i % 2 ? 5 : -6}deg` }}
-                  className={`group polaroid relative transition-all duration-500 hover:z-[60] hover:rotate-0 hover:scale-[1.04] active:z-[60] active:rotate-0 active:scale-[1.04] ${i % 3 === 0 ? "tape" : i % 3 === 1 ? "tape-corner" : ""} ${spreadPoses[i]}`}
+                  className={`group polaroid relative transition-all duration-500 hover:z-60 hover:rotate-0 hover:scale-[1.04] active:z-60 active:rotate-0 active:scale-[1.04] ${i % 3 === 0 ? "tape" : i % 3 === 1 ? "tape-corner" : ""} ${spreadPoses[i]}`}
                 >
                   <div className="relative h-[calc(100%-var(--polaroid-legenda))] w-full overflow-hidden bg-background">
                     <Image
