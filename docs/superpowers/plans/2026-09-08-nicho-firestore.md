@@ -397,7 +397,7 @@ decide, a partir disso, quando cair pro repositório mock."
   `.execute(slug: string): Promise<NicheDTO | null>`, `class MockNicheRepository`
   implementando `NicheRepository`, seedada com os 7 nichos reais.
 
-- [ ] **Step 1: Entidade e contrato de repositório**
+- [x] **Step 1: Entidade e contrato de repositório**
 
 Create `src/api/domain/niche/Niche.ts`:
 
@@ -430,7 +430,7 @@ export interface NicheRepository {
 }
 ```
 
-- [ ] **Step 2: DTO e casos de uso**
+- [x] **Step 2: DTO e casos de uso**
 
 Create `src/api/application/niche/NicheDTO.ts`:
 
@@ -481,7 +481,7 @@ export class GetNicheBySlugUseCase {
 }
 ```
 
-- [ ] **Step 3: Escrever o teste do repositório mock primeiro**
+- [x] **Step 3: Escrever o teste do repositório mock primeiro**
 
 Create `src/api/infrastructure/repositories/mock/MockNicheRepository.test.ts`:
 
@@ -524,12 +524,12 @@ describe("MockNicheRepository", () => {
 });
 ```
 
-- [ ] **Step 4: Rodar o teste e confirmar que falha**
+- [x] **Step 4: Rodar o teste e confirmar que falha**
 
 Run: `npx vitest run src/api/infrastructure/repositories/mock/MockNicheRepository.test.ts`
 Expected: FAIL — módulo `./MockNicheRepository` não existe.
 
-- [ ] **Step 5: Implementar o repositório mock, com o texto real transcrito de `niches.ts`**
+- [x] **Step 5: Implementar o repositório mock, com o texto real transcrito de `niches.ts`**
 
 Create `src/api/infrastructure/repositories/mock/MockNicheRepository.ts`:
 
@@ -676,12 +676,12 @@ export class MockNicheRepository implements NicheRepository {
 }
 ```
 
-- [ ] **Step 6: Rodar o teste e confirmar que passa**
+- [x] **Step 6: Rodar o teste e confirmar que passa**
 
 Run: `npx vitest run src/api/infrastructure/repositories/mock/MockNicheRepository.test.ts`
 Expected: PASS — 4 testes.
 
-- [ ] **Step 7: Testes dos casos de uso, contra o mock**
+- [x] **Step 7: Testes dos casos de uso, contra o mock**
 
 Create `src/api/application/niche/GetNichesUseCase.test.ts`:
 
@@ -721,12 +721,12 @@ describe("GetNicheBySlugUseCase", () => {
 });
 ```
 
-- [ ] **Step 8: Rodar a suíte inteira**
+- [x] **Step 8: Rodar a suíte inteira**
 
 Run: `npm run typecheck && npx eslint . && npm run test`
 Expected: sem erros; os 6 testes novos (4 do mock + 2 dos use cases) passam.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add -A
