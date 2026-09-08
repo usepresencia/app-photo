@@ -36,9 +36,9 @@ serviços e fotos em fases separadas depois deste desenho.
 
 ## Achado que muda o modelo: "Evento" é dado duplicado de "Nicho"
 
-`events.ts` mantém uma cópia manual de título/subtítulo/imagem de 3 dos 6
+`events.ts` mantém uma cópia manual de título/subtítulo/imagem de 3 dos 7
 nichos, só para alimentar a seção "Eventos" da home (`Events.tsx`) — que
-mostra praticamente o mesmo cartão que `Niches.tsx` já mostra para todos os 6.
+mostra praticamente o mesmo cartão que `Niches.tsx` já mostra para todos os 7.
 As cópias já divergiram: o nicho `aniversario-e-eventos` chama-se "Aniversário
 e Eventos" em `niches.ts` e "Aniversário infantil" em `events.ts`.
 
@@ -273,9 +273,14 @@ Firebase real para rodar `npm run test`.
   de "referência genérica com surface + refId opcional". É a peça mais nova
   deste desenho — vale prototipar a query antes de construir o CRUD completo
   em cima dela.
-- **`packages.ts` tem 12 pacotes hoje** (2 por nicho × 6 nichos, alguns com
-  `items` já como texto livre da cliente). A migração precisa preservar esse
-  texto exatamente — não é reescrita, é transcrição.
+- **`packages.ts` tem 14 pacotes hoje**, distribuídos de forma desigual entre
+  6 dos 7 nichos (2 pacotes em quatro deles, 3 em `casamento-civil` e em
+  `aniversario-e-eventos`; `making-of-da-noiva` está vazio, aguardando
+  documento da cliente) — não é 2 por nicho uniformemente. `items` já é texto
+  livre da cliente em todos. A migração precisa preservar esse texto
+  exatamente — não é reescrita, é transcrição. `featured` é opcional no tipo
+  atual (`featured?: boolean`); a migração grava `false` explícito quando
+  ausente.
 
 ## Decisões já tomadas neste brainstorming
 
