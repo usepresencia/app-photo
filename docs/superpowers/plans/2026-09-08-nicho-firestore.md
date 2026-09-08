@@ -981,7 +981,7 @@ RepositoryFactory (Task 5)."
   assinatura pública de hoje (`Niche` continua tendo `image`/`gallery`); a
   terceira é nova, substitui `getEventFormats()`.
 
-- [ ] **Step 1: Atualizar o teste primeiro, para refletir o novo formato esperado**
+- [x] **Step 1: Atualizar o teste primeiro, para refletir o novo formato esperado**
 
 Replace `src/actions/niches.test.ts`:
 
@@ -1035,12 +1035,12 @@ describe("getEventNiches", () => {
 });
 ```
 
-- [ ] **Step 2: Rodar o teste e confirmar que falha**
+- [x] **Step 2: Rodar o teste e confirmar que falha**
 
 Run: `npx vitest run src/actions/niches.test.ts`
 Expected: FAIL — `getEventNiches` não existe em `./niches`.
 
-- [ ] **Step 3: Reescrever `src/actions/niches.ts`**
+- [x] **Step 3: Reescrever `src/actions/niches.ts`**
 
 Replace `src/actions/niches.ts`:
 
@@ -1122,18 +1122,18 @@ export async function getEventNiches(): Promise<Niche[]> {
 }
 ```
 
-- [ ] **Step 4: Rodar o teste de novo**
+- [x] **Step 4: Rodar o teste de novo**
 
 Run: `npx vitest run src/actions/niches.test.ts`
 Expected: PASS — 5 testes.
 
-- [ ] **Step 5: Remover `events.ts` e seu teste**
+- [x] **Step 5: Remover `events.ts` e seu teste**
 
 ```bash
 git rm src/actions/events.ts src/actions/events.test.ts
 ```
 
-- [ ] **Step 6: Atualizar `Events.tsx`**
+- [x] **Step 6: Atualizar `Events.tsx`**
 
 Replace `src/app/_components/Events.tsx`:
 
@@ -1189,7 +1189,7 @@ export async function Events({ whatsapp }: { whatsapp: string }) {
 `key={e.title}` → `key={e.slug}` — chave mais estável, slugs são únicos por
 construção e títulos não têm essa garantia.)
 
-- [ ] **Step 7: Rodar a suíte inteira**
+- [x] **Step 7: Rodar a suíte inteira**
 
 Run: `npm run typecheck && npx eslint . && npm run test`
 Expected: sem erros; nenhuma referência a `events.ts`/`getEventFormats`
@@ -1198,7 +1198,7 @@ sobra em lugar nenhum.
 Run: `grep -rn "getEventFormats\|EventFormat" src`
 Expected: nenhuma linha.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add -A
