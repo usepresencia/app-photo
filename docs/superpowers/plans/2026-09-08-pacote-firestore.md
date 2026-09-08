@@ -514,7 +514,7 @@ mock serve dev/test/CI sem Firebase real."
 - Produces: `class PackageRepositoryImpl implements PackageRepository`,
   `RepositoryFactory.packages(): PackageRepository`.
 
-- [ ] **Step 1: Implementar o repositório Firestore**
+- [x] **Step 1: Implementar o repositório Firestore**
 
 Create `src/api/infrastructure/repositories/PackageRepositoryImpl.ts`:
 
@@ -557,7 +557,7 @@ export class PackageRepositoryImpl implements PackageRepository {
 }
 ```
 
-- [ ] **Step 2: Fábrica de repositórios**
+- [x] **Step 2: Fábrica de repositórios**
 
 Em `src/api/infrastructure/repositories/RepositoryFactory.ts`, troca:
 
@@ -605,7 +605,7 @@ export const RepositoryFactory = {
 (`hasFirebaseCredentials`, `isProductionRuntime` e `shouldUseMock` não
 mudam — são genéricas, já servem qualquer entidade.)
 
-- [ ] **Step 3: Estender o teste da fábrica**
+- [x] **Step 3: Estender o teste da fábrica**
 
 Em `src/api/infrastructure/repositories/RepositoryFactory.test.ts`, a
 função `importFresh` cresce pra trazer as classes de package também:
@@ -671,7 +671,7 @@ describe("RepositoryFactory.niches", () => {
 quebrar o histórico do arquivo — cobre as duas chaves da fábrica agora.
 Se preferir, renomeie para `RepositoryFactory` ao aplicar.)
 
-- [ ] **Step 4: Rodar a suíte inteira**
+- [x] **Step 4: Rodar a suíte inteira**
 
 Run: `npm run typecheck && npx eslint . && npm run test`
 Expected: sem erros; os 3 testes de `RepositoryFactory.test.ts` continuam
@@ -692,7 +692,7 @@ Documentar aqui, não executar agora:
 4. Confirmar que os objetos retornados batem com os documentos e vêm
    ordenados por `order`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add -A
