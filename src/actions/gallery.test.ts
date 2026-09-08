@@ -27,9 +27,12 @@ describe("getGalleryPhotos", () => {
 });
 
 describe("getAboutPhotos", () => {
-  it("retorna 4 fotos de família", async () => {
+  it("retorna as 4 fotos de Quem sou, na ordem capa/polaroid-1/altar/polaroid-2", async () => {
     const { family } = await getAboutPhotos();
     expect(family).toHaveLength(4);
+    for (const photo of family) {
+      expect(photo.src).toMatch(/^\/fotos\//);
+    }
   });
 });
 

@@ -59,9 +59,11 @@ export async function getGalleryPhotos(): Promise<GalleryPhoto[]> {
 }
 
 export async function getAboutPhotos(): Promise<{ family: Photo[] }> {
-  return {
-    family: photos.familia.slice(0, ABOUT_FAMILY_COUNT),
-  };
+  const photos = await new GetPhotosBySurfaceUseCase(
+    RepositoryFactory.placements(),
+    RepositoryFactory.photos(),
+  ).execute("quem-sou");
+  return { family: photos.map(toPhoto) };
 }
 
 export async function getHeroPhotos(): Promise<Photo[]> {
