@@ -1297,18 +1297,18 @@ aparecerem sem precisar de rebuild."
 
 **Files:** nenhum novo — só verificação.
 
-- [ ] **Step 1: Suíte completa**
+- [x] **Step 1: Suíte completa**
 
 Run: `npm run typecheck && npx eslint . && npx prettier '**/*.{css,ts,tsx,json,md}' --check && npm run test && npm run build`
 Expected: os cinco comandos terminam com código de saída 0 — os mesmos
 passos que o CI (`ci.yaml`) roda.
 
-- [ ] **Step 2: Confirmar que nenhum arquivo ficou órfão**
+- [x] **Step 2: Confirmar que nenhum arquivo ficou órfão**
 
 Run: `grep -rn "@/shared\|getEventFormats\|from \"./events\"" src`
 Expected: nenhuma linha.
 
-- [ ] **Step 3: Smoke test manual da home**
+- [x] **Step 3: Smoke test manual da home**
 
 Run: `npm run dev`, abrir `http://localhost:3000`.
 Expected: seção "Ensaios para cada momento" mostra os 7 nichos, na mesma
@@ -1316,7 +1316,7 @@ ordem de sempre; seção "Eventos" mostra 3 cards (Casamento Civil,
 Aniversário e Eventos, Making-of da Noiva), com os títulos corretos —
 "Aniversário e Eventos", não mais "Aniversário infantil".
 
-- [ ] **Step 4: Commit final (se sobrou algo solto) e push**
+- [x] **Step 4: Commit final (se sobrou algo solto) e push**
 
 ```bash
 git status --short
