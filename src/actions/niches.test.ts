@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getNicheBySlug, getNiches } from "./niches";
+import { getEventNiches, getNicheBySlug, getNiches } from "./niches";
 
 describe("getNiches", () => {
   it("retorna os 7 nichos com slugs únicos", async () => {
@@ -29,5 +29,19 @@ describe("getNicheBySlug", () => {
   it("retorna null para um slug inexistente", async () => {
     const niche = await getNicheBySlug("nao-existe");
     expect(niche).toBeNull();
+  });
+});
+
+describe("getEventNiches", () => {
+  it("retorna só os 3 nichos marcados como evento, cada um com foto associada", async () => {
+    const events = await getEventNiches();
+    expect(events.map((e) => e.slug)).toEqual([
+      "casamento-civil",
+      "aniversario-e-eventos",
+      "making-of-da-noiva",
+    ]);
+    for (const event of events) {
+      expect(event.image.src).toMatch(/^\/fotos\//);
+    }
   });
 });

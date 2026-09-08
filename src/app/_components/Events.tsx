@@ -1,17 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Section } from "@/lib/_components/Section";
-import { getEventFormats } from "@/actions/events";
+import { getEventNiches } from "@/actions/niches";
 import { ContactForm } from "./Contact";
 
 export async function Events({ whatsapp }: { whatsapp: string }) {
-  const events = await getEventFormats();
+  const events = await getEventNiches();
   return (
     <Section id="contato" index="04" eyebrow="Eventos" title="Formatos de cobertura">
       <div className="space-y-3">
         {events.map((e) => (
           <Link
-            key={e.title}
+            key={e.slug}
             href={`/ensaios/${e.slug}`}
             className="group relative block h-44 overflow-hidden border border-border transition-colors hover:border-gold active:border-gold"
           >
