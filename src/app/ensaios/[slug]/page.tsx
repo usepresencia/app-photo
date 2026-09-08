@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getNicheBySlug, getNiches } from "@/actions/niches";
+import { getNicheBySlug } from "@/actions/niches";
 import { getPackagesForNiche } from "@/actions/packages";
 import { getBrand } from "@/actions/brand";
 import { NicheHero } from "./_components/NicheHero";
 import { PackagePicker } from "./_components/PackagePicker";
-
-export async function generateStaticParams() {
-  const niches = await getNiches();
-  return niches.map((n) => ({ slug: n.slug }));
-}
 
 export async function generateMetadata({
   params,
