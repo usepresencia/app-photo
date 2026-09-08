@@ -43,7 +43,7 @@ export function Polaroid({
       {/* A legenda corre no fluxo abaixo da foto, e não presa dentro da tarja:
           assim o cartão cresce com o texto em vez de cortá-lo. */}
       {caption && (
-        <figcaption className="font-hand mt-2 px-1 text-sm leading-snug text-[oklch(0.25_0.02_60)] sm:text-base">
+        <figcaption className="font-hand mt-2 px-1 text-sm leading-snug sm:text-base">
           {caption}
         </figcaption>
       )}

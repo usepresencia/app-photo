@@ -11,6 +11,9 @@
   --border: #e3cf9a;
   --paper: oklch(0.95 0.012 92);
   --ink: oklch(0.18 0.005 90);
+  /* Tom de tinta das legendas manuscritas (font-hand) — mais claro e
+     amarronzado que --ink, que é o fundo escuro do film-strip do hero. */
+  --ink-hand: oklch(0.25 0.02 60);
   --gradient-gold: linear-gradient(100deg, var(--gold), var(--gold-soft), var(--gold));
   --tape-bg: linear-gradient(
     180deg,

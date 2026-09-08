@@ -154,6 +154,7 @@
 
 @utility font-hand {
   font-family: var(--font-hand), "Barlow", cursive;
+  color: var(--ink-hand);
 }
 
 @utility polaroid {

@@ -64,7 +64,7 @@ function GalleryAlbum({ photos }: { photos: GalleryPhoto[] }) {
                       className="object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0 group-active:scale-105 group-active:grayscale-0"
                     />
                   </div>
-                  <figcaption className="font-hand absolute inset-x-2 bottom-1 flex items-baseline justify-between text-[0.85rem] leading-none text-[oklch(0.25_0.02_60)]">
+                  <figcaption className="font-hand absolute inset-x-2 bottom-1 flex items-baseline justify-between text-[0.85rem] leading-none">
                     <span>{photo.label}</span>
                     <span className="font-condensed text-[0.5rem] tracking-[0.25em] opacity-60">
                       {String(n).padStart(2, "0")}

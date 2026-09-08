@@ -137,7 +137,7 @@ export async function About() {
               className="object-cover grayscale transition-all duration-500 hover:grayscale-0 active:grayscale-0"
             />
           </div>
-          <figcaption className="font-hand mt-2 px-1 text-sm leading-snug text-[oklch(0.25_0.02_60)] sm:text-base">
+          <figcaption className="font-hand mt-2 px-1 text-sm leading-snug sm:text-base">
             Quando estive no altar, ao lado de quem amo e com a nossa filha nos braços, percebi de
             vez: essas são as imagens que contam quem nós somos. Viver esse momento do outro lado da
             câmera me fez valorizar ainda mais cada segundo que registro. Ter esse dia guardado me
