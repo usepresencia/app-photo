@@ -173,7 +173,7 @@ export function ContactForm({ whatsapp }: { whatsapp: string }) {
             id={dataId}
             type="date"
             required
-            className={`${plainInput} min-w-0 max-w-full text-foreground [color-scheme:light] [&::-webkit-calendar-picker-indicator]:opacity-0`}
+            className={`${plainInput} min-w-0 max-w-full text-foreground scheme-light [&::-webkit-calendar-picker-indicator]:opacity-0`}
             value={form.data}
             onChange={(e) => setForm({ ...form, data: e.target.value })}
           />
