@@ -1,14 +1,20 @@
 import photosByCategory from "./_mock/photos.json";
 import type { Photo } from "./_mock/types";
+import type { PlacedPhotoDTO } from "@/api/application/photo/PlacedPhotoDTO";
+import { GetPhotosBySurfaceUseCase } from "@/api/application/photo/GetPhotosBySurfaceUseCase";
+import { RepositoryFactory } from "@/api/infrastructure/repositories/RepositoryFactory";
 
 const photos = photosByCategory as Record<string, Photo[]>;
+
+function toPhoto(p: PlacedPhotoDTO): Photo {
+  return { src: p.src, width: p.width, height: p.height, blurDataURL: p.blurDataURL };
+}
 
 // As primeiras fotos de família são exclusivas da seção "Quem sou". Galeria e
 // hero começam depois delas para não repetir na vitrine os registros pessoais.
 const ABOUT_FAMILY_COUNT = 4;
 
 const GALLERY_SIZE = 18;
-const HERO_SIZE = 12;
 
 const GALLERY_CATEGORIES = [
   { slug: "familia", label: "família" },
@@ -17,8 +23,6 @@ const GALLERY_CATEGORIES = [
   { slug: "evento-aniversario", label: "aniversário" },
   { slug: "casamento-civil", label: "casamento" },
 ];
-
-const HERO_CATEGORIES = ["familia", "gestante", "evento-aniversario"];
 
 export interface GalleryPhoto extends Photo {
   label: string;
@@ -47,10 +51,6 @@ function intercalar<T>(pools: T[][], limite: number): T[] {
   return ordenado.slice(0, limite);
 }
 
-function isHorizontal(photo: Photo): boolean {
-  return photo.width > photo.height;
-}
-
 export async function getGalleryPhotos(): Promise<GalleryPhoto[]> {
   const pools = GALLERY_CATEGORIES.map(({ slug, label }) =>
     categoria(slug).map((photo) => ({ ...photo, label })),
@@ -65,6 +65,9 @@ export async function getAboutPhotos(): Promise<{ family: Photo[] }> {
 }
 
 export async function getHeroPhotos(): Promise<Photo[]> {
-  const pools = HERO_CATEGORIES.map((slug) => categoria(slug).filter(isHorizontal));
-  return intercalar(pools, HERO_SIZE);
+  const photos = await new GetPhotosBySurfaceUseCase(
+    RepositoryFactory.placements(),
+    RepositoryFactory.photos(),
+  ).execute("hero");
+  return photos.map(toPhoto);
 }

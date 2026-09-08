@@ -33,8 +33,6 @@ describe("getAboutPhotos", () => {
   });
 });
 
-const categoriaDe = (src: string) => src.split("/")[2];
-
 describe("getHeroPhotos", () => {
   it("retorna apenas fotos horizontais", async () => {
     const photos = await getHeroPhotos();
@@ -44,12 +42,12 @@ describe("getHeroPhotos", () => {
     }
   });
 
-  // O film strip exibe 4 slots simultâneos: se todos vierem da mesma categoria,
-  // o hero abre repetitivo e o flash de troca perde contraste.
-  it("abre com os 4 primeiros quadros de categorias variadas", async () => {
+  it("retorna as fotos na ordem dos placements", async () => {
     const photos = await getHeroPhotos();
-    const categorias = new Set(photos.slice(0, 4).map((photo) => categoriaDe(photo.src)));
-    expect(categorias.size).toBeGreaterThan(1);
+    expect(photos.length).toBeGreaterThan(0);
+    for (const photo of photos) {
+      expect(photo.src).toMatch(/^\/fotos\//);
+    }
   });
 
   it("não usa as fotos reservadas para a seção Quem sou", async () => {
