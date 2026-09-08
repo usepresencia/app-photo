@@ -17,8 +17,8 @@ export function PackagePicker({
   nicheGallery: Photo[];
   whatsappBase: string;
 }) {
-  const [selected, setSelected] = useState<string | null>(null);
-  const pack = packages.find((p) => p.name === selected);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const pack = packages.find((p) => p.id === selectedId);
 
   const whatsapp = `${whatsappBase}?text=${encodeURIComponent(
     `Olá, Denise! Tenho interesse no ensaio de ${nicheTitle}${pack ? `, pacote ${pack.name} (${pack.price})` : ""}.`,
@@ -38,9 +38,9 @@ export function PackagePicker({
               <div className="grid gap-3 sm:grid-cols-3">
                 {packages.map((p) => (
                   <button
-                    key={p.name}
+                    key={p.id}
                     type="button"
-                    onClick={() => setSelected(p.name)}
+                    onClick={() => setSelectedId(p.id)}
                     className="relative overflow-hidden border border-gold/20 p-5 text-left transition-colors hover:border-gold/50"
                     style={{ boxShadow: "var(--shadow-gold)" }}
                   >
@@ -69,7 +69,7 @@ export function PackagePicker({
       )}
 
       {pack && (
-        <div key={pack.name} className="album-stage album-page-next mt-8 space-y-8">
+        <div key={pack.id} className="album-stage album-page-next mt-8 space-y-8">
           <div
             className="relative overflow-hidden border border-gold/20 p-6"
             style={{ boxShadow: "var(--shadow-gold)" }}
@@ -86,7 +86,7 @@ export function PackagePicker({
             <div className="relative z-10 flex items-center gap-3">
               <button
                 type="button"
-                onClick={() => setSelected(null)}
+                onClick={() => setSelectedId(null)}
                 aria-label="Trocar pacote"
                 className="flex size-10 shrink-0 items-center justify-center rounded-full border border-gold/40 bg-background/50 text-gold backdrop-blur-sm transition-colors hover:border-gold"
               >
@@ -104,6 +104,11 @@ export function PackagePicker({
                 </p>
               </div>
             </div>
+            {pack.description && (
+              <p className="relative z-10 mt-4 text-sm leading-relaxed text-muted-foreground">
+                {pack.description}
+              </p>
+            )}
             <ul className="relative z-10 mt-5 space-y-2">
               {pack.items.map((i) => (
                 <li key={i} className="flex gap-2 text-sm text-muted-foreground">

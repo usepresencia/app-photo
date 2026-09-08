@@ -15,6 +15,7 @@ describe("getPackagesForNiche", () => {
       const packages = await getPackagesForNiche(slug);
       expect(packages.length).toBeGreaterThan(0);
       expect(packages.filter((p) => p.featured).length).toBeLessThanOrEqual(1);
+      expect(new Set(packages.map((p) => p.id)).size).toBe(packages.length);
     }
   });
 
