@@ -108,7 +108,7 @@ task 5.
   `@/lib/_hooks/{useSwipe,useSlideshow}`, `@/lib/_utils/{cn,whatsapp}` — os
   mesmos exports de hoje, só o caminho de import muda.
 
-- [ ] **Step 1: Mover os diretórios**
+- [x] **Step 1: Mover os diretórios**
 
 ```bash
 git mv src/shared/_components src/lib/_components
@@ -117,7 +117,7 @@ git mv src/shared/_utils src/lib/_utils
 rmdir src/shared 2>/dev/null || true
 ```
 
-- [ ] **Step 2: Atualizar os imports nos 9 arquivos consumidores**
+- [x] **Step 2: Atualizar os imports nos 9 arquivos consumidores**
 
 Em `src/app/_components/About.tsx`, linhas 2-3:
 
@@ -178,12 +178,12 @@ import { useSlideshow } from "@/lib/_hooks/useSlideshow";
 import { useSwipe } from "@/lib/_hooks/useSwipe";
 ```
 
-- [ ] **Step 3: Confirmar que não sobrou nenhuma referência a `@/shared`**
+- [x] **Step 3: Confirmar que não sobrou nenhuma referência a `@/shared`**
 
 Run: `grep -rn "@/shared" src`
 Expected: nenhuma linha (comando não imprime nada)
 
-- [ ] **Step 4: Rodar a suíte inteira pra confirmar que nada quebrou**
+- [x] **Step 4: Rodar a suíte inteira pra confirmar que nada quebrou**
 
 Run: `npm run typecheck && npx eslint . && npm run test && npm run build`
 Expected: os quatro comandos terminam com código de saída 0. Os hooks
@@ -191,7 +191,7 @@ Expected: os quatro comandos terminam com código de saída 0. Os hooks
 `.test.ts` junto no `git mv` — a suíte deve continuar com o mesmo número de
 testes de antes.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -245,13 +245,16 @@ FIREBASE_PRIVATE_KEY=
 Create `src/lib/config/env.server.test.ts`:
 
 ```ts
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const ORIGINAL_ENV = { ...process.env };
 
 beforeEach(() => {
   process.env = { ...ORIGINAL_ENV };
   delete process.env.SKIP_ENV_VALIDATION;
+  // import() dinâmico é cacheado pelo module graph do Vitest — sem isso, os
+  // três testes reusariam o mesmo `env` avaliado no primeiro import().
+  vi.resetModules();
 });
 
 afterEach(() => {
