@@ -1,4 +1,4 @@
-import { Section } from "@/shared/_components/Section";
+import { Section } from "@/lib/_components/Section";
 import { getTestimonials } from "@/actions/testimonials";
 
 export async function Testimonials() {

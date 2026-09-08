@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { FaCheck, FaChevronDown, FaRegCalendarAlt } from "react-icons/fa";
-import { buildWhatsappLink } from "@/shared/_utils/whatsapp";
+import { buildWhatsappLink } from "@/lib/_utils/whatsapp";
 
 const floatingInput =
   "peer w-full rounded-lg border border-gold/30 bg-background/70 px-4 py-3 text-sm text-foreground placeholder-transparent shadow-sm backdrop-blur-sm transition-colors focus:border-gold focus:outline-none focus:ring-[3px] focus:ring-gold/20";

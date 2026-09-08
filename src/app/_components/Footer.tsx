@@ -1,6 +1,6 @@
 import { FaInstagram } from "react-icons/fa";
 import { getBrand } from "@/actions/brand";
-import { Logo } from "@/shared/_components/Logo";
+import { Logo } from "@/lib/_components/Logo";
 
 export async function Footer() {
   const brand = await getBrand();

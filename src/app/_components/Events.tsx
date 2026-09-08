@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Section } from "@/shared/_components/Section";
+import { Section } from "@/lib/_components/Section";
 import { getEventFormats } from "@/actions/events";
 import { ContactForm } from "./Contact";
 

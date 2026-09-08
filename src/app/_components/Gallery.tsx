@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Section } from "@/shared/_components/Section";
-import { useSwipe } from "@/shared/_hooks/useSwipe";
-import { useSlideshow } from "@/shared/_hooks/useSlideshow";
+import { Section } from "@/lib/_components/Section";
+import { useSwipe } from "@/lib/_hooks/useSwipe";
+import { useSlideshow } from "@/lib/_hooks/useSlideshow";
 import type { GalleryPhoto } from "@/actions/gallery";
 
 const AUTOPLAY_MS = 6000;

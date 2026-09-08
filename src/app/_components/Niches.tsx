@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Section } from "@/shared/_components/Section";
+import { Section } from "@/lib/_components/Section";
 import { getNiches } from "@/actions/niches";
 
 export async function Niches() {

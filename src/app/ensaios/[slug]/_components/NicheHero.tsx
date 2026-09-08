@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
-import { useSlideshow } from "@/shared/_hooks/useSlideshow";
-import { useSwipe } from "@/shared/_hooks/useSwipe";
+import { useSlideshow } from "@/lib/_hooks/useSlideshow";
+import { useSwipe } from "@/lib/_hooks/useSwipe";
 import type { Photo } from "@/actions/_mock/types";
 
 function AlbumSlides({ photos }: { photos: Photo[] }) {

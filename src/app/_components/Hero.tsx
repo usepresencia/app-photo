@@ -1,8 +1,8 @@
 import { FaInstagram } from "react-icons/fa";
 import { getBrand } from "@/actions/brand";
 import { getHeroPhotos } from "@/actions/gallery";
-import { Logo } from "@/shared/_components/Logo";
-import { CtaLink } from "@/shared/_components/CtaLink";
+import { Logo } from "@/lib/_components/Logo";
+import { CtaLink } from "@/lib/_components/CtaLink";
 import { HeroFilmStrip } from "./_HeroFilmStrip";
 
 function Ticker() {

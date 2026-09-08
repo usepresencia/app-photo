@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { Section } from "@/shared/_components/Section";
-import { Polaroid } from "@/shared/_components/Polaroid";
+import { Section } from "@/lib/_components/Section";
+import { Polaroid } from "@/lib/_components/Polaroid";
 import { getAboutPhotos } from "@/actions/gallery";
 import type { Photo } from "@/actions/_mock/types";
 
