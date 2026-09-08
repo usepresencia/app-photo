@@ -1231,7 +1231,7 @@ cairia no repositório mock — o build passaria, mas geraria só as páginas do
 resolve os dois problemas: build não depende de dado externo, e nichos
 novos aparecem sem precisar de rebuild.
 
-- [ ] **Step 1: Remover `generateStaticParams`**
+- [x] **Step 1: Remover `generateStaticParams`**
 
 Em `src/app/ensaios/[slug]/page.tsx`, linhas 1-12, trocar:
 
@@ -1265,21 +1265,21 @@ import { PackagePicker } from "./_components/PackagePicker";
 (`getNiches` sai do import — só `generateStaticParams` usava; o resto do
 arquivo, a partir de `generateMetadata`, continua sem mudança.)
 
-- [ ] **Step 2: Rodar a suíte inteira, incluindo build**
+- [x] **Step 2: Rodar a suíte inteira, incluindo build**
 
 Run: `npm run typecheck && npx eslint . && npm run test && npm run build`
 Expected: sem erros. No output do build, a rota `/ensaios/[slug]` deixa de
 aparecer com o marcador `●` (SSG) na tabela de rotas e passa a aparecer
 como `ƒ` (dinâmica) — conferir a tabela impressa ao final do `npm run build`.
 
-- [ ] **Step 3: Smoke test manual**
+- [x] **Step 3: Smoke test manual**
 
 Run: `npm run dev`, depois abrir `http://localhost:3000/ensaios/gestante`
 no navegador.
 Expected: página renderiza normalmente, com o mesmo conteúdo de antes
 (texto, galeria, pacotes).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
