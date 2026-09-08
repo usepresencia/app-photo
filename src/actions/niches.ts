@@ -1,8 +1,9 @@
-import photosByCategory from "./_mock/photos.json";
 import type { Photo } from "./_mock/types";
 import type { NicheDTO } from "@/api/application/niche/NicheDTO";
+import type { PlacedPhotoDTO } from "@/api/application/photo/PlacedPhotoDTO";
 import { GetNichesUseCase } from "@/api/application/niche/GetNichesUseCase";
 import { GetNicheBySlugUseCase } from "@/api/application/niche/GetNicheBySlugUseCase";
+import { GetPhotosBySurfaceUseCase } from "@/api/application/photo/GetPhotosBySurfaceUseCase";
 import { RepositoryFactory } from "@/api/infrastructure/repositories/RepositoryFactory";
 
 export interface Niche {
@@ -17,29 +18,22 @@ export interface Niche {
   gallery: Photo[];
 }
 
-const photos = photosByCategory as Record<string, Photo[]>;
-
-// Mapa temporário slug → categorias de foto. O texto do nicho já vem do
-// Firestore (via GetNichesUseCase); a foto continua vindo do pipeline local
-// até o plano 3 (spec, seção "Modelo de conteúdo" — Photo/Placement) migrar
-// isso também. Nenhum comportamento visível muda enquanto isso não acontece.
-const NICHE_PHOTO_CATEGORIES: Record<string, string[]> = {
-  "retratos-profissionais": ["profissional", "corporativo", "pessoal"],
-  "making-of-da-noiva": ["making-of-noiva"],
-  "aniversario-e-eventos": ["evento-aniversario"],
-  "casamento-civil": ["casamento-civil"],
-  comercial: ["comercial"],
-  familia: ["familia"],
-  gestante: ["gestante"],
-};
-
-function nichePhotos(slug: string): Photo[] {
-  const categories = NICHE_PHOTO_CATEGORIES[slug] ?? [];
-  return categories.flatMap((c) => photos[c] ?? []);
+// Cópia local do mesmo helper que a Task 3 adicionou em gallery.ts —
+// arquivo diferente, sem um lugar compartilhado óbvio pra uma função de
+// 4 campos; duplicar é mais simples que criar um módulo só pra isso.
+function toPhoto(p: PlacedPhotoDTO): Photo {
+  return { src: p.src, width: p.width, height: p.height, blurDataURL: p.blurDataURL };
 }
 
-function withPhotos(dto: NicheDTO): Niche {
-  const gallery = nichePhotos(dto.slug);
+// image é gallery[0] — a mesma foto, não uma capa exclusiva. Assim
+// sempre foi (ver plano 1); um role "capa" separado tiraria uma foto da
+// galeria da própria página do nicho, mudando quantas fotos ela mostra.
+async function withPhotos(dto: NicheDTO): Promise<Niche> {
+  const photos = await new GetPhotosBySurfaceUseCase(
+    RepositoryFactory.placements(),
+    RepositoryFactory.photos(),
+  ).execute("niche", { refId: dto.slug });
+  const gallery = photos.map(toPhoto);
   return {
     slug: dto.slug,
     title: dto.title,
@@ -55,7 +49,7 @@ function withPhotos(dto: NicheDTO): Niche {
 
 export async function getNiches(): Promise<Niche[]> {
   const dtos = await new GetNichesUseCase(RepositoryFactory.niches()).execute();
-  return dtos.map(withPhotos);
+  return Promise.all(dtos.map(withPhotos));
 }
 
 export async function getNicheBySlug(slug: string): Promise<Niche | null> {
@@ -63,13 +57,10 @@ export async function getNicheBySlug(slug: string): Promise<Niche | null> {
   return dto ? withPhotos(dto) : null;
 }
 
-// Substitui getEventFormats() de events.ts (removido nesta task) — a seção
-// "Eventos" da home agora é uma vitrine filtrada de Niche, não uma cópia
-// manual. Ver spec, "Achado que muda o modelo".
 export async function getEventNiches(): Promise<Niche[]> {
   const dtos = await new GetNichesUseCase(RepositoryFactory.niches()).execute();
-  return dtos
+  const eventDtos = dtos
     .filter((n) => n.showAsEventTeaser)
-    .sort((a, b) => (a.eventOrder ?? 0) - (b.eventOrder ?? 0))
-    .map(withPhotos);
+    .sort((a, b) => (a.eventOrder ?? 0) - (b.eventOrder ?? 0));
+  return Promise.all(eventDtos.map(withPhotos));
 }
