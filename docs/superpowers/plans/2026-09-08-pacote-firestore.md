@@ -923,13 +923,13 @@ texto."
 
 **Files:** nenhum novo — só verificação.
 
-- [ ] **Step 1: Suíte completa**
+- [x] **Step 1: Suíte completa**
 
 Run: `npm run typecheck && npx eslint . && npx prettier '**/*.{css,ts,tsx,json,md}' --check && npm run test && env -u FIREBASE_PROJECT_ID -u FIREBASE_CLIENT_EMAIL -u FIREBASE_PRIVATE_KEY npm run build`
 Expected: os cinco comandos terminam com código de saída 0, sem nenhuma
 credencial do Firebase no ambiente — os mesmos passos que o CI roda.
 
-- [ ] **Step 2: Smoke test manual**
+- [x] **Step 2: Smoke test manual**
 
 Run: `npm run dev` (sem credenciais do Firebase no ambiente), abrir
 `http://localhost:3000/ensaios/gestante`, clicar num pacote.
@@ -937,7 +937,7 @@ Expected: a grade mostra 2 pacotes ("Pacote Básico", "Pacote Essencial");
 ao clicar, abre o detalhe com preço, itens e o botão "Agendar" com o link
 de WhatsApp incluindo o nome do pacote — igual a antes da migração.
 
-- [ ] **Step 3: Commit final (se sobrou algo solto) e push**
+- [x] **Step 3: Commit final (se sobrou algo solto) e push**
 
 ```bash
 git status --short
