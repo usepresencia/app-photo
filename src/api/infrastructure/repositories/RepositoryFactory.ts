@@ -1,8 +1,11 @@
 import { PHASE_PRODUCTION_BUILD } from "next/constants";
 import type { NicheRepository } from "@/api/domain/niche/NicheRepository";
+import type { PackageRepository } from "@/api/domain/package/PackageRepository";
 import { env } from "@/lib/config/env.server";
 import { NicheRepositoryImpl } from "./NicheRepositoryImpl";
 import { MockNicheRepository } from "./mock/MockNicheRepository";
+import { PackageRepositoryImpl } from "./PackageRepositoryImpl";
+import { MockPackageRepository } from "./mock/MockPackageRepository";
 
 function hasFirebaseCredentials(): boolean {
   return Boolean(env.FIREBASE_PROJECT_ID && env.FIREBASE_CLIENT_EMAIL && env.FIREBASE_PRIVATE_KEY);
@@ -26,4 +29,6 @@ function shouldUseMock(): boolean {
 export const RepositoryFactory = {
   niches: (): NicheRepository =>
     shouldUseMock() ? new MockNicheRepository() : new NicheRepositoryImpl(),
+  packages: (): PackageRepository =>
+    shouldUseMock() ? new MockPackageRepository() : new PackageRepositoryImpl(),
 };
