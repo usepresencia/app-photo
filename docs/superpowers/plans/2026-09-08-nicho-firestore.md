@@ -745,6 +745,7 @@ Repositório mock serve dev/test/CI sem Firebase real."
 
 - Create: `src/api/infrastructure/repositories/NicheRepositoryImpl.ts`
 - Create: `src/api/infrastructure/repositories/RepositoryFactory.ts`
+- Create: `src/api/infrastructure/repositories/RepositoryFactory.test.ts`
 
 **Interfaces:**
 
@@ -754,7 +755,7 @@ Repositório mock serve dev/test/CI sem Firebase real."
 - Produces: `class NicheRepositoryImpl implements NicheRepository`,
   `const RepositoryFactory = { niches(): NicheRepository }`.
 
-- [ ] **Step 1: Implementar o repositório Firestore**
+- [x] **Step 1: Implementar o repositório Firestore**
 
 Create `src/api/infrastructure/repositories/NicheRepositoryImpl.ts`:
 
@@ -806,11 +807,12 @@ CI ainda). Verificação fica manual, documentada no Step 4 abaixo, e roda
 quando houver Firestore de fato disponível (depois da Task 5 do plano de
 migração, spec seção "Migração do acervo atual").
 
-- [ ] **Step 2: Fábrica de repositórios**
+- [x] **Step 2: Fábrica de repositórios**
 
 Create `src/api/infrastructure/repositories/RepositoryFactory.ts`:
 
 ```ts
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
 import type { NicheRepository } from "@/api/domain/niche/NicheRepository";
 import { env } from "@/lib/config/env.server";
 import { NicheRepositoryImpl } from "./NicheRepositoryImpl";
@@ -820,25 +822,115 @@ function hasFirebaseCredentials(): boolean {
   return Boolean(env.FIREBASE_PROJECT_ID && env.FIREBASE_CLIENT_EMAIL && env.FIREBASE_PRIVATE_KEY);
 }
 
-// Em produção, credenciais ausentes são erro — falha ao usar o repositório
-// real, não silenciosamente. Fora de produção (dev/test/CI), a ausência
-// das credenciais é um estado esperado: cai pro mock.
-function useMock(): boolean {
-  if (env.NODE_ENV === "production") return false;
+// `next build` roda com NODE_ENV=production mesmo sem credenciais reais
+// (CI não tem segredos do Firebase) — NODE_ENV sozinho não distingue
+// "gerando o build" de "servindo tráfego real". NEXT_PHASE distingue: só a
+// segunda precisa falhar alto na ausência de credenciais.
+function isProductionRuntime(): boolean {
+  return env.NODE_ENV === "production" && process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD;
+}
+
+// Nome deliberadamente sem prefixo "use": eslint-plugin-react-hooks trata
+// qualquer função "use*" como Hook e barra chamá-la fora de componente —
+// achado ao rodar eslint durante a implementação desta task.
+function shouldUseMock(): boolean {
+  if (isProductionRuntime()) return false;
   return !hasFirebaseCredentials();
 }
 
 export const RepositoryFactory = {
   niches: (): NicheRepository =>
-    useMock() ? new MockNicheRepository() : new NicheRepositoryImpl(),
+    shouldUseMock() ? new MockNicheRepository() : new NicheRepositoryImpl(),
 };
 ```
 
-- [ ] **Step 3: Rodar a suíte inteira**
+**Achado ao implementar:** a primeira versão gatilhava só em
+`env.NODE_ENV === "production"`. Rodei `npm run build` ao final desta task
+(Step 3) e ele passou de qualquer forma — mas por acidente: nada ainda
+chama `RepositoryFactory` (isso só acontece na Task 5). Assim que a Task 5
+ligar `getNiches()`, o build real chamaria essa lógica durante a geração
+estática da home, e `next build` seta `NODE_ENV=production` automaticamente
+— quebraria em CI, que não tem segredos do Firebase. A distinção via
+`NEXT_PHASE` (constante pública de `next/constants`) resolve isso. Ver
+teste no Step 2.1 abaixo, que trava esse comportamento.
+
+- [x] **Step 2.1: Testar a fábrica de repositórios**
+
+Create `src/api/infrastructure/repositories/RepositoryFactory.test.ts`:
+
+```ts
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+const ORIGINAL_ENV = { ...process.env };
+
+beforeEach(() => {
+  process.env = { ...ORIGINAL_ENV };
+  delete process.env.SKIP_ENV_VALIDATION;
+  delete process.env.FIREBASE_PROJECT_ID;
+  delete process.env.FIREBASE_CLIENT_EMAIL;
+  delete process.env.FIREBASE_PRIVATE_KEY;
+  delete process.env.NEXT_PHASE;
+  vi.resetModules();
+});
+
+afterEach(() => {
+  process.env = { ...ORIGINAL_ENV };
+  vi.unstubAllEnvs();
+});
+
+// As classes precisam ser reimportadas dinamicamente junto com a fábrica,
+// depois de vi.resetModules() — se viessem de um `import` estático no topo
+// do arquivo, seriam uma instância de módulo diferente da que o
+// RepositoryFactory reimportado por baixo dos panos usa, e todo
+// `toBeInstanceOf` falharia mesmo com o comportamento correto.
+async function importFresh() {
+  const [{ RepositoryFactory }, { MockNicheRepository }, { NicheRepositoryImpl }] =
+    await Promise.all([
+      import("./RepositoryFactory"),
+      import("./mock/MockNicheRepository"),
+      import("./NicheRepositoryImpl"),
+    ]);
+  return { RepositoryFactory, MockNicheRepository, NicheRepositoryImpl };
+}
+
+describe("RepositoryFactory.niches", () => {
+  it("usa o mock quando não há credenciais do Firebase, fora de produção", async () => {
+    vi.stubEnv("NODE_ENV", "test");
+    const { RepositoryFactory, MockNicheRepository } = await importFresh();
+    expect(RepositoryFactory.niches()).toBeInstanceOf(MockNicheRepository);
+  });
+
+  // Regressão: `next build` roda com NODE_ENV=production sem credenciais
+  // reais (CI não tem segredos do Firebase). Sem essa distinção, o build
+  // tentaria falar com Firestore de verdade e quebraria em CI.
+  it("usa o mock durante `next build` (NODE_ENV=production, NEXT_PHASE=phase-production-build), mesmo sem credenciais", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    process.env.NEXT_PHASE = "phase-production-build";
+    const { RepositoryFactory, MockNicheRepository } = await importFresh();
+    expect(RepositoryFactory.niches()).toBeInstanceOf(MockNicheRepository);
+  });
+
+  it("usa o repositório real em produção servindo tráfego, quando há credenciais", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    process.env.FIREBASE_PROJECT_ID = "meu-projeto";
+    process.env.FIREBASE_CLIENT_EMAIL = "conta@meu-projeto.iam.gserviceaccount.com";
+    process.env.FIREBASE_PRIVATE_KEY = "chave";
+    const { RepositoryFactory, NicheRepositoryImpl } = await importFresh();
+    expect(RepositoryFactory.niches()).toBeInstanceOf(NicheRepositoryImpl);
+  });
+});
+```
+
+`NODE_ENV` é somente-leitura no tipo `ProcessEnv` do `@types/node` — por
+isso usa `vi.stubEnv` só para ele, e `process.env.X = ...`/`delete` direto
+para as outras variáveis (essas não têm essa restrição de tipo).
+
+- [x] **Step 3: Rodar a suíte inteira**
 
 Run: `npm run typecheck && npx eslint . && npm run test`
-Expected: sem erros. Nada usa `RepositoryFactory` ainda (isso é a Task 5) —
-esta task só precisa compilar e não quebrar o que já existia.
+Expected: sem erros; os 3 testes novos de `RepositoryFactory.test.ts`
+passam. Nenhum outro arquivo do app usa `RepositoryFactory` ainda (isso é a
+Task 5) — esta task só precisa compilar e não quebrar o que já existia.
 
 - [ ] **Step 4: Verificação manual (quando houver Firestore real disponível)**
 
@@ -852,7 +944,7 @@ configurado neste plano:
    de uma service account real no ambiente.
 3. Confirmar que o objeto retornado bate com o documento.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -860,7 +952,12 @@ git commit -m "feat(niche): repositório Firestore e fábrica de repositórios
 
 Fábrica cai pro mock fora de produção quando as credenciais do Firebase
 não estão presentes; em produção, ausência delas é erro imediato, não
-fallback silencioso."
+fallback silencioso.
+
+next build seta NODE_ENV=production mesmo sem credenciais reais (CI não
+tem segredos do Firebase) — a decisão usa NEXT_PHASE para distinguir
+build de runtime real, senão o build quebraria assim que algo chamar
+RepositoryFactory (Task 5)."
 ```
 
 ---
