@@ -220,13 +220,13 @@ _utils) já usado nos outros projetos da empresa."
   `FIREBASE_CLIENT_EMAIL: string | undefined`,
   `FIREBASE_PRIVATE_KEY: string | undefined`.
 
-- [ ] **Step 1: Instalar as dependências**
+- [x] **Step 1: Instalar as dependências**
 
 Run: `npm install firebase-admin@^13.4.0 zod@^3.25.76`
 Expected: `package.json` e `package-lock.json` atualizados, sem erro de
 instalação.
 
-- [ ] **Step 2: Escrever o arquivo de exemplo de ambiente**
+- [x] **Step 2: Escrever o arquivo de exemplo de ambiente**
 
 Create `.env.example`:
 
@@ -240,7 +240,7 @@ FIREBASE_CLIENT_EMAIL=
 FIREBASE_PRIVATE_KEY=
 ```
 
-- [ ] **Step 3: Escrever a validação de ambiente com teste**
+- [x] **Step 3: Escrever a validação de ambiente com teste**
 
 Create `src/lib/config/env.server.test.ts`:
 
@@ -287,12 +287,12 @@ describe("env.server", () => {
 });
 ```
 
-- [ ] **Step 4: Rodar o teste e confirmar que falha (o módulo ainda não existe)**
+- [x] **Step 4: Rodar o teste e confirmar que falha (o módulo ainda não existe)**
 
 Run: `npx vitest run src/lib/config/env.server.test.ts`
 Expected: FAIL — `Cannot find module './env.server'` ou equivalente.
 
-- [ ] **Step 5: Implementar `env.server.ts`**
+- [x] **Step 5: Implementar `env.server.ts`**
 
 Create `src/lib/config/env.server.ts`:
 
@@ -315,12 +315,12 @@ export const env =
     : schema.parse(process.env);
 ```
 
-- [ ] **Step 6: Rodar o teste de novo e confirmar que passa**
+- [x] **Step 6: Rodar o teste de novo e confirmar que passa**
 
 Run: `npx vitest run src/lib/config/env.server.test.ts`
 Expected: PASS — 3 testes.
 
-- [ ] **Step 7: Bootstrap do Firebase Admin**
+- [x] **Step 7: Bootstrap do Firebase Admin**
 
 Create `src/api/infrastructure/firebase/admin.ts`:
 
@@ -357,13 +357,13 @@ mockar o `firebase-admin` inteiro — baixo valor pro esforço. A cobertura
 real vem indireta, pela `NicheRepositoryImpl` (Task 4) quando houver
 Firestore de verdade disponível — documentado como verificação manual ali.
 
-- [ ] **Step 8: Rodar a suíte inteira**
+- [x] **Step 8: Rodar a suíte inteira**
 
 Run: `npm run typecheck && npx eslint . && npm run test`
 Expected: sem erros. `npm run build` ainda não roda aqui porque nada usa
 `db`/`env` de um jeito que afete o build — confirmado nos passos anteriores.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add -A
