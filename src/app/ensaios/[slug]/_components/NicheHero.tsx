@@ -73,7 +73,7 @@ export function NicheHero({
         <AlbumSlides photos={landscapePhotos} />
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2/5 bg-gradient-to-t from-background via-background/70 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2/5 bg-linear-to-t from-background via-background/70 to-transparent" />
 
       <div className="absolute inset-0 z-20 mx-auto flex w-full max-w-3xl flex-col justify-end px-5 pb-14">
         <Link

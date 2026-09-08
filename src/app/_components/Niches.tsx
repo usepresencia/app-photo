@@ -29,7 +29,7 @@ export async function Niches() {
                 className="object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.04] group-active:grayscale-0 group-active:scale-[1.04]"
               />
             </div>
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background via-background/85 to-transparent p-5 pt-12">
+            <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-background via-background/85 to-transparent p-5 pt-12">
               <h3 className="display-xl text-3xl text-foreground">{n.title}</h3>
               <div className="mt-3 flex items-center justify-between gap-3">
                 <span className="font-condensed text-[0.6rem] uppercase tracking-[0.32em] text-muted-foreground">
