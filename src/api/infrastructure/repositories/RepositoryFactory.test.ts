@@ -33,6 +33,8 @@ async function importFresh() {
     { PhotoRepositoryImpl },
     { MockPlacementRepository },
     { PlacementRepositoryImpl },
+    { MockProfileRepository },
+    { ProfileRepositoryImpl },
   ] = await Promise.all([
     import("./RepositoryFactory"),
     import("./mock/MockNicheRepository"),
@@ -43,6 +45,8 @@ async function importFresh() {
     import("./PhotoRepositoryImpl"),
     import("./mock/MockPlacementRepository"),
     import("./PlacementRepositoryImpl"),
+    import("./mock/MockProfileRepository"),
+    import("./ProfileRepositoryImpl"),
   ]);
   return {
     RepositoryFactory,
@@ -54,6 +58,8 @@ async function importFresh() {
     PhotoRepositoryImpl,
     MockPlacementRepository,
     PlacementRepositoryImpl,
+    MockProfileRepository,
+    ProfileRepositoryImpl,
   };
 }
 
@@ -66,11 +72,13 @@ describe("RepositoryFactory.niches", () => {
       MockPackageRepository,
       MockPhotoRepository,
       MockPlacementRepository,
+      MockProfileRepository,
     } = await importFresh();
     expect(RepositoryFactory.niches()).toBeInstanceOf(MockNicheRepository);
     expect(RepositoryFactory.packages()).toBeInstanceOf(MockPackageRepository);
     expect(RepositoryFactory.photos()).toBeInstanceOf(MockPhotoRepository);
     expect(RepositoryFactory.placements()).toBeInstanceOf(MockPlacementRepository);
+    expect(RepositoryFactory.profile()).toBeInstanceOf(MockProfileRepository);
   });
 
   // Regressão: `next build` roda com NODE_ENV=production sem credenciais
@@ -85,11 +93,13 @@ describe("RepositoryFactory.niches", () => {
       MockPackageRepository,
       MockPhotoRepository,
       MockPlacementRepository,
+      MockProfileRepository,
     } = await importFresh();
     expect(RepositoryFactory.niches()).toBeInstanceOf(MockNicheRepository);
     expect(RepositoryFactory.packages()).toBeInstanceOf(MockPackageRepository);
     expect(RepositoryFactory.photos()).toBeInstanceOf(MockPhotoRepository);
     expect(RepositoryFactory.placements()).toBeInstanceOf(MockPlacementRepository);
+    expect(RepositoryFactory.profile()).toBeInstanceOf(MockProfileRepository);
   });
 
   it("usa o repositório real em produção servindo tráfego, quando há credenciais", async () => {
@@ -103,10 +113,12 @@ describe("RepositoryFactory.niches", () => {
       PackageRepositoryImpl,
       PhotoRepositoryImpl,
       PlacementRepositoryImpl,
+      ProfileRepositoryImpl,
     } = await importFresh();
     expect(RepositoryFactory.niches()).toBeInstanceOf(NicheRepositoryImpl);
     expect(RepositoryFactory.packages()).toBeInstanceOf(PackageRepositoryImpl);
     expect(RepositoryFactory.photos()).toBeInstanceOf(PhotoRepositoryImpl);
     expect(RepositoryFactory.placements()).toBeInstanceOf(PlacementRepositoryImpl);
+    expect(RepositoryFactory.profile()).toBeInstanceOf(ProfileRepositoryImpl);
   });
 });
