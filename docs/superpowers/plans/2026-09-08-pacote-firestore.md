@@ -723,7 +723,7 @@ plano."
   perde a opcionalidade de `featured` (`boolean`, não mais `boolean |
 undefined`).
 
-- [ ] **Step 1: Atualizar o teste primeiro**
+- [x] **Step 1: Atualizar o teste primeiro**
 
 Em `src/actions/packages.test.ts`, adiciona ao primeiro `it`:
 
@@ -764,14 +764,14 @@ describe("getPackagesForNiche", () => {
 (Só a primeira asserção de `id` único é nova — as outras duas ficam como
 estão.)
 
-- [ ] **Step 2: Rodar o teste e confirmar que falha**
+- [x] **Step 2: Rodar o teste e confirmar que falha**
 
 Run: `npx vitest run src/actions/packages.test.ts`
 Expected: FAIL — `p.id` é `undefined` no array atual (`PACKAGES_BY_NICHE`
 não tem esse campo), `new Set([undefined]).size` não bate com
 `packages.length` quando há mais de um pacote.
 
-- [ ] **Step 3: Reescrever `src/actions/packages.ts`**
+- [x] **Step 3: Reescrever `src/actions/packages.ts`**
 
 Replace `src/actions/packages.ts`:
 
@@ -810,12 +810,12 @@ export async function getPackagesForNiche(slug: string): Promise<Package[]> {
 detalhes de consulta que o componente não precisa (a ordem já vem
 aplicada pela query do Firestore/mock).
 
-- [ ] **Step 4: Rodar o teste de novo**
+- [x] **Step 4: Rodar o teste de novo**
 
 Run: `npx vitest run src/actions/packages.test.ts`
 Expected: PASS — 3 testes.
 
-- [ ] **Step 5: Atualizar `PackagePicker.tsx` para selecionar por `id`**
+- [x] **Step 5: Atualizar `PackagePicker.tsx` para selecionar por `id`**
 
 Em `src/app/ensaios/[slug]/_components/PackagePicker.tsx`, linha 20-21,
 troca:
@@ -877,7 +877,7 @@ por:
 **Por quê:** `name` não é garantidamente único entre pacotes do mesmo
 nicho (hoje não colide, mas nada impede); `id` é.
 
-- [ ] **Step 6: Renderizar `description` quando presente**
+- [x] **Step 6: Renderizar `description` quando presente**
 
 Em `src/app/ensaios/[slug]/_components/PackagePicker.tsx`, o bloco do
 cabeçalho fecha com dois `</div>` seguidos (linhas 105 e 106 do arquivo
@@ -900,12 +900,12 @@ Hoje `description` é `""` nos 14 pacotes reais (a cliente ainda não
 forneceu esse texto), então nada aparece ainda — mesmo padrão condicional
 já usado em `{niche.intro && (...)}` na página do nicho.
 
-- [ ] **Step 7: Rodar a suíte inteira**
+- [x] **Step 7: Rodar a suíte inteira**
 
 Run: `npm run typecheck && npx eslint . && npm run test`
 Expected: sem erros.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add -A
