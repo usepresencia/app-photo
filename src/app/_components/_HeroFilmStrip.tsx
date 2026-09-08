@@ -103,7 +103,7 @@ export function HeroFilmStrip({ photos }: { photos: Photo[] }) {
         {slots.map((photoIndex, i) => (
           <div
             key={i}
-            className="hero-strip-fade-in aspect-[3/2] overflow-hidden border border-white/10"
+            className="hero-strip-fade-in aspect-3/2 overflow-hidden border border-white/10"
             style={{ animationDelay: `${i * 150}ms` }}
           >
             <RotatingPhoto photo={photos[photoIndex]} />

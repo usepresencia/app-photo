@@ -12,7 +12,7 @@ export function NicheGallery({ photos, nicheTitle }: { photos: Photo[]; nicheTit
           <figure
             key={photo.src}
             className={`group polaroid relative mb-2 break-inside-avoid transition-all duration-500 hover:z-[60] hover:scale-105 active:z-[60] active:scale-105 ${i % 2 ? "tape-corner" : "tape"} ${
-              i % 3 === 0 ? "aspect-[3/4]" : "aspect-square"
+              i % 3 === 0 ? "aspect-3/4" : "aspect-square"
             }`}
             style={{ ["--tape-rot" as string]: `${i % 2 ? 5 : -6}deg` }}
           >

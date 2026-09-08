@@ -17,7 +17,7 @@ export function Polaroid({
   photo,
   alt,
   caption,
-  aspect = "aspect-[3/4]",
+  aspect = "aspect-3/4",
   tape = "top",
   tapeRotationDeg = -6,
   className = "",

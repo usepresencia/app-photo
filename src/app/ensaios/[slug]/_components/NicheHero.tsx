@@ -65,7 +65,7 @@ export function NicheHero({
   portraitPhotos: Photo[];
 }) {
   return (
-    <header className="relative aspect-[2/3] overflow-hidden bg-surface sm:aspect-[3/2]">
+    <header className="relative aspect-2/3 overflow-hidden bg-surface sm:aspect-3/2">
       <div className="h-full w-full sm:hidden">
         <AlbumSlides photos={portraitPhotos} />
       </div>

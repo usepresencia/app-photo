@@ -18,7 +18,7 @@ export async function Niches() {
             href={`/ensaios/${n.slug}`}
             className="group relative w-[78%] max-w-sm shrink-0 snap-center overflow-hidden border border-border bg-surface transition-colors hover:border-gold active:border-gold"
           >
-            <div className="relative aspect-[4/5] overflow-hidden">
+            <div className="relative aspect-4/5 overflow-hidden">
               <Image
                 src={n.image.src}
                 alt={`Ensaio de ${n.title}`}

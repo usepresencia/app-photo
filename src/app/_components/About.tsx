@@ -7,9 +7,9 @@ import type { Photo } from "@/actions/_mock/types";
 // A proporção vai para dentro do cartão, não na célula da grade: a altura passa
 // a vir da foto mais a legenda, para o texto crescer sem ser cortado.
 const poses = [
-  { grid: "col-span-6 col-start-1 -rotate-[3.5deg] z-10", aspect: "aspect-[3/4]" },
+  { grid: "col-span-6 col-start-1 -rotate-[3.5deg] z-10", aspect: "aspect-3/4" },
   { grid: "col-span-6 col-start-6 -mt-36 rotate-[4deg] z-30", aspect: "aspect-square" },
-  { grid: "col-span-6 col-start-4 -mt-40 -rotate-[2deg] z-20", aspect: "aspect-[3/4]" },
+  { grid: "col-span-6 col-start-4 -mt-40 -rotate-[2deg] z-20", aspect: "aspect-3/4" },
 ];
 
 function Row({ photos, notes = [] }: { photos: Photo[]; notes?: string[] }) {
@@ -45,7 +45,7 @@ export async function About() {
     <Section id="quem-sou" index="01" eyebrow="Quem sou" title="Denise Galvão">
       <div className="space-y-4">
         <figure className="frame-gold relative overflow-hidden p-1.5">
-          <div className="relative aspect-[4/5] overflow-hidden sm:aspect-[16/10]">
+          <div className="relative aspect-4/5 overflow-hidden sm:aspect-16/10">
             <img
               src={family[0].src}
               alt="Denise Galvão segurando sua câmera durante um ensaio"
