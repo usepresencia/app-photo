@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getNicheBySlug } from "@/actions/niches";
 import { getPackagesForNiche } from "@/actions/packages";
 import { getBrand } from "@/actions/brand";
+import { Editable } from "@/app/_components/Editable";
 import { NicheHero } from "./_components/NicheHero";
 import { PackagePicker } from "./_components/PackagePicker";
 
@@ -42,65 +43,68 @@ export default async function NichePage({ params }: { params: Promise<{ slug: st
   return (
     <main className="min-h-screen bg-background">
       <NicheHero
+        slug={niche.slug}
         title={niche.title}
         subtitle={niche.subtitle}
         landscapePhotos={landscapePhotos}
         portraitPhotos={portraitPhotos}
       />
 
-      <section className="mx-auto w-full max-w-3xl space-y-8 px-5 pb-4 pt-10">
-        {niche.intro && (
-          <div className="relative overflow-hidden border-l-2 border-gold p-6 pl-5">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
-              style={{
-                boxShadow: "var(--shadow-gold)",
-                maskImage:
-                  "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
-                maskComposite: "intersect",
-                WebkitMaskComposite: "source-in",
-              }}
-            />
-            <p className="relative text-sm leading-relaxed text-foreground">{niche.intro}</p>
-          </div>
-        )}
-        {niche.description.length > 0 && (
-          <div className="space-y-4">
-            {niche.description.map((p) => (
-              <p key={p} className="text-sm leading-relaxed text-muted-foreground">
-                {p}
-              </p>
-            ))}
-          </div>
-        )}
-        {niche.highlights.length > 0 && (
-          <ul className="grid gap-2 sm:grid-cols-3">
-            {niche.highlights.map((h) => (
-              <li key={h} className="relative overflow-hidden px-4 py-3 text-center">
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
-                  style={{
-                    boxShadow: "var(--shadow-gold)",
-                    maskImage:
-                      "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, transparent, black 30%, black 70%, transparent)",
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, transparent, black 30%, black 70%, transparent)",
-                    maskComposite: "intersect",
-                    WebkitMaskComposite: "source-in",
-                  }}
-                />
-                <span className="font-condensed relative text-[0.7rem] uppercase tracking-[0.2em] text-foreground">
-                  {h}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+      <Editable type="niche" id={niche.slug}>
+        <section className="mx-auto w-full max-w-3xl space-y-8 px-5 pb-4 pt-10">
+          {niche.intro && (
+            <div className="relative overflow-hidden border-l-2 border-gold p-6 pl-5">
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
+                style={{
+                  boxShadow: "var(--shadow-gold)",
+                  maskImage:
+                    "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
+                  WebkitMaskImage:
+                    "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
+                  maskComposite: "intersect",
+                  WebkitMaskComposite: "source-in",
+                }}
+              />
+              <p className="relative text-sm leading-relaxed text-foreground">{niche.intro}</p>
+            </div>
+          )}
+          {niche.description.length > 0 && (
+            <div className="space-y-4">
+              {niche.description.map((p) => (
+                <p key={p} className="text-sm leading-relaxed text-muted-foreground">
+                  {p}
+                </p>
+              ))}
+            </div>
+          )}
+          {niche.highlights.length > 0 && (
+            <ul className="grid gap-2 sm:grid-cols-3">
+              {niche.highlights.map((h) => (
+                <li key={h} className="relative overflow-hidden px-4 py-3 text-center">
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
+                    style={{
+                      boxShadow: "var(--shadow-gold)",
+                      maskImage:
+                        "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, transparent, black 30%, black 70%, transparent)",
+                      WebkitMaskImage:
+                        "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, transparent, black 30%, black 70%, transparent)",
+                      maskComposite: "intersect",
+                      WebkitMaskComposite: "source-in",
+                    }}
+                  />
+                  <span className="font-condensed relative text-[0.7rem] uppercase tracking-[0.2em] text-foreground">
+                    {h}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </Editable>
 
       <PackagePicker
         packages={packages}

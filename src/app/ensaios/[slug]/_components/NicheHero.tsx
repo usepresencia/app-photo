@@ -6,6 +6,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useSlideshow } from "@/lib/_hooks/useSlideshow";
 import { useSwipe } from "@/lib/_hooks/useSwipe";
 import type { Photo } from "@/actions/_mock/types";
+import { Editable } from "@/app/_components/Editable";
 
 function AlbumSlides({ photos }: { photos: Photo[] }) {
   const { index, direction, goTo } = useSlideshow({ count: photos.length, autoplayMs: 5000 });
@@ -19,8 +20,10 @@ function AlbumSlides({ photos }: { photos: Photo[] }) {
       <div className="album-stage relative h-full w-full overflow-hidden" {...swipeHandlers}>
         {photos.map((photo, i) =>
           i === index ? (
-            <div
-              key={photo.src}
+            <Editable
+              key={photo.placementId}
+              type="placement"
+              id={photo.placementId}
               className={`absolute inset-0 ${direction === 1 ? "album-page-next" : "album-page-prev"}`}
             >
               <Image
@@ -33,7 +36,7 @@ function AlbumSlides({ photos }: { photos: Photo[] }) {
                 className="object-contain"
                 priority={i === 0}
               />
-            </div>
+            </Editable>
           ) : null,
         )}
       </div>
@@ -54,11 +57,13 @@ function AlbumSlides({ photos }: { photos: Photo[] }) {
 }
 
 export function NicheHero({
+  slug,
   title,
   subtitle,
   landscapePhotos,
   portraitPhotos,
 }: {
+  slug: string;
   title: string;
   subtitle: string;
   landscapePhotos: Photo[];
@@ -83,13 +88,15 @@ export function NicheHero({
         >
           <FaArrowLeft className="size-4" />
         </Link>
-        <span className="gold-rule block" />
-        <h1 className="display-xl mt-4 text-[2.8rem] leading-[0.95] text-foreground sm:text-6xl">
-          {title}
-        </h1>
-        <p className="font-condensed mt-1 text-[0.68rem] uppercase tracking-[0.4em] text-muted-foreground">
-          {subtitle}
-        </p>
+        <Editable type="niche" id={slug}>
+          <span className="gold-rule block" />
+          <h1 className="display-xl mt-4 text-[2.8rem] leading-[0.95] text-foreground sm:text-6xl">
+            {title}
+          </h1>
+          <p className="font-condensed mt-1 text-[0.68rem] uppercase tracking-[0.4em] text-muted-foreground">
+            {subtitle}
+          </p>
+        </Editable>
       </div>
     </header>
   );
