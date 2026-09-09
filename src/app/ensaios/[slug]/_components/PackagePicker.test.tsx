@@ -20,6 +20,7 @@ describe("PackagePicker", () => {
     const { container } = render(
       <PackagePicker
         packages={packages}
+        nicheSlug="familia"
         nicheTitle="Família"
         nicheGallery={[]}
         whatsappBase="https://wa.me/5511999999999"
@@ -29,5 +30,19 @@ describe("PackagePicker", () => {
     expect(editables).toHaveLength(2);
     expect(editables[0].getAttribute("data-editable")).toBe("package:pacote-1");
     expect(editables[1].getAttribute("data-editable")).toBe("package:pacote-2");
+  });
+
+  it("marca o fim da grade de pacotes com um Addable de tipo package (contexto: nicheSlug)", () => {
+    const { container } = render(
+      <PackagePicker
+        packages={packages}
+        nicheSlug="familia"
+        nicheTitle="Família"
+        nicheGallery={[]}
+        whatsappBase="https://wa.me/5511999999999"
+      />,
+    );
+    const addable = container.querySelector('[data-addable^="package:"]');
+    expect(addable?.getAttribute("data-addable")).toBe('package:{"nicheSlug":"familia"}');
   });
 });

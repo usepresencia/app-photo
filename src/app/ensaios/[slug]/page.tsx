@@ -108,6 +108,7 @@ export default async function NichePage({ params }: { params: Promise<{ slug: st
 
       <PackagePicker
         packages={packages}
+        nicheSlug={niche.slug}
         nicheTitle={niche.title}
         nicheGallery={niche.gallery}
         whatsappBase={brand.whatsapp}

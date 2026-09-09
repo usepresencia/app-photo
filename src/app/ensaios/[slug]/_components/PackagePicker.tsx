@@ -4,16 +4,19 @@ import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import type { Package } from "@/actions/packages";
 import type { Photo } from "@/actions/_mock/types";
+import { Addable } from "@/app/_components/Addable";
 import { Editable } from "@/app/_components/Editable";
 import { NicheGallery } from "./NicheGallery";
 
 export function PackagePicker({
   packages,
+  nicheSlug,
   nicheTitle,
   nicheGallery,
   whatsappBase,
 }: {
   packages: Package[];
+  nicheSlug: string;
   nicheTitle: string;
   nicheGallery: Photo[];
   whatsappBase: string;
@@ -66,6 +69,13 @@ export function PackagePicker({
                     </button>
                   </Editable>
                 ))}
+                <Addable
+                  type="package"
+                  context={{ nicheSlug }}
+                  className="block h-full min-h-24 text-4xl font-light"
+                >
+                  +
+                </Addable>
               </div>
             </div>
           </div>
