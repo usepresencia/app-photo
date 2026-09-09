@@ -294,3 +294,20 @@
     animation: none !important;
   }
 }
+
+/* Preview com edição inline (admin-photo): ativado só dentro do iframe,
+   depois do handshake em PreviewOverlay.tsx — nunca visível fora do
+   preview. pointer-events: auto existe porque o film strip do hero (ver
+   _HeroFilmStrip.tsx) é decorativo (pointer-events-none no container),
+   e um filho pode reativar eventos mesmo com o pai desabilitado. outline
+   com offset negativo desenha pra dentro do próprio box, evitando corte
+   por ancestrais com overflow-hidden (comum neste projeto). */
+html[data-preview-active] [data-editable] {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+html[data-preview-active] [data-editable]:hover {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
