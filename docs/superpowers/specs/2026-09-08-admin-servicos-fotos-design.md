@@ -142,15 +142,17 @@ Fotos (capa, as 2 de Profissão, a do altar) vêm de `Placement` com
 **Público** (este repositório, `app-photo`) — Server Components lendo do
 Firestore, sem autenticação. Continua no domínio raiz, `denisegalvao.com.br`.
 
-**Admin** (repositório novo) — CRUD completo + upload, atrás de login.
-Domínio `admin.denisegalvao.com.br`.
+**Admin** (`admin-photo`, repositório novo, `/Users/cesarpisa/Projects/lp-fotografia/admin-photo`)
+— CRUD completo + upload, atrás de login. Domínio `admin.denisegalvao.com.br`.
 
 Por serem domínios diferentes, o admin não precisa de troca de sessão entre
 apps (como o `iosana-oliv` tem entre login e produto) — o site público nunca
 precisa saber que uma sessão de admin existe.
 
-> Nome do repositório admin e o rename de `app-photo` ficam em aberto — não
-> bloqueia o desenho, ajusta na hora de criar o repositório.
+Bootstrap do repositório: copiar a estrutura de `Presencia/web-admin-console`
+(mesmo padrão de camadas, auth, Docker, CI já funcionando) e remover o que é
+específico do Presencia (entidades, papéis/`platformRole`, troca de sessão
+com app irmão) — não `create-next-app` do zero.
 
 ## Arquitetura (as duas camadas, mesmo padrão nos dois repos)
 
@@ -187,18 +189,101 @@ sem `findAll`/`delete`, só `get`/`update`).
 
 ## Autenticação
 
-Firebase Auth no client do admin → ID token → route handler
-(`app/api/auth/session`) cria cookie de sessão httpOnly via `firebase-admin`,
-igual ao `iosana-oliv`. Middleware do admin redireciona pra `/login` sem
-cookie válido.
+**Decisão (revista depois de investigar os repos-irmãos):** nem o `Presencia`
+nem o `iosana-oliv` têm uma página de login própria — os dois recebem o
+token via handoff de um app público irmão que faz login "de verdade"
+(fora do repo investigado). `admin-photo` não tem esse app irmão, então
+precisa de login genuíno — e **sem SDK client do Firebase** (só
+`firebase-admin`, igual o resto do projeto): o formulário (email/senha)
+submete pra uma Server Action, que chama a API REST do Identity Toolkit
+**do servidor**:
+
+```
+POST https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=<FIREBASE_WEB_API_KEY>
+```
+
+com `{ email, password, returnSecureToken: true }`, recebendo de volta um
+`idToken`. Esse `idToken` nunca chega ao browser — a Server Action passa
+ele direto pro `firebase-admin`:
+
+```ts
+const sessionCookie = await auth.createSessionCookie(idToken, { expiresIn: SESSION_DURATION_MS }); // 14 dias
+cookieStore.set("session", sessionCookie, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "strict",
+  path: "/",
+});
+```
+
+(`FIREBASE_WEB_API_KEY` já é um padrão estabelecido no `Presencia` — usado
+lá só pra `accounts:sendOobCode`, redefinição de senha; aqui também serve
+pro sign-in. É uma chave pública de identificação do projeto Firebase, não
+uma credencial secreta — pode ir num `NEXT_PUBLIC_*` ou env de servidor,
+tanto faz, mas não precisa do pacote `firebase` de jeito nenhum.)
+
+Middleware do admin: checagem estrutural do cookie (3 segmentos JWT) na
+edge, redireciona pra `/login` sem cookie — verificação criptográfica de
+verdade (`auth.verifySessionCookie`) só no runtime Node, dentro de
+`getSession()`/`assertSession()`, chamada por toda Server Action antes de
+qualquer `UseCase`. **Sem papéis** (`platformRole` do Presencia não se
+aplica — spec já decidiu "mesmo acesso, sem papéis"): `assertSession()`
+só verifica "está autenticado", sem lista de roles permitidos.
+`/v1/health` fica **fora do matcher do middleware** desde o início (o
+`Presencia` parece ter um bug latente aqui — a rota de saúde não está na
+lista de paths públicos, então o healthcheck do deploy provavelmente
+recebe redirect em vez de 200; o `iosana-oliv` acerta isso excluindo a
+rota do healthcheck do matcher).
+
+Sem autocadastro: `scripts/seed-admin.ts` (baseado no do `Presencia`, sem
+a parte de custom claims de papel) cria o primeiro usuário via
+`auth.createUser()` e manda email de redefinição de senha via
+`accounts:sendOobCode` (mesma API REST, mesmo `FIREBASE_WEB_API_KEY`).
+
+## Invalidação de cache entre repositórios
+
+**Achado durante o desenho do admin:** `revalidateTag`, chamado dentro de
+uma Server Action do admin, só invalida o cache do **próprio processo
+Next.js do admin** — não alcança o `app-photo`, que é outro repositório,
+outro deploy, outro processo. Sem alguma ponte entre os dois, uma edição
+no admin não aparece no site público até o cache expirar por conta
+própria (ou nunca, se a página for 100% estática).
+
+**Decisão:** webhook. `app-photo` ganha uma rota nova, protegida por
+segredo compartilhado:
+
+```
+POST /api/revalidate
+Authorization: Bearer <REVALIDATE_SECRET>
+{ "tag": "niches" }              // ou "packages", "photos", "profile"
+```
+
+que chama `revalidateTag(tag)` do lado do `app-photo`. Toda Server Action
+do admin que grava dado (`create`/`update`/`delete` de qualquer entidade)
+chama essa rota via `fetch` depois de escrever no Firestore — best-effort:
+se o webhook falhar (site público fora do ar, rede), a escrita no
+Firestore já aconteceu; o cache do `app-photo` só fica desatualizado até
+expirar, não há rollback nem retry (falha de invalidação de cache não é
+motivo pra falhar a operação do admin).
+
+Implica duas mudanças no **próprio `app-photo`**, fora do escopo do
+repositório `admin-photo`: (1) a rota `/api/revalidate`; (2) as leituras
+de `niche`/`package`/`photo`/`placement`/`profile` (via `RepositoryFactory`
+
+- Server Components) precisam declarar as tags certas (`unstable_cache`
+  ou `fetch` com `next: { tags: [...] }`, a decidir na implementação) pra
+  `revalidateTag` ter o que invalidar.
 
 ## Fotos (Cloudinary)
 
 **Upload:** direto do browser do admin com preset _unsigned_ — o arquivo vai
 pro Cloudinary sem passar pelo servidor, como o `upload-cloudinary.mjs` do
 `lp-jhuli-souza` já faz. Ao terminar, o client grava o `Photo` no Firestore
-via Server Action (public_id, dimensões, `alt`, e o `blurDataURL` buscado de
-uma transformação Cloudinary de 16px).
+via Server Action — exatamente os campos de `photos/{id}` no "Contrato
+Firestore de produção" (`cloudinaryPublicId`, `width`, `height`,
+`blurDataURL`, esse buscado de uma transformação Cloudinary de 16px); sem
+`alt` — os planos 3-5 do `app-photo` já decidiram que nada consome esse
+campo hoje.
 
 **Delete:** exclusão de asset exige a API secret, que não pode ir pro client
 — passa por uma route handler assinada no admin, igual ao
@@ -211,9 +296,10 @@ formato ficam por conta do Cloudinary, não do Next.
 ## Revalidação
 
 Nichos e fotos deixam de ser conhecidos em build time, então `/ensaios/[slug]`
-sai de `generateStaticParams` puro para renderização com cache por tag. Cada
-Server Action do admin que grava dado chama `revalidateTag` da entidade
-afetada — o Next só regera a página quando algo muda, não a cada request.
+sai de `generateStaticParams` puro para renderização com cache por tag.
+Como o admin roda num processo/repositório separado, `revalidateTag` sozinho
+não alcança esse cache — ver "Invalidação de cache entre repositórios" pro
+mecanismo real (webhook).
 
 ## Migração do acervo atual
 
@@ -338,9 +424,20 @@ que já existem (`Presencia`, etc.):
 | `admin` | `admin.denisegalvao.com.br` | admin (novo)   |
 
 Cada um com Dockerfile multi-stage (output `standalone` do Next, mesmo
-formato do `Presencia`) e workflow de CD próprio: build → push pro GHCR → SSH
-→ `docker compose pull/up --force-recreate <serviço>`, validado por
-`curl` em `/v1/health` antes de considerar o deploy bem-sucedido.
+formato do `Presencia`) e workflow de CD próprio: build → push pro GHCR →
+SSH → troca de tag num `.env.<serviço>` (na VPS, fora do repo) → `docker
+compose pull/up --force-recreate <serviço>` → `curl -f /v1/health`; se
+falhar, reverte a tag e sobe a versão anterior de novo (rollback
+automático, confirmado no `CD.yml` do `Presencia`). `/v1/health` fica
+fora do matcher do middleware (ver "Autenticação") — sem isso o
+healthcheck recebe redirect em vez de 200 e o deploy nunca valida.
+
+`firestore.indexes.json` fica versionado no repo mas **sem deploy
+automatizado** — precisa rodar `firebase deploy --only firestore:indexes`
+manualmente (com `firebase-tools`, autenticado, `.firebaserc` apontando
+pro projeto certo) pelo menos uma vez, cedo, pro índice composto de
+`Placement` (`surface`, `refId`, `order`) existir antes de qualquer
+query real contra ele.
 
 Acesso à VPS: eu recebo as credenciais SSH e configuro os dois serviços no
 compose existente.
@@ -355,10 +452,13 @@ Firebase real para rodar `npm run test`.
 
 ## Riscos / pontos de atenção
 
-- **Cache do site público muda de modelo.** Hoje é 100% estático; passa a
-  depender de `revalidateTag` disparado corretamente em toda escrita do
-  admin. Um `revalidateTag` esquecido deixa a página pública desatualizada
-  silenciosamente — vale um teste de integração cobrindo isso.
+- **Cache do site público muda de modelo, e agora depende de um webhook
+  entre repositórios.** Hoje é 100% estático; passa a depender do admin
+  chamar `POST /api/revalidate` (app-photo) corretamente em toda escrita.
+  Uma chamada esquecida deixa a página pública desatualizada
+  silenciosamente até o cache expirar por conta própria — vale um teste
+  de integração cobrindo isso, e logar (não falhar a operação) quando o
+  webhook não responder.
 - **Placement é uma coleção nova, sem precedente direto nos repos-irmãos.**
   As entidades que vi lá (`coupon`, `tenant`, `user`) não tinham esse padrão
   de "referência genérica com surface + refId opcional". É a peça mais nova
@@ -375,17 +475,23 @@ Firebase real para rodar `npm run test`.
 
 ## Decisões já tomadas neste brainstorming
 
-| decisão              | escolha                                                               |
-| -------------------- | --------------------------------------------------------------------- |
-| Infra de dados       | Firebase (Firestore) + Cloudinary                                     |
-| Usuários admin       | Denise + interno, mesmo acesso, sem papéis                            |
-| Escopo de nichos     | Admin cria/edita/remove nichos inteiros, não só pacotes               |
-| Escopo de fotos      | Todas as fotos do site (não só galerias de nicho)                     |
-| Migração do acervo   | Sim, com otimização via Cloudinary (padrão `lp-jhuli-souza`)          |
-| Decomposição         | Um spec cobrindo os dois, implementável em fases                      |
-| Evento vs Nicho      | Eliminar `EventFormat`, virar flag em `Niche`                         |
-| Modelo de "Quem sou" | Documento único e específico (`Profile`), não abstração genérica      |
-| Hospedagem           | Sai do Netlify, VPS compartilhada com os outros projetos              |
-| Repos                | Dois — público (este) e admin (novo)                                  |
-| Domínios             | `denisegalvao.com.br` (público) / `admin.denisegalvao.com.br` (admin) |
-| Testes               | `Mock<Entidade>Repository` por entidade, padrão dos repos-irmãos      |
+| decisão              | escolha                                                                                |
+| -------------------- | -------------------------------------------------------------------------------------- |
+| Infra de dados       | Firebase (Firestore) + Cloudinary                                                      |
+| Usuários admin       | Denise + interno, mesmo acesso, sem papéis                                             |
+| Escopo de nichos     | Admin cria/edita/remove nichos inteiros, não só pacotes                                |
+| Escopo de fotos      | Todas as fotos do site (não só galerias de nicho)                                      |
+| Migração do acervo   | Sim, com otimização via Cloudinary (padrão `lp-jhuli-souza`)                           |
+| Decomposição         | Um spec cobrindo os dois, implementável em fases                                       |
+| Evento vs Nicho      | Eliminar `EventFormat`, virar flag em `Niche`                                          |
+| Modelo de "Quem sou" | Documento único e específico (`Profile`), não abstração genérica                       |
+| Hospedagem           | Sai do Netlify, VPS compartilhada com os outros projetos                               |
+| Repos                | Dois — público (este) e admin (novo)                                                   |
+| Domínios             | `denisegalvao.com.br` (público) / `admin.denisegalvao.com.br` (admin)                  |
+| Testes               | `Mock<Entidade>Repository` por entidade, padrão dos repos-irmãos                       |
+| Nome do repo admin   | `admin-photo`, sibling de `app-photo`                                                  |
+| Bootstrap do admin   | Copiar `Presencia/web-admin-console`, não `create-next-app`                            |
+| SDK do Firebase      | Só `firebase-admin` — sign-in via REST (`accounts:signInWithPassword`), sem SDK client |
+| Sessão               | `createSessionCookie` (14 dias), não o ID token cru                                    |
+| Invalidação de cache | Webhook (`POST /api/revalidate` no app-photo), não revalidação por tempo               |
+| Escopo do plano 6    | Scaffold + auth + deploy + webhook — sem nenhuma entidade de conteúdo ainda            |
