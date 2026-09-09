@@ -24,5 +24,11 @@ export function getPhotosBySurface(
 // deste projeto acusa campos descartados assim mesmo como rest-siblings —
 // sem ignoreRestSiblings configurado.
 export function toPhoto(p: PlacedPhotoDTO): Photo {
-  return { src: p.src, width: p.width, height: p.height, blurDataURL: p.blurDataURL };
+  return {
+    src: p.src,
+    width: p.width,
+    height: p.height,
+    blurDataURL: p.blurDataURL,
+    placementId: p.placementId,
+  };
 }

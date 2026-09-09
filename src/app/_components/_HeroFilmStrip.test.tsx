@@ -12,6 +12,7 @@ const photos: Photo[] = Array.from({ length: 9 }, (_, i) => ({
   width: 1600,
   height: 1067,
   blurDataURL: "data:image/webp;base64,AA",
+  placementId: `placement-${i}`,
 }));
 
 /** Intervalo do slot 0 (ver INTERVALO_MS no componente). */

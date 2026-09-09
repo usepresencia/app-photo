@@ -27,4 +27,14 @@ describe("GetPhotosBySurfaceUseCase", () => {
     const photos = await useCase().execute("package", { refId: "nao-existe" });
     expect(photos).toEqual([]);
   });
+
+  it("inclui o id do placement (não o da foto) em cada resultado", async () => {
+    const photos = await useCase().execute("hero");
+    for (const photo of photos) {
+      expect(photo.placementId).toMatch(/^mock-placement-\d+$/);
+    }
+    // ids de placement são únicos por resultado, mesmo quando duas fotos
+    // diferentes aparecem na mesma superfície.
+    expect(new Set(photos.map((p) => p.placementId)).size).toBe(photos.length);
+  });
 });

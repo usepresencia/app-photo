@@ -3,4 +3,5 @@ export interface Photo {
   width: number;
   height: number;
   blurDataURL: string;
+  placementId: string;
 }
