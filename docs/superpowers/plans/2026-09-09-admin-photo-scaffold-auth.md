@@ -104,7 +104,7 @@ seguida de remoção do que é específico dele.
   lintando (`npx eslint .`) e buildando (`npm run build`) limpo, sem
   nenhum código do domínio do Presencia.
 
-- [ ] **Step 1: Copiar a estrutura**
+- [x] **Step 1: Copiar a estrutura**
 
 ```bash
 mkdir -p /Users/cesarpisa/Projects/lp-fotografia/admin-photo
@@ -118,7 +118,7 @@ cd /Users/cesarpisa/Projects/lp-fotografia/admin-photo
 git init
 ```
 
-- [ ] **Step 2: Remover o que é específico do domínio do Presencia**
+- [x] **Step 2: Remover o que é específico do domínio do Presencia**
 
 ```bash
 rm -rf src/app/sso-callback
@@ -156,7 +156,7 @@ Esvazia `RepositoryFactory.ts` pro mínimo:
 export const RepositoryFactory = {};
 ```
 
-- [ ] **Step 3: Adaptar `package.json`**
+- [x] **Step 3: Adaptar `package.json`**
 
 Troca o `name`/`version`/`description` pro novo projeto; remove
 `react-hook-form`, `@hookform/resolvers`, `recharts`, `embla-carousel-
@@ -177,12 +177,12 @@ pra rodar ao lado do `app-photo`, que usa 3000.)
 
 Remove os scripts `dev:next`, `seed:dev-user`.
 
-- [ ] **Step 4: Instalar dependências**
+- [x] **Step 4: Instalar dependências**
 
 Run: `npm install`
 Expected: `package-lock.json` gerado, sem erros.
 
-- [ ] **Step 5: Rodar o typecheck e seguir os erros até compilar limpo**
+- [x] **Step 5: Rodar o typecheck e seguir os erros até compilar limpo**
 
 Run: `npm run typecheck`
 Expected: FAIL — vários imports quebrados apontando pro que foi apagado
@@ -196,7 +196,7 @@ sobrou.
 
 Run de novo até: `npm run typecheck` → sem erros.
 
-- [ ] **Step 6: Simplificar `env.server.ts`/`env.client.ts` copiados**
+- [x] **Step 6: Simplificar `env.server.ts`/`env.client.ts` copiados**
 
 O `env.server.ts` do Presencia valida `WEB_PRESENCIA_URL`,
 `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` e tem um `.refine()`
@@ -219,7 +219,7 @@ credenciais reais.) Em `env.client.ts`, remove
 `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`/`NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET`
 (voltam no plano 9) — sobra só `NEXT_PUBLIC_APP_VERSION`.
 
-- [ ] **Step 7: `.env.example`**
+- [x] **Step 7: `.env.example`**
 
 Create `.env.example`:
 
@@ -242,14 +242,14 @@ webhook do `app-photo` — entram só no plano que primeiro grava alguma
 entidade de verdade, plano 7; documentar aqui uma variável que nada
 neste plano lê ainda só criaria uma promessa vazia.)
 
-- [ ] **Step 8: Rodar a suíte inteira**
+- [x] **Step 8: Rodar a suíte inteira**
 
 Run: `npm run typecheck && npx eslint . && npm run test && npm run build`
 Expected: sem erros. `npm run test` passa vazio (0 testes) ou só com o
 que sobrou de teste genérico — sem entidade ainda, não deveria sobrar
 teste nenhum quebrado.
 
-- [ ] **Step 9: Commit inicial**
+- [x] **Step 9: Commit inicial**
 
 ```bash
 git add -A
@@ -290,7 +290,7 @@ Não há handoff de token entre domínios aqui, diferente do Presencia/
 iosana-oliv (que recebem o token de um app externo via HTTP): o
 `idToken` nasce e morre dentro da mesma Server Action.
 
-- [ ] **Step 1: `getSession`/`assertSession`, sem papéis**
+- [x] **Step 1: `getSession`/`assertSession`, sem papéis**
 
 Replace `src/lib/auth/session.ts`:
 
@@ -331,7 +331,7 @@ export async function assertSession(): Promise<SessionPayload> {
 `export function getAdminAuth() { return getAuth(getAdminApp()); }`,
 copiado junto no Task 1.)
 
-- [ ] **Step 2: Server Action de login — REST sign-in + cria o cookie**
+- [x] **Step 2: Server Action de login — REST sign-in + cria o cookie**
 
 Create `src/app/login/actions.ts`:
 
@@ -398,7 +398,7 @@ export async function login(_prevState: string | null, formData: FormData): Prom
 }
 ```
 
-- [ ] **Step 3: Página de login**
+- [x] **Step 3: Página de login**
 
 `useActionState` (React 19) não existe em `^18.3.1`, a versão copiada do
 Presencia (confirmado: `grep -rn "useActionState" src` no Presencia não
@@ -468,7 +468,7 @@ export default function LoginPage() {
 }
 ```
 
-- [ ] **Step 4: Middleware — sem `/v1/health` no matcher, sem checagem de papel**
+- [x] **Step 4: Middleware — sem `/v1/health` no matcher, sem checagem de papel**
 
 Replace `src/middleware.ts`:
 
@@ -514,7 +514,7 @@ via `verifySessionCookie` em cada Server Action/Server Component. Um
 cookie malformado passa pelo middleware mas falha em `getSession()` —
 mesmo resultado final, um passo a menos.)
 
-- [ ] **Step 5: Rota de logout**
+- [x] **Step 5: Rota de logout**
 
 Replace `src/app/api/logout/route.ts`:
 
@@ -530,7 +530,7 @@ export async function GET(request: Request) {
 }
 ```
 
-- [ ] **Step 6: Página inicial autenticada (placeholder)**
+- [x] **Step 6: Página inicial autenticada (placeholder)**
 
 Create `src/app/page.tsx`:
 
@@ -556,7 +556,7 @@ export default async function HomePage() {
 }
 ```
 
-- [ ] **Step 7: Script de seed do primeiro usuário**
+- [x] **Step 7: Script de seed do primeiro usuário**
 
 Create `scripts/seed-admin.ts`:
 
@@ -617,12 +617,12 @@ Adiciona ao `package.json`:
 "seed:admin": "tsx scripts/seed-admin.ts",
 ```
 
-- [ ] **Step 8: Rodar a suíte inteira**
+- [x] **Step 8: Rodar a suíte inteira**
 
 Run: `npm run typecheck && npx eslint . && npm run build`
 Expected: sem erros.
 
-- [ ] **Step 9: Smoke test manual (precisa de credenciais reais do Firebase)**
+- [x] **Step 9: Smoke test manual (precisa de credenciais reais do Firebase)**
 
 Documentar aqui, não executar sem credenciais:
 
@@ -636,7 +636,7 @@ Documentar aqui, não executar sem credenciais:
 5. Abrir `/api/logout`, confirmar redirecionamento pra `/login` e que
    acessar `/` de novo redireciona pra `/login` (sessão removida).
 
-- [ ] **Step 10: Commit**
+- [x] **Step 10: Commit**
 
 ```bash
 git add -A
@@ -665,7 +665,7 @@ parâmetro de papéis — spec decidiu acesso único, sem platformRole.
 - Produces: `GET /v1/health` → `200 {status: "ok", timestamp}`, sem
   passar pelo middleware de sessão.
 
-- [ ] **Step 1: Healthcheck**
+- [x] **Step 1: Healthcheck**
 
 Create `src/app/v1/health/route.ts`:
 
@@ -677,7 +677,7 @@ export function GET() {
 }
 ```
 
-- [ ] **Step 2: Ajustar o `Dockerfile` copiado**
+- [x] **Step 2: Ajustar o `Dockerfile` copiado**
 
 No `Dockerfile` copiado do Presencia (Task 1), remove os `ARG`/`ENV` de
 `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`/`NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET`
@@ -686,7 +686,7 @@ build não precisa de nenhum `--build-arg`). Mantém `SKIP_ENV_VALIDATION=1`
 no `RUN npm run build` (evita exigir credenciais reais durante o build
 da imagem — mesmo padrão do `app-photo`).
 
-- [ ] **Step 3: Ajustar o workflow de CD**
+- [x] **Step 3: Ajustar o workflow de CD**
 
 No `CD.yml` copiado, troca `SERVICE="web-admin-console"` por
 `SERVICE="admin-photo"`, e o domínio do healthcheck
@@ -696,12 +696,12 @@ precisa do serviço `admin-photo` adicionado ao `docker-compose.yml`
 dela (fora deste repositório) antes do primeiro deploy — quem tem
 acesso SSH faz isso manualmente uma vez.
 
-- [ ] **Step 4: Rodar a suíte inteira**
+- [x] **Step 4: Rodar a suíte inteira**
 
 Run: `npm run typecheck && npx eslint . && npm run build`
 Expected: sem erros.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -729,7 +729,7 @@ alguém com acesso SSH adicionar o serviço no compose da VPS."
   autenticado por `Authorization: Bearer <REVALIDATE_SECRET>`, chama
   `revalidateTag(tag)`.
 
-- [ ] **Step 1: `REVALIDATE_SECRET` no schema de env do `app-photo`**
+- [x] **Step 1: `REVALIDATE_SECRET` no schema de env do `app-photo`**
 
 Em `app-photo/src/lib/config/env.server.ts`, adiciona:
 
@@ -741,7 +741,7 @@ Em `app-photo/src/lib/config/env.server.ts`, adiciona:
   REVALIDATE_SECRET: z.string().min(1).optional(),
 ```
 
-- [ ] **Step 2: Escrever o teste da rota primeiro**
+- [x] **Step 2: Escrever o teste da rota primeiro**
 
 Create `app-photo/src/app/api/revalidate/route.test.ts`:
 
@@ -779,12 +779,12 @@ describe("POST /api/revalidate", () => {
 });
 ```
 
-- [ ] **Step 3: Rodar o teste e confirmar que falha**
+- [x] **Step 3: Rodar o teste e confirmar que falha**
 
 Run: `npx vitest run src/app/api/revalidate/route.test.ts`
 Expected: FAIL — rota não existe.
 
-- [ ] **Step 4: Implementar a rota**
+- [x] **Step 4: Implementar a rota**
 
 Create `app-photo/src/app/api/revalidate/route.ts`:
 
@@ -808,12 +808,12 @@ export async function POST(request: Request): Promise<Response> {
 }
 ```
 
-- [ ] **Step 5: Rodar o teste de novo**
+- [x] **Step 5: Rodar o teste de novo**
 
 Run: `npx vitest run src/app/api/revalidate/route.test.ts`
 Expected: PASS — 2 testes.
 
-- [ ] **Step 6: Rodar a suíte inteira do `app-photo`**
+- [x] **Step 6: Rodar a suíte inteira do `app-photo`**
 
 Run: `npm run typecheck && npx eslint . && npm run test && npm run build`
 Expected: sem erros.
@@ -825,7 +825,7 @@ isso, `revalidateTag` não tem o que invalidar. Isso é trabalho dos
 planos 7-10 (cada plano de entidade do admin adiciona a tag
 correspondente na leitura pública equivalente, junto com o CRUD).
 
-- [ ] **Step 7: Commit (no `app-photo`)**
+- [x] **Step 7: Commit (no `app-photo`)**
 
 ```bash
 git add -A
@@ -845,17 +845,17 @@ declaram tags — isso entra junto com o CRUD de cada entidade, planos
 
 **Files:** nenhum novo — só verificação.
 
-- [ ] **Step 1: Suíte completa em `admin-photo`**
+- [x] **Step 1: Suíte completa em `admin-photo`**
 
 Run: `cd /Users/cesarpisa/Projects/lp-fotografia/admin-photo && npm run typecheck && npx eslint . && npm run test && npm run build`
 Expected: sem erros.
 
-- [ ] **Step 2: Suíte completa em `app-photo`**
+- [x] **Step 2: Suíte completa em `app-photo`**
 
 Run: `cd /Users/cesarpisa/Projects/lp-fotografia/app-photo && npm run typecheck && npx eslint . && npm run test && npm run build`
 Expected: sem erros — confirma que a Task 4 não quebrou nada existente.
 
-- [ ] **Step 3: Rodar os dois ao mesmo tempo, localmente**
+- [x] **Step 3: Rodar os dois ao mesmo tempo, localmente**
 
 Run: `(cd admin-photo && npm run dev &) && (cd app-photo && npm run dev &)`
 Expected: `app-photo` em `:3000`, `admin-photo` em `:3001`, sem conflito
@@ -863,7 +863,7 @@ de porta. `curl http://localhost:3001/v1/health` devolve 200 sem
 precisar de cookie de sessão. `curl http://localhost:3001/` (sem
 cookie) redireciona pra `/login`.
 
-- [ ] **Step 4: Commit final (se sobrou algo solto) em cada repo**
+- [x] **Step 4: Commit final (se sobrou algo solto) em cada repo**
 
 ```bash
 cd /Users/cesarpisa/Projects/lp-fotografia/admin-photo && git status --short
@@ -873,6 +873,58 @@ cd /Users/cesarpisa/Projects/lp-fotografia/app-photo && git status --short
 ```
 
 ---
+
+## Achados ao implementar
+
+Este plano foi executado inline. Diferenças reais entre o texto acima e
+o que de fato aconteceu, pra quem for ler este plano depois:
+
+- **Config de ambiente vive em `src/config/`, não `src/lib/config/`**
+  como o plano assumia (copiando a convenção do `app-photo` por engano,
+  sem checar a real do Presencia). Mantido o caminho real do Presencia
+  — mudar teria exigido corrigir imports em vários arquivos pra nenhum
+  ganho.
+- **`rsync` trouxe junto `docs/superpowers/`, `.superpowers/sdd/` e
+  `.claude/skills/`** — histórico de planejamento e scratch de
+  subagent-driven-development do Presencia (tenants, ouvidoria,
+  articles...), completamente irrelevante aqui. O `--exclude` do plano
+  não cobria essas pastas. Removidos na Task 1.
+- **`framer-motion` foi removido por engano** — o plano assumiu, sem
+  checar, que nada usava; na verdade `AdminSidebar`/`ui/sidebar`/
+  `ui/toast-provider` (shadcn copiado) dependem dele. Reposto no
+  `package.json`.
+- **`AdminLayout`/`AdminSidebar`/`AuthContext`/`AuthAdapter` removidos**
+  (não previsto no plano original) — shell de navegação e verificação
+  de token amarrados a `platformRole`, sem consumidor depois que as
+  rotas `(admin)` do Presencia saíram. `cloudinary.ts`/`logger.ts`
+  também — zero consumidor depois da remoção das entidades.
+  `sendPasswordResetEmail.ts` (órfão, mas limpo e reutilizável) virou
+  a base do `seed-admin.ts` simplificado; criado um `signInWithPassword.ts`
+  irmão pro mesmo padrão, usado pelo login.
+- **`.firebaserc` apontava pro projeto real do Presencia**
+  (`api-agendaflow`) — não previsto no plano, achado só ao ler o
+  arquivo copiado. Trocado por um placeholder explícito. `firestore.indexes.json`
+  tinha índices de `articles`/`entries` (Presencia) — resetado vazio.
+- **`vitest.config.ts` ganhou `passWithNoTests: true`** — sem nenhum
+  teste ainda (nenhuma entidade neste plano), vitest sai com código 1
+  por padrão, quebrando `npm run test` em CI sem ter feito nada de
+  errado.
+- **`tsconfig.json` do Presencia tem `strict: false` e
+  `strictNullChecks: false`** — isso enfraquece o narrowing de union
+  discriminada por negação: `if (!result.ok) return result.error` não
+  restringe o tipo, mas `if (result.ok === false)` restringe
+  corretamente. Usado em `login/actions.ts`.
+- **`revalidateTag` (Task 4, `app-photo`) ganhou um segundo argumento
+  obrigatório** nesta versão do Next (perfil de `cacheLife`, parte do
+  novo modelo de cache do Next 16) — não existia quando o plano foi
+  escrito nem foi verificado contra o compilador real antes da
+  execução. `"max"` como placeholder até os planos 7-10 decidirem o
+  perfil real de cada superfície.
+- Smoke test confirmado: os dois servidores (`app-photo` :3000,
+  `admin-photo` :3001) rodam simultaneamente sem conflito de porta;
+  `/v1/health` responde 200 sem cookie; `/` sem cookie redireciona
+  307 pra `/login`; `POST /api/revalidate` sem `Authorization` correto
+  responde 401.
 
 ## Depois deste plano
 
