@@ -3,6 +3,7 @@ import { Playfair_Display, Plus_Jakarta_Sans, Caveat } from "next/font/google";
 import "./globals.css";
 import "./theme.css";
 import { Footer } from "./_components/Footer";
+import { PreviewOverlay } from "./_components/PreviewOverlay";
 
 const playfair = Playfair_Display({ variable: "--font-display", subsets: ["latin"] });
 const jakarta = Plus_Jakarta_Sans({ variable: "--font-condensed", subsets: ["latin"] });
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className={`${playfair.variable} ${jakarta.variable} ${caveat.variable}`}>
       <body className="font-sans antialiased">
+        <PreviewOverlay />
         {children}
         <Footer />
       </body>
