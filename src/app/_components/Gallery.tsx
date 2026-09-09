@@ -6,6 +6,7 @@ import { Section } from "@/lib/_components/Section";
 import { useSwipe } from "@/lib/_hooks/useSwipe";
 import { useSlideshow } from "@/lib/_hooks/useSlideshow";
 import type { GalleryPhoto } from "@/actions/gallery";
+import { Addable } from "./Addable";
 import { Editable } from "./Editable";
 
 const AUTOPLAY_MS = 6000;
@@ -81,6 +82,15 @@ function GalleryAlbum({ photos }: { photos: GalleryPhoto[] }) {
               );
             })}
           </div>
+          {page === spreads.length - 1 && (
+            <Addable
+              type="placement"
+              context={{ surface: "home-gallery" }}
+              className="mt-4 aspect-4/5 w-full text-4xl font-light"
+            >
+              +
+            </Addable>
+          )}
         </div>
       </div>
 
