@@ -14,4 +14,10 @@ describe("Niches", () => {
     const values = Array.from(editables).map((el) => el.getAttribute("data-editable"));
     expect(values).toContain("niche:familia");
   });
+
+  it("marca o fim do carrossel com um Addable de tipo niche", async () => {
+    const { container } = render(await Niches());
+    const addable = container.querySelector('[data-addable^="niche:"]');
+    expect(addable).not.toBeNull();
+  });
 });

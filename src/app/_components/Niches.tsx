@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Section } from "@/lib/_components/Section";
 import { getNiches } from "@/actions/niches";
+import { Addable } from "./Addable";
 import { Editable } from "./Editable";
 
 export async function Niches() {
@@ -56,6 +57,9 @@ export async function Niches() {
             </Link>
           </Editable>
         ))}
+        <Addable type="niche" className="w-24 shrink-0 snap-center text-4xl font-light">
+          +
+        </Addable>
       </div>
     </Section>
   );
