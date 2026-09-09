@@ -8,6 +8,14 @@ const schema = z.object({
   FIREBASE_PROJECT_ID: z.string().min(1).optional(),
   FIREBASE_CLIENT_EMAIL: z.string().email().optional(),
   FIREBASE_PRIVATE_KEY: z.string().min(1).optional(),
+  // Cloud name do Cloudinary — usado só por PhotoRepositoryImpl pra
+  // resolver cloudinaryPublicId em URL de entrega. Opcional aqui pela
+  // mesma razão do Firebase: ausente, o app roda em modo mock (nenhuma
+  // foto real do Firestore pra resolver ainda). CLOUDINARY_API_KEY/
+  // API_SECRET não entram aqui — só o script de migração
+  // (scripts/migrate-to-firestore.ts) usa, e ele lê .env.local
+  // diretamente, sem passar pela validação do app.
+  CLOUDINARY_CLOUD_NAME: z.string().min(1).optional(),
 });
 
 export const env =

@@ -9,6 +9,16 @@ const nextConfig: NextConfig = {
   // Vale apenas em desenvolvimento; não tem efeito no build de produção.
   allowedDevOrigins: ["192.168.*.*"],
 
+  images: {
+    // Cloudinary faz resize/format na entrega; ver next-image-loader.ts.
+    // O otimizador embutido do Next fica desligado pra qualquer imagem
+    // (loaderFile custom vale pra todo next/image, local ou remoto) — ver
+    // Global Constraints do plano de migração pro Cloudinary.
+    loader: "custom",
+    loaderFile: "./next-image-loader.ts",
+    remotePatterns: [{ protocol: "https", hostname: "res.cloudinary.com" }],
+  },
+
   async redirects() {
     return [
       {

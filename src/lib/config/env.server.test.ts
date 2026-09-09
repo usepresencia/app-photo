@@ -37,4 +37,15 @@ describe("env.server", () => {
     const { env } = await import("./env.server");
     expect(env.FIREBASE_PROJECT_ID).toBe("meu-projeto");
   });
+
+  it("aceita CLOUDINARY_CLOUD_NAME ausente ou presente", async () => {
+    delete process.env.CLOUDINARY_CLOUD_NAME;
+    const semVar = await import("./env.server");
+    expect(semVar.env.CLOUDINARY_CLOUD_NAME).toBeUndefined();
+
+    vi.resetModules();
+    process.env.CLOUDINARY_CLOUD_NAME = "minha-conta";
+    const comVar = await import("./env.server");
+    expect(comVar.env.CLOUDINARY_CLOUD_NAME).toBe("minha-conta");
+  });
 });

@@ -236,6 +236,97 @@ vez de só um manifest:
 Roda uma vez, contra o Firestore/Cloudinary de produção, antes do primeiro
 deploy da versão dinâmica. O site fica visualmente idêntico no dia da troca.
 
+## Contrato Firestore de produção
+
+As interfaces em "Modelo de conteúdo" descrevem o domínio como o código lê
+hoje — não necessariamente o que fica gravado no documento. Esta seção é a
+referência definitiva de **o que grava no Firestore de verdade**, pros
+planos 6-10 (admin) escreverem compatível sem precisar ler
+`PhotoRepositoryImpl` pra descobrir. Sempre que os dois divergirem, esta
+seção vale — os planos 1-4 já implementaram e testaram o formato abaixo.
+
+### `niches/{slug}`
+
+```ts
+{
+  title: string;
+  subtitle: string;
+  intro: string;
+  description: string[];
+  highlights: string[];
+  closingLine: string;
+  showAsEventTeaser: boolean;
+  order: number;
+  eventOrder: number | null;
+}
+```
+
+`slug` é o próprio ID do documento, não um campo dentro dele.
+
+### `packages/{id}`
+
+```ts
+{
+  nicheSlug: string;
+  name: string;
+  price: string;
+  description: string;
+  items: string[];
+  featured: boolean;
+  order: number;
+}
+```
+
+`id` é gerado (`"<nicheSlug>-<índice>"`, ex. `"gestante-0"`), não um slug
+natural — é o próprio ID do documento.
+
+### `photos/{id}`
+
+```ts
+{
+  cloudinaryPublicId: string; // NÃO é a URL — só o public_id do Cloudinary
+  width: number;
+  height: number;
+  blurDataURL: string;
+}
+```
+
+`id` é o próprio ID do documento (a migração usa o `slug` de
+`photos.json`, ex. `"profissional-01"`, também como `cloudinaryPublicId`).
+`PhotoRepositoryImpl` (só ele) resolve `cloudinaryPublicId` pra uma URL de
+entrega via `buildDeliveryUrl` — o domínio (`Photo.src`) nunca vê
+`cloudinaryPublicId` diretamente. Gravar `src` aqui em vez de
+`cloudinaryPublicId` quebra a resolução: `PhotoRepositoryImpl` não sabe ler
+uma URL pronta.
+
+### `placements/{id}`
+
+```ts
+{
+  photoId: string; // referencia photos/{id}
+  surface: "hero" | "quem-sou" | "home-gallery" | "niche" | "package";
+  refId: string | null; // slug do nicho, ou id do pacote; null em hero/quem-sou/home-gallery
+  role: string | null;
+  order: number;
+}
+```
+
+`id` é auto-gerado pelo Firestore — sem significado, não precisa ser
+estável entre migrações.
+
+### `profile/main`
+
+```ts
+{
+  capaCaption: string;
+  profissao: { titulo: string; eyebrow: string; paragrafos: string[] };
+  familia: { titulo: string; paragrafos: string[]; legendaFoto: string };
+}
+```
+
+Documento único, ID sempre `"main"` — não é uma coleção com múltiplos
+documentos.
+
 ## Deploy
 
 Dois serviços novos no `docker-compose.yml` da VPS compartilhada, ao lado dos
