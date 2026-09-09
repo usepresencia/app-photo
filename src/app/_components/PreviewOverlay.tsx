@@ -7,6 +7,7 @@ const PING = "app-photo:preview:ping";
 const ACK = "app-photo:preview:ack";
 const EDIT = "app-photo:preview:edit";
 const ADD = "app-photo:preview:add";
+const DELETE = "app-photo:preview:delete";
 
 export function originOf(url: string | undefined): string | null {
   if (!url) return null;
@@ -53,6 +54,12 @@ export function parseAddableTarget(
   }
 }
 
+interface HoveredEditable {
+  el: HTMLElement;
+  entityType: string;
+  id: string;
+}
+
 // Inerte por padrão — só ativa depois de confirmar, por postMessage, que
 // está sendo carregado dentro do admin-photo (ver spec do preview com
 // edição inline). Nunca ativa pra um visitante comum: fora de um iframe,
@@ -60,6 +67,7 @@ export function parseAddableTarget(
 // faz nada.
 export function PreviewOverlay() {
   const [active, setActive] = useState(false);
+  const [hovered, setHovered] = useState<HoveredEditable | null>(null);
   const adminOrigin = originOf(clientEnv.NEXT_PUBLIC_ADMIN_PHOTO_URL);
 
   useEffect(() => {
@@ -109,5 +117,66 @@ export function PreviewOverlay() {
     return () => document.removeEventListener("click", handleClick, true);
   }, [active, adminOrigin]);
 
-  return null;
+  // Rastreio de hover de verdade (mouseover/mouseout) — o contorno de
+  // edição continua sendo CSS puro (:hover em [data-editable]), mas o
+  // ícone de lixeira é um elemento novo que precisa saber sobre qual
+  // item está o mouse pra se posicionar. Usa state (não ref) porque o
+  // valor é lido durante o render pra decidir o que desenhar — ler
+  // ref.current no corpo do componente é um erro de lint
+  // (react-hooks/refs). Updates funcionais (`prev => ...`) evitam
+  // closures obsoletas sem precisar de ref nenhum.
+  useEffect(() => {
+    if (!active) return;
+
+    function handleMouseOver(event: MouseEvent) {
+      const el = (event.target as HTMLElement).closest("[data-editable]") as HTMLElement | null;
+      const parsed = parseEditableTarget(el?.getAttribute("data-editable") ?? null);
+      setHovered(el && parsed ? { el, ...parsed } : null);
+    }
+
+    function handleMouseOut(event: MouseEvent) {
+      const related = event.relatedTarget as Node | null;
+      setHovered((prev) => (prev && (!related || !prev.el.contains(related)) ? null : prev));
+    }
+
+    function handleReposition() {
+      // Um objeto novo (mesmo conteúdo) força recalcular o rect no
+      // render seguinte, sem disparar handleMouseOver/Out de novo.
+      setHovered((prev) => (prev ? { ...prev } : prev));
+    }
+
+    document.addEventListener("mouseover", handleMouseOver);
+    document.addEventListener("mouseout", handleMouseOut);
+    window.addEventListener("scroll", handleReposition, true);
+    window.addEventListener("resize", handleReposition);
+    return () => {
+      document.removeEventListener("mouseover", handleMouseOver);
+      document.removeEventListener("mouseout", handleMouseOut);
+      window.removeEventListener("scroll", handleReposition, true);
+      window.removeEventListener("resize", handleReposition);
+    };
+  }, [active]);
+
+  if (!active || !hovered || !adminOrigin) return null;
+
+  const rect = hovered.el.getBoundingClientRect();
+
+  return (
+    <button
+      type="button"
+      aria-label="Remover"
+      className="preview-delete-icon"
+      style={{ top: rect.top - 8, left: rect.right - 16 }}
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        window.parent.postMessage(
+          { type: DELETE, entityType: hovered.entityType, id: hovered.id },
+          adminOrigin,
+        );
+      }}
+    >
+      🗑
+    </button>
+  );
 }

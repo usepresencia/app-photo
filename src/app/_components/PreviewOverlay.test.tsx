@@ -85,3 +85,10 @@ describe("PreviewOverlay", () => {
     expect(document.documentElement.hasAttribute("data-preview-active")).toBe(false);
   });
 });
+
+describe("PreviewOverlay — ícone de lixeira", () => {
+  it("não renderiza nenhum botão de lixeira fora do modo preview", () => {
+    const { container } = render(<PreviewOverlay />);
+    expect(container.querySelector(".preview-delete-icon")).toBeNull();
+  });
+});
