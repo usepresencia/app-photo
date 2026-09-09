@@ -6,6 +6,7 @@ import { Section } from "@/lib/_components/Section";
 import { useSwipe } from "@/lib/_hooks/useSwipe";
 import { useSlideshow } from "@/lib/_hooks/useSlideshow";
 import type { GalleryPhoto } from "@/actions/gallery";
+import { Editable } from "./Editable";
 
 const AUTOPLAY_MS = 6000;
 
@@ -48,29 +49,35 @@ function GalleryAlbum({ photos }: { photos: GalleryPhoto[] }) {
             {spread.map((photo, i) => {
               const n = page * 6 + i + 1;
               return (
-                <figure
-                  key={photo.src}
-                  style={{ ["--tape-rot" as string]: `${i % 2 ? 5 : -6}deg` }}
-                  className={`group polaroid relative transition-all duration-500 hover:z-60 hover:rotate-0 hover:scale-[1.04] active:z-60 active:rotate-0 active:scale-[1.04] ${i % 3 === 0 ? "tape" : i % 3 === 1 ? "tape-corner" : ""} ${spreadPoses[i]}`}
+                <Editable
+                  key={photo.placementId}
+                  type="placement"
+                  id={photo.placementId}
+                  className={spreadPoses[i]}
                 >
-                  <div className="relative h-[calc(100%-var(--polaroid-legenda))] w-full overflow-hidden bg-background">
-                    <Image
-                      src={photo.src}
-                      alt={`Foto ${n} do portfólio`}
-                      fill
-                      sizes="(min-width: 640px) 500px, 60vw"
-                      placeholder="blur"
-                      blurDataURL={photo.blurDataURL}
-                      className="object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0 group-active:scale-105 group-active:grayscale-0"
-                    />
-                  </div>
-                  <figcaption className="font-hand absolute inset-x-2 bottom-1 flex items-baseline justify-between text-[0.85rem] leading-none">
-                    <span>{photo.label}</span>
-                    <span className="font-condensed text-[0.5rem] tracking-[0.25em] opacity-60">
-                      {String(n).padStart(2, "0")}
-                    </span>
-                  </figcaption>
-                </figure>
+                  <figure
+                    style={{ ["--tape-rot" as string]: `${i % 2 ? 5 : -6}deg` }}
+                    className={`group polaroid relative transition-all duration-500 hover:z-60 hover:rotate-0 hover:scale-[1.04] active:z-60 active:rotate-0 active:scale-[1.04] ${i % 3 === 0 ? "tape" : i % 3 === 1 ? "tape-corner" : ""}`}
+                  >
+                    <div className="relative h-[calc(100%-var(--polaroid-legenda))] w-full overflow-hidden bg-background">
+                      <Image
+                        src={photo.src}
+                        alt={`Foto ${n} do portfólio`}
+                        fill
+                        sizes="(min-width: 640px) 500px, 60vw"
+                        placeholder="blur"
+                        blurDataURL={photo.blurDataURL}
+                        className="object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0 group-active:scale-105 group-active:grayscale-0"
+                      />
+                    </div>
+                    <figcaption className="font-hand absolute inset-x-2 bottom-1 flex items-baseline justify-between text-[0.85rem] leading-none">
+                      <span>{photo.label}</span>
+                      <span className="font-condensed text-[0.5rem] tracking-[0.25em] opacity-60">
+                        {String(n).padStart(2, "0")}
+                      </span>
+                    </figcaption>
+                  </figure>
+                </Editable>
               );
             })}
           </div>
