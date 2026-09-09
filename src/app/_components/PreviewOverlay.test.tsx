@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { render } from "@testing-library/react";
-import { isHandshakeAck, originOf, parseEditableTarget, PreviewOverlay } from "./PreviewOverlay";
+import {
+  isHandshakeAck,
+  originOf,
+  parseAddableTarget,
+  parseEditableTarget,
+  PreviewOverlay,
+} from "./PreviewOverlay";
 
 describe("originOf", () => {
   it("retorna a origem de uma URL válida", () => {
@@ -50,6 +56,26 @@ describe("parseEditableTarget", () => {
     expect(parseEditableTarget("semdoispontos")).toBeNull();
     expect(parseEditableTarget(null)).toBeNull();
     expect(parseEditableTarget("")).toBeNull();
+  });
+});
+
+describe("parseAddableTarget", () => {
+  it("separa tipo e context (JSON) no primeiro ':'", () => {
+    expect(parseAddableTarget('package:{"nicheSlug":"familia"}')).toEqual({
+      entityType: "package",
+      context: { nicheSlug: "familia" },
+    });
+  });
+
+  it("aceita ausência de context (nada depois do ':')", () => {
+    expect(parseAddableTarget("niche:")).toEqual({ entityType: "niche", context: undefined });
+  });
+
+  it("retorna null sem ':', valor vazio/nulo, ou JSON inválido", () => {
+    expect(parseAddableTarget("semdoispontos")).toBeNull();
+    expect(parseAddableTarget(null)).toBeNull();
+    expect(parseAddableTarget("")).toBeNull();
+    expect(parseAddableTarget("package:{invalido")).toBeNull();
   });
 });
 

@@ -6,6 +6,7 @@ import { clientEnv } from "@/lib/config/env.client";
 const PING = "app-photo:preview:ping";
 const ACK = "app-photo:preview:ack";
 const EDIT = "app-photo:preview:edit";
+const ADD = "app-photo:preview:add";
 
 export function originOf(url: string | undefined): string | null {
   if (!url) return null;
@@ -33,6 +34,23 @@ export function parseEditableTarget(
   const id = value.slice(sep + 1);
   if (!entityType || !id) return null;
   return { entityType, id };
+}
+
+export function parseAddableTarget(
+  value: string | null,
+): { entityType: string; context: unknown } | null {
+  if (!value) return null;
+  const sep = value.indexOf(":");
+  if (sep === -1) return null;
+  const entityType = value.slice(0, sep);
+  if (!entityType) return null;
+  const contextStr = value.slice(sep + 1);
+  if (!contextStr) return { entityType, context: undefined };
+  try {
+    return { entityType, context: JSON.parse(contextStr) };
+  } catch {
+    return null;
+  }
 }
 
 // Inerte por padrão — só ativa depois de confirmar, por postMessage, que
@@ -69,7 +87,18 @@ export function PreviewOverlay() {
     // antes que o próprio site reaja (ex.: navegar um <Link>, selecionar
     // um pacote no PackagePicker).
     function handleClick(event: MouseEvent) {
-      const el = (event.target as HTMLElement).closest("[data-editable]");
+      const target = event.target as HTMLElement;
+
+      const addEl = target.closest("[data-addable]");
+      const addParsed = parseAddableTarget(addEl?.getAttribute("data-addable") ?? null);
+      if (addParsed) {
+        event.preventDefault();
+        event.stopPropagation();
+        window.parent.postMessage({ type: ADD, ...addParsed }, origin);
+        return;
+      }
+
+      const el = target.closest("[data-editable]");
       const parsed = parseEditableTarget(el?.getAttribute("data-editable") ?? null);
       if (!parsed) return;
       event.preventDefault();
