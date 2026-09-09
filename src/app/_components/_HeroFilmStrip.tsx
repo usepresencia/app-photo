@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import type { Photo } from "@/actions/_mock/types";
+import { Editable } from "./Editable";
 
 const SLOT_COUNT = 4;
 /** Ritmo da troca. A defasagem evita que os quatro quadros virem em bloco. */
@@ -79,7 +80,9 @@ function RotatingPhoto({ photo }: { photo: Photo }) {
   return (
     <div className="relative h-full w-full overflow-hidden">
       {previous && <Quadro photo={previous} />}
-      <Quadro key={`foto-${troca}`} photo={current} className="hero-photo-in" />
+      <Editable type="placement" id={current.placementId} className="absolute inset-0">
+        <Quadro key={`foto-${troca}`} photo={current} className="hero-photo-in" />
+      </Editable>
       {troca > 0 && (
         <div
           key={`flash-${troca}`}

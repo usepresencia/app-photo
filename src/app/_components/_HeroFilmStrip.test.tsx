@@ -82,7 +82,18 @@ describe("HeroFilmStrip", () => {
 
     expect(dissolve).not.toBeNull();
     expect(flash).not.toBeNull();
-    // Ambos são irmãos remontados pela mesma troca: nenhum timer em JS envolvido.
-    expect(dissolve?.parentElement).toBe(flash?.parentElement);
+    // Os dois vivem na mesma subárvore, montados pela mesma troca: nenhum
+    // timer em JS envolvido. dissolve não é mais irmão direto de flash
+    // desde que ganhou o wrapper <Editable> (Task 7) — o que a regressão
+    // protege é que ambos apareçam juntos no mesmo slot, não a
+    // profundidade exata do DOM.
+    expect(flash?.parentElement?.contains(dissolve!)).toBe(true);
+  });
+
+  it("marca a foto atual do slot como editável com o placementId certo", () => {
+    const { container } = render(<HeroFilmStrip photos={photos} />);
+    const slot = primeiroSlot(container);
+    const editable = slot.querySelector("[data-editable]");
+    expect(editable?.getAttribute("data-editable")).toBe(`placement:${photos[0].placementId}`);
   });
 });
