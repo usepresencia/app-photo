@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import type { Package } from "@/actions/packages";
 import type { Photo } from "@/actions/_mock/types";
+import { Editable } from "@/app/_components/Editable";
 import { NicheGallery } from "./NicheGallery";
 
 export function PackagePicker({
@@ -37,30 +38,33 @@ export function PackagePicker({
             <div className="album-page-prev">
               <div className="grid gap-3 sm:grid-cols-3">
                 {packages.map((p) => (
-                  <button
-                    key={p.id}
-                    type="button"
-                    onClick={() => setSelectedId(p.id)}
-                    className="relative overflow-hidden border border-gold/20 p-5 text-left transition-colors hover:border-gold/50"
-                    style={{ boxShadow: "var(--shadow-gold)" }}
-                  >
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-0 opacity-30"
-                      style={{
-                        backgroundImage:
-                          "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--gold) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--gold) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--gold) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--gold) 8%, transparent) 0 16px, transparent 17px)",
-                        backgroundSize: "190px 190px",
-                      }}
-                    />
-                    <h3 className="display-xl relative z-10 text-2xl text-foreground">{p.name}</h3>
-                    <span className="font-condensed relative z-10 mt-1 block text-2xl font-normal text-gold">
-                      {p.price}
-                    </span>
-                    <span className="font-condensed relative z-10 mt-3 block text-[0.6rem] uppercase tracking-[0.25em] text-muted-foreground">
-                      Ver o que inclui
-                    </span>
-                  </button>
+                  <Editable key={p.id} type="package" id={p.id} className="block h-full">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedId(p.id)}
+                      className="relative block h-full w-full overflow-hidden border border-gold/20 p-5 text-left transition-colors hover:border-gold/50"
+                      style={{ boxShadow: "var(--shadow-gold)" }}
+                    >
+                      <div
+                        aria-hidden="true"
+                        className="absolute inset-0 opacity-30"
+                        style={{
+                          backgroundImage:
+                            "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--gold) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--gold) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--gold) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--gold) 8%, transparent) 0 16px, transparent 17px)",
+                          backgroundSize: "190px 190px",
+                        }}
+                      />
+                      <h3 className="display-xl relative z-10 text-2xl text-foreground">
+                        {p.name}
+                      </h3>
+                      <span className="font-condensed relative z-10 mt-1 block text-2xl font-normal text-gold">
+                        {p.price}
+                      </span>
+                      <span className="font-condensed relative z-10 mt-3 block text-[0.6rem] uppercase tracking-[0.25em] text-muted-foreground">
+                        Ver o que inclui
+                      </span>
+                    </button>
+                  </Editable>
                 ))}
               </div>
             </div>
