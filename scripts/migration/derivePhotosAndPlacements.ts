@@ -1,3 +1,5 @@
+import type { PhotoSurface } from "@/api/domain/placement/Placement";
+
 export interface RawPhoto {
   slug: string;
   src: string;
@@ -13,8 +15,6 @@ export interface DerivedFoto {
   height: number;
   blurDataURL: string;
 }
-
-export type PhotoSurface = "hero" | "quem-sou" | "home-gallery" | "niche" | "package";
 
 export interface DerivedPlacement {
   photoId: string;

@@ -1,11 +1,12 @@
 import type { Photo } from "@/api/domain/photo/Photo";
 import type { PhotoRepository } from "@/api/domain/photo/PhotoRepository";
+import { MOCK_NICHE_SLUGS } from "./nicheSlugs";
 
 // Conjunto pequeno e sintético — não tenta espelhar as 87 fotos reais
 // (isso é trabalho do script de migração, plano 5). Nomeado por
 // propósito ("hero-1", "quemsou-capa") pra ficar legível nos testes e no
 // MockPlacementRepository, que referencia estes IDs.
-export const MOCK_PHOTOS: Photo[] = [
+const MOCK_PHOTOS: Photo[] = [
   ...Array.from({ length: 4 }, (_, i) => ({
     id: `hero-${i + 1}`,
     src: `/fotos/mock/hero-${i + 1}.webp`,
@@ -48,18 +49,9 @@ export const MOCK_PHOTOS: Photo[] = [
     height: 1200,
     blurDataURL: "data:image/webp;base64,AA",
   })),
-  // Uma foto por nicho, pros 7 slugs reais de niches.ts — Niches.tsx (a
-  // home inteira) renderiza niche.image.src pros 7 cards; faltando
-  // qualquer um, a página quebra em runtime com o mock, não só um teste.
-  ...[
-    "retratos-profissionais",
-    "gestante",
-    "familia",
-    "comercial",
-    "casamento-civil",
-    "aniversario-e-eventos",
-    "making-of-da-noiva",
-  ].flatMap((slug) =>
+  // Uma foto por nicho — ver nicheSlugs.ts pra por quê a cobertura dos 7
+  // slugs reais precisa ser completa.
+  ...MOCK_NICHE_SLUGS.flatMap((slug) =>
     Array.from({ length: 2 }, (_, i) => ({
       id: `${slug}-${i + 1}`,
       src: `/fotos/mock/${slug}-${i + 1}.webp`,

@@ -3,6 +3,7 @@ import type {
   FindBySurfaceOptions,
   PlacementRepository,
 } from "@/api/domain/placement/PlacementRepository";
+import { MOCK_NICHE_SLUGS } from "./nicheSlugs";
 
 let nextId = 1;
 function placement(p: Omit<Placement, "id">): Placement {
@@ -51,17 +52,9 @@ const PLACEMENTS: Placement[] = [
         order,
       }),
   ),
-  // 2 fotos por nicho, pros 7 slugs reais — cobertura completa: Niches.tsx
-  // (home) e getEventNiches (3 dos 7) precisam de niche.image em todos.
-  ...[
-    "retratos-profissionais",
-    "gestante",
-    "familia",
-    "comercial",
-    "casamento-civil",
-    "aniversario-e-eventos",
-    "making-of-da-noiva",
-  ].flatMap((slug) =>
+  // 2 fotos por nicho — ver nicheSlugs.ts pra por quê a cobertura dos 7
+  // slugs reais precisa ser completa (getEventNiches usa 3 dos 7).
+  ...MOCK_NICHE_SLUGS.flatMap((slug) =>
     [`${slug}-1`, `${slug}-2`].map((photoId, order) =>
       placement({ photoId, surface: "niche", refId: slug, role: null, order }),
     ),

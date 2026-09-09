@@ -1,10 +1,9 @@
 import type { Photo } from "./_mock/types";
 import type { NicheDTO } from "@/api/application/niche/NicheDTO";
-import type { PlacedPhotoDTO } from "@/api/application/photo/PlacedPhotoDTO";
 import { GetNichesUseCase } from "@/api/application/niche/GetNichesUseCase";
 import { GetNicheBySlugUseCase } from "@/api/application/niche/GetNicheBySlugUseCase";
-import { GetPhotosBySurfaceUseCase } from "@/api/application/photo/GetPhotosBySurfaceUseCase";
 import { RepositoryFactory } from "@/api/infrastructure/repositories/RepositoryFactory";
+import { getPhotosBySurface, toPhoto } from "./_shared/getPhotosBySurface";
 
 export interface Niche {
   slug: string;
@@ -18,21 +17,11 @@ export interface Niche {
   gallery: Photo[];
 }
 
-// Cópia local do mesmo helper que a Task 3 adicionou em gallery.ts —
-// arquivo diferente, sem um lugar compartilhado óbvio pra uma função de
-// 4 campos; duplicar é mais simples que criar um módulo só pra isso.
-function toPhoto(p: PlacedPhotoDTO): Photo {
-  return { src: p.src, width: p.width, height: p.height, blurDataURL: p.blurDataURL };
-}
-
 // image é gallery[0] — a mesma foto, não uma capa exclusiva. Assim
 // sempre foi (ver plano 1); um role "capa" separado tiraria uma foto da
 // galeria da própria página do nicho, mudando quantas fotos ela mostra.
 async function withPhotos(dto: NicheDTO): Promise<Niche> {
-  const photos = await new GetPhotosBySurfaceUseCase(
-    RepositoryFactory.placements(),
-    RepositoryFactory.photos(),
-  ).execute("niche", { refId: dto.slug });
+  const photos = await getPhotosBySurface("niche", { refId: dto.slug });
   const gallery = photos.map(toPhoto);
   return {
     slug: dto.slug,

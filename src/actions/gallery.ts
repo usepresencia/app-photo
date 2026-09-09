@@ -1,36 +1,21 @@
 import type { Photo } from "./_mock/types";
-import type { PlacedPhotoDTO } from "@/api/application/photo/PlacedPhotoDTO";
-import { GetPhotosBySurfaceUseCase } from "@/api/application/photo/GetPhotosBySurfaceUseCase";
-import { RepositoryFactory } from "@/api/infrastructure/repositories/RepositoryFactory";
-
-function toPhoto(p: PlacedPhotoDTO): Photo {
-  return { src: p.src, width: p.width, height: p.height, blurDataURL: p.blurDataURL };
-}
+import { getPhotosBySurface, toPhoto } from "./_shared/getPhotosBySurface";
 
 export interface GalleryPhoto extends Photo {
   label: string;
 }
 
 export async function getGalleryPhotos(): Promise<GalleryPhoto[]> {
-  const photos = await new GetPhotosBySurfaceUseCase(
-    RepositoryFactory.placements(),
-    RepositoryFactory.photos(),
-  ).execute("home-gallery");
+  const photos = await getPhotosBySurface("home-gallery");
   return photos.map((p) => ({ ...toPhoto(p), label: p.role ?? "" }));
 }
 
 export async function getAboutPhotos(): Promise<{ family: Photo[] }> {
-  const photos = await new GetPhotosBySurfaceUseCase(
-    RepositoryFactory.placements(),
-    RepositoryFactory.photos(),
-  ).execute("quem-sou");
+  const photos = await getPhotosBySurface("quem-sou");
   return { family: photos.map(toPhoto) };
 }
 
 export async function getHeroPhotos(): Promise<Photo[]> {
-  const photos = await new GetPhotosBySurfaceUseCase(
-    RepositoryFactory.placements(),
-    RepositoryFactory.photos(),
-  ).execute("hero");
+  const photos = await getPhotosBySurface("hero");
   return photos.map(toPhoto);
 }
