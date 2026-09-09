@@ -16,6 +16,11 @@ const schema = z.object({
   // (scripts/migrate-to-firestore.ts) usa, e ele lê .env.local
   // diretamente, sem passar pela validação do app.
   CLOUDINARY_CLOUD_NAME: z.string().min(1).optional(),
+  // Segredo compartilhado com o admin-photo — autentica POST
+  // /api/revalidate. Opcional aqui pela mesma razão do Cloudinary: sem
+  // admin ainda rodando contra este ambiente, não há quem chamar essa
+  // rota, então validação não pode bloquear dev/test/CI.
+  REVALIDATE_SECRET: z.string().min(1).optional(),
 });
 
 export const env =
