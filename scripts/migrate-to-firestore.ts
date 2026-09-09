@@ -38,8 +38,21 @@ async function main() {
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
   const apiKey = process.env.CLOUDINARY_API_KEY;
   const apiSecret = process.env.CLOUDINARY_API_SECRET;
+  const firebaseProjectId = process.env.FIREBASE_PROJECT_ID;
+  const firebaseClientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+  const firebasePrivateKey = process.env.FIREBASE_PRIVATE_KEY;
+  // Valida as duas credenciais ANTES de subir a primeira foto — sem isso, um
+  // .env.local com Cloudinary ok mas Firebase incompleto deixaria o script
+  // gastar upload de verdade (rede, cota) e só falhar depois, no primeiro
+  // db!.collection(...).set().
   if (!DRY_RUN && !(cloudName && apiKey && apiSecret)) {
     console.error("Faltam CLOUDINARY_CLOUD_NAME/API_KEY/API_SECRET no .env.local.");
+    process.exit(1);
+  }
+  if (!DRY_RUN && !(firebaseProjectId && firebaseClientEmail && firebasePrivateKey)) {
+    console.error(
+      "Faltam FIREBASE_PROJECT_ID/FIREBASE_CLIENT_EMAIL/FIREBASE_PRIVATE_KEY no .env.local.",
+    );
     process.exit(1);
   }
   const credentials: CloudinaryCredentials | undefined = DRY_RUN
@@ -62,11 +75,18 @@ async function main() {
       console.log(`[dry-run] upload ${foto.id} <- public${foto.localPath}`);
       continue;
     }
-    await uploadImage(join(process.cwd(), "public", foto.localPath), foto.id, credentials!);
+    const uploaded = await uploadImage(
+      join(process.cwd(), "public", foto.localPath),
+      foto.id,
+      credentials!,
+    );
+    // width/height vêm da resposta do Cloudinary, não de foto.width/height
+    // (o que photos.json registrou localmente) — é o Cloudinary quem sabe as
+    // dimensões reais do asset que ficou armazenado.
     await db!.collection("photos").doc(foto.id).set({
-      cloudinaryPublicId: foto.id,
-      width: foto.width,
-      height: foto.height,
+      cloudinaryPublicId: uploaded.publicId,
+      width: uploaded.width,
+      height: uploaded.height,
       blurDataURL: foto.blurDataURL,
     });
     console.log(`  ${foto.id} ok`);
@@ -80,7 +100,12 @@ async function main() {
       );
       continue;
     }
-    await db!.collection("placements").add(placement);
+    // ID determinístico (não .add(), que gera um ID novo a cada chamada) —
+    // re-rodar o script depois de uma interrupção sobrescreve o mesmo
+    // placement em vez de duplicá-lo. (surface, refId, order) já é único:
+    // order não se repete dentro do mesmo par surface/refId.
+    const placementId = `${placement.surface}-${placement.refId ?? "none"}-${placement.order}`;
+    await db!.collection("placements").doc(placementId).set(placement);
   }
 
   console.log("\n--- Niches ---");
