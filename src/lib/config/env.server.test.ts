@@ -48,4 +48,18 @@ describe("env.server", () => {
     const comVar = await import("./env.server");
     expect(comVar.env.CLOUDINARY_CLOUD_NAME).toBe("minha-conta");
   });
+
+  it("não lança quando uma var opcional está vazia no .env (string vazia, não ausente)", async () => {
+    process.env.FIREBASE_PROJECT_ID = "";
+    process.env.FIREBASE_CLIENT_EMAIL = "";
+    process.env.FIREBASE_PRIVATE_KEY = "";
+    process.env.CLOUDINARY_CLOUD_NAME = "";
+    process.env.REVALIDATE_SECRET = "";
+    const { env } = await import("./env.server");
+    expect(env.FIREBASE_PROJECT_ID).toBeUndefined();
+    expect(env.FIREBASE_CLIENT_EMAIL).toBeUndefined();
+    expect(env.FIREBASE_PRIVATE_KEY).toBeUndefined();
+    expect(env.CLOUDINARY_CLOUD_NAME).toBeUndefined();
+    expect(env.REVALIDATE_SECRET).toBeUndefined();
+  });
 });
