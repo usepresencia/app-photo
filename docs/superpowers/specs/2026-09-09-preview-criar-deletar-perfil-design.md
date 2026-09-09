@@ -81,20 +81,30 @@ recebido (o perfil é um singleton, `profile/main`) e abre o
 | ----------------- | --------------------------------------------- | ----------- | ---------------------------------------- |
 | `/` (home)        | Fim do carrossel de nichos (`Niches.tsx`)     | `niche`     | nenhum                                   |
 | `/ensaios/[slug]` | Fim da grade de pacotes (`PackagePicker.tsx`) | `package`   | `{ nicheSlug }`                          |
-| `/` (home)        | Fim do film strip do hero                     | `placement` | `{ surface: "hero" }`                    |
-| `/` (home)        | Fim da seção Quem sou                         | `placement` | `{ surface: "quem-sou" }`                |
-| `/` (home)        | Fim da galeria da home                        | `placement` | `{ surface: "home-gallery" }`            |
-| `/ensaios/[slug]` | Fim da galeria do nicho                       | `placement` | `{ surface: "niche", refId: nicheSlug }` |
+| `/` (home)        | Fim da galeria da home (`Gallery.tsx`)        | `placement` | `{ surface: "home-gallery" }`            |
+| `/ensaios/[slug]` | Fim da galeria do nicho (`NicheGallery.tsx`)  | `placement` | `{ surface: "niche", refId: nicheSlug }` |
 
 Clicar num `+` de tipo `placement` abre o `AddPhotoModal` (passo 1:
 upload; passo 2: papel/ordem do posicionamento) já sabendo
-`surface`/`refId` — só falta escolher o arquivo e, se a superfície
-usa papéis com sentido (quem-sou: "capa"/"polaroid-1"/etc.), o papel
-certo.
+`surface`/`refId` — só falta escolher o arquivo e a ordem.
 
 Fora desta lista: **fotos órfãs** (sem posicionamento nenhum) não têm
 onde aparecer no site publicado, por definição — cobertas pelo painel
 lateral do `/preview`, não por um `Addable` (ver seção própria).
+
+**Hero e "Quem sou" ficam de fora de propósito.** Nenhum dos dois é
+uma lista que cresce: o hero (`_HeroFilmStrip.tsx`) são 4 slots fixos
+que giram entre as fotos disponíveis, uma colagem decorativa; "Quem
+sou" (`About.tsx`) são exatamente 4 fotos com papel visual próprio
+cada uma (capa, polaroid-1, altar, polaroid-2), cada posição com seu
+próprio tratamento de layout no código. Adicionar uma 5ª foto em
+qualquer um dos dois exigiria desenhar um novo slot visual — uma
+mudança de código/design, não uma operação de conteúdo. Editar a foto
+que já ocupa um desses slots continua funcionando normalmente (fluxo
+já existente do plano anterior); só não dá pra "adicionar mais uma".
+`Gallery.tsx` (home) e `NicheGallery.tsx`, ao contrário, são grades que
+já paginam/crescem conforme mais fotos entram — cabe um `+` nelas sem
+inventar nenhum layout novo.
 
 ## O que muda no app-photo
 
