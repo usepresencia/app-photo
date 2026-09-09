@@ -7,8 +7,9 @@ import { db } from "../firebase/admin";
 
 const COLLECTION = "photos";
 
-// Firestore recusa `in` com array vazio, e limita a 30 valores — nenhuma
-// superfície de hoje passa disso (ver Global Constraints do plano).
+// Firestore recusa `in` com array vazio, e limita a 30 valores — a maior
+// galeria real de nicho tem 20 fotos (retratos-profissionais), nenhuma
+// superfície passa do limite (ver spec, "Contrato Firestore de produção").
 export class PhotoRepositoryImpl implements PhotoRepository {
   async findByIds(ids: string[]): Promise<Photo[]> {
     if (ids.length === 0) return [];
