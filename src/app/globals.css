@@ -311,3 +311,43 @@ html[data-preview-active] [data-editable]:hover {
   outline: 2px solid var(--gold);
   outline-offset: -2px;
 }
+
+/* [data-addable] (Addable.tsx) fica invisível fora do modo preview —
+   diferente de [data-editable], que já é visível no site normal. */
+[data-addable] {
+  display: none;
+}
+
+html[data-preview-active] [data-addable] {
+  display: flex;
+  pointer-events: auto;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--gold);
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+html[data-preview-active] [data-addable]:hover {
+  opacity: 1;
+}
+
+/* Ícone de lixeira flutuante (PreviewOverlay.tsx) — z-index máximo
+   pra ficar acima de qualquer coisa do site, inclusive elementos com
+   z-index alto já usados nas animações do hero/galeria. */
+.preview-delete-icon {
+  position: fixed;
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  border: none;
+  background: #dc2626;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+}
