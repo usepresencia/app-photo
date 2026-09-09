@@ -135,7 +135,7 @@ export function PackagePicker({
             </ul>
           </div>
 
-          <NicheGallery photos={nicheGallery} nicheTitle={nicheTitle} />
+          <NicheGallery photos={nicheGallery} nicheTitle={nicheTitle} nicheSlug={nicheSlug} />
 
           <div className="px-6 py-10 text-center sm:px-10">
             <h3 className="display-xl text-3xl text-foreground sm:text-4xl">

@@ -1,8 +1,17 @@
 import Image from "next/image";
 import type { Photo } from "@/actions/_mock/types";
+import { Addable } from "@/app/_components/Addable";
 import { Editable } from "@/app/_components/Editable";
 
-export function NicheGallery({ photos, nicheTitle }: { photos: Photo[]; nicheTitle: string }) {
+export function NicheGallery({
+  photos,
+  nicheTitle,
+  nicheSlug,
+}: {
+  photos: Photo[];
+  nicheTitle: string;
+  nicheSlug: string;
+}) {
   return (
     <div>
       <h4 className="font-condensed text-[0.68rem] uppercase tracking-[0.4em] text-gold">
@@ -31,6 +40,13 @@ export function NicheGallery({ photos, nicheTitle }: { photos: Photo[]; nicheTit
             </figure>
           </Editable>
         ))}
+        <Addable
+          type="placement"
+          context={{ surface: "niche", refId: nicheSlug }}
+          className="mb-2 flex aspect-square items-center justify-center break-inside-avoid text-4xl font-light"
+        >
+          +
+        </Addable>
       </div>
     </div>
   );

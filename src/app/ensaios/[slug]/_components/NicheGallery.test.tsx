@@ -17,9 +17,21 @@ const photos: Photo[] = Array.from({ length: 4 }, (_, i) => ({
 
 describe("NicheGallery", () => {
   it("marca cada foto da galeria do nicho como editável", () => {
-    const { container } = render(<NicheGallery photos={photos} nicheTitle="Família" />);
+    const { container } = render(
+      <NicheGallery photos={photos} nicheTitle="Família" nicheSlug="familia" />,
+    );
     const editables = container.querySelectorAll('[data-editable^="placement:"]');
     expect(editables).toHaveLength(4);
     expect(editables[0].getAttribute("data-editable")).toBe(`placement:${photos[0].placementId}`);
+  });
+
+  it("marca o fim da galeria com um Addable de tipo placement (surface niche + refId)", () => {
+    const { container } = render(
+      <NicheGallery photos={photos} nicheTitle="Família" nicheSlug="familia" />,
+    );
+    const addable = container.querySelector('[data-addable^="placement:"]');
+    expect(addable?.getAttribute("data-addable")).toBe(
+      'placement:{"surface":"niche","refId":"familia"}',
+    );
   });
 });
