@@ -20,9 +20,9 @@ function toPackage(doc: FirebaseFirestore.QueryDocumentSnapshot): Package {
 }
 
 // db.collection(...).get() não é fetch() — unstable_cache é o jeito
-// certo de dar tag a uma leitura assim (mesma confirmação do plano 7).
-// admin-photo chama POST /api/revalidate → revalidateTag("packages",
-// "max") quando escreve.
+// certo de dar tag a uma leitura assim (fetch() com next.tags não se
+// aplicaria aqui). admin-photo chama POST /api/revalidate →
+// revalidateTag("packages", "max") quando escreve.
 const findPackagesByNicheSlug = unstable_cache(
   async (nicheSlug: string): Promise<Package[]> => {
     const snapshot = await db

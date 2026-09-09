@@ -22,7 +22,7 @@ function toPlacement(doc: FirebaseFirestore.QueryDocumentSnapshot): Placement {
 
 // where(surface) [+ where(refId)] + orderBy(order) — duas formas de
 // query diferentes (com e sem refId), cada uma com seu próprio índice
-// composto em firestore.indexes.json (plano 10). unstable_cache dá tag
+// composto em firestore.indexes.json. unstable_cache dá tag
 // pra ambas via uma única função — a chave inclui o valor de refId,
 // então "com" e "sem" refId nunca colidem no cache.
 const findPlacementsBySurface = unstable_cache(

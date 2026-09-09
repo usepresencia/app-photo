@@ -12,9 +12,9 @@ const COLLECTION = "photos";
 // galeria real de nicho tem 20 fotos (retratos-profissionais), nenhuma
 // superfície passa do limite (ver spec, "Contrato Firestore de
 // produção"). Mesma tag "placements" do PlacementRepositoryImpl — Photo
-// não muda depois de criada (plano 9, sem update), então cachear aqui é
-// só performance; a tag compartilhada existe pra invalidar as duas
-// leituras juntas com um webhook só, não por necessidade de
+// não tem caso de uso de update no domínio (ver PhotoRepository), então
+// cachear aqui é só performance; a tag compartilhada existe pra invalidar
+// as duas leituras juntas com um webhook só, não por necessidade de
 // correção (uma lista de IDs nova já é uma chave de cache nova sozinha).
 const findPhotosByIds = unstable_cache(
   async (ids: string[]): Promise<Photo[]> => {
