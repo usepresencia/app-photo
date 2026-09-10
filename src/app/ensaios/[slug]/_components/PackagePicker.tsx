@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import type { Package } from "@/actions/packages";
-import type { Photo } from "@/actions/_mock/types";
+import type { LabeledPhoto } from "@/actions/_shared/getPhotosBySurface";
 import { Addable } from "@/app/_components/Addable";
 import { EditableText } from "@/app/_components/EditableText";
 import { NicheGallery } from "./NicheGallery";
@@ -18,7 +18,7 @@ export function PackagePicker({
   packages: Package[];
   nicheSlug: string;
   nicheTitle: string;
-  nicheGallery: Photo[];
+  nicheGallery: LabeledPhoto[];
   whatsappBase: string;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);

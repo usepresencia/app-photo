@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Photo } from "@/actions/_mock/types";
+import type { LabeledPhoto } from "@/actions/_shared/getPhotosBySurface";
 import { Addable } from "@/app/_components/Addable";
 import { Editable } from "@/app/_components/Editable";
 
@@ -8,7 +8,7 @@ export function NicheGallery({
   nicheTitle,
   nicheSlug,
 }: {
-  photos: Photo[];
+  photos: LabeledPhoto[];
   nicheTitle: string;
   nicheSlug: string;
 }) {
@@ -37,6 +37,11 @@ export function NicheGallery({
                   className="object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-active:grayscale-0"
                 />
               </div>
+              {photo.label && (
+                <figcaption className="font-hand mt-2 px-1 text-sm leading-snug sm:text-base">
+                  {photo.label}
+                </figcaption>
+              )}
             </figure>
           </Editable>
         ))}
