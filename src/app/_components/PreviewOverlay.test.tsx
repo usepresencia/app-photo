@@ -5,6 +5,7 @@ import {
   originOf,
   parseAddableTarget,
   parseEditableTarget,
+  parseEditableTextTarget,
   PreviewOverlay,
 } from "./PreviewOverlay";
 
@@ -56,6 +57,31 @@ describe("parseEditableTarget", () => {
     expect(parseEditableTarget("semdoispontos")).toBeNull();
     expect(parseEditableTarget(null)).toBeNull();
     expect(parseEditableTarget("")).toBeNull();
+  });
+});
+
+describe("parseEditableTextTarget", () => {
+  it("separa tipo, id e campo pelos dois pontos", () => {
+    expect(parseEditableTextTarget("niche:familia:description.1")).toEqual({
+      entityType: "niche",
+      id: "familia",
+      field: "description.1",
+    });
+  });
+
+  it("separa um campo aninhado sem problema (o campo em si nunca tem ':')", () => {
+    expect(parseEditableTextTarget("profile:main:profissao.paragrafos.2")).toEqual({
+      entityType: "profile",
+      id: "main",
+      field: "profissao.paragrafos.2",
+    });
+  });
+
+  it("retorna null se faltar qualquer uma das 3 partes, ou valor vazio/nulo", () => {
+    expect(parseEditableTextTarget("niche:familia")).toBeNull();
+    expect(parseEditableTextTarget("niche::title")).toBeNull();
+    expect(parseEditableTextTarget(null)).toBeNull();
+    expect(parseEditableTextTarget("")).toBeNull();
   });
 });
 

@@ -37,6 +37,15 @@ export function parseEditableTarget(
   return { entityType, id };
 }
 
+export function parseEditableTextTarget(
+  value: string | null,
+): { entityType: string; id: string; field: string } | null {
+  if (!value) return null;
+  const [entityType, id, field] = value.split(":");
+  if (!entityType || !id || !field) return null;
+  return { entityType, id, field };
+}
+
 export function parseAddableTarget(
   value: string | null,
 ): { entityType: string; context: unknown } | null {
