@@ -14,9 +14,17 @@ describe("About", () => {
     expect(placementEditables).toHaveLength(4);
   });
 
-  it("marca os dois blocos de texto como editáveis (tipo profile, id main)", async () => {
+  it("marca os campos de perfil como editáveis individualmente (tipo profile, id main)", async () => {
     const { container } = render(await About());
-    const profileEditables = container.querySelectorAll('[data-editable="profile:main"]');
-    expect(profileEditables).toHaveLength(2);
+    const values = Array.from(
+      container.querySelectorAll('[data-editable-text^="profile:main:"]'),
+    ).map((el) => el.getAttribute("data-editable-text"));
+    expect(values).toContain("profile:main:capaCaption");
+    expect(values).toContain("profile:main:profissao.titulo");
+    expect(values).toContain("profile:main:profissao.eyebrow");
+    expect(values.some((v) => v?.startsWith("profile:main:profissao.paragrafos."))).toBe(true);
+    expect(values).toContain("profile:main:familia.titulo");
+    expect(values.some((v) => v?.startsWith("profile:main:familia.paragrafos."))).toBe(true);
+    expect(values).toContain("profile:main:familia.legendaFoto");
   });
 });

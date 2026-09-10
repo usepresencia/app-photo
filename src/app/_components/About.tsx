@@ -5,6 +5,7 @@ import { getAboutPhotos } from "@/actions/gallery";
 import { getProfile } from "@/actions/profile";
 import type { Photo } from "@/actions/_mock/types";
 import { Editable } from "./Editable";
+import { EditableText } from "./EditableText";
 
 // A proporção vai para dentro do cartão, não na célula da grade: a altura passa
 // a vir da foto mais a legenda, para o texto crescer sem ser cortado.
@@ -58,69 +59,99 @@ export async function About() {
               />
             </div>
             <figcaption className="font-condensed absolute bottom-3 left-3 bg-background/85 px-3 py-1 text-[0.62rem] uppercase tracking-[0.3em] text-gold">
-              {profile.capaCaption}
+              <EditableText type="profile" id="main" field="capaCaption">
+                {profile.capaCaption}
+              </EditableText>
             </figcaption>
           </figure>
         </Editable>
 
-        <Editable type="profile" id="main">
-          <div className="relative overflow-hidden border-l-2 border-gold p-6 pl-5">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
-              style={{
-                boxShadow: "var(--shadow-gold)",
-                maskImage:
-                  "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
-                maskComposite: "intersect",
-                WebkitMaskComposite: "source-in",
-              }}
-            />
-            <h3 className="display-xl relative text-3xl text-foreground">
-              {profile.profissao.titulo}
-            </h3>
-            <p className="font-condensed relative mt-1 text-[0.65rem] uppercase tracking-[0.35em] text-gold">
-              {profile.profissao.eyebrow}
-            </p>
-            {profile.profissao.paragrafos.map((paragrafo, i) => (
-              <p key={i} className="relative mt-3 text-sm leading-relaxed text-foreground">
-                {paragrafo}
-              </p>
-            ))}
-          </div>
-        </Editable>
+        <div className="relative overflow-hidden border-l-2 border-gold p-6 pl-5">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
+            style={{
+              boxShadow: "var(--shadow-gold)",
+              maskImage:
+                "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
+              maskComposite: "intersect",
+              WebkitMaskComposite: "source-in",
+            }}
+          />
+          <EditableText
+            type="profile"
+            id="main"
+            field="profissao.titulo"
+            as="h3"
+            className="display-xl relative text-3xl text-foreground"
+          >
+            {profile.profissao.titulo}
+          </EditableText>
+          <EditableText
+            type="profile"
+            id="main"
+            field="profissao.eyebrow"
+            as="p"
+            className="font-condensed relative mt-1 text-[0.65rem] uppercase tracking-[0.35em] text-gold"
+          >
+            {profile.profissao.eyebrow}
+          </EditableText>
+          {profile.profissao.paragrafos.map((paragrafo, i) => (
+            <EditableText
+              key={i}
+              type="profile"
+              id="main"
+              field={`profissao.paragrafos.${i}`}
+              as="p"
+              className="relative mt-3 text-sm leading-relaxed text-foreground"
+            >
+              {paragrafo}
+            </EditableText>
+          ))}
+        </div>
         <Row
           photos={[family[1], family[3]]}
           notes={["Minha base, minha família", "Amo esportes radicais e amo adrenalina"]}
         />
 
-        <Editable type="profile" id="main">
-          <div className="relative overflow-hidden border-l-2 border-gold p-6 pl-5">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
-              style={{
-                boxShadow: "var(--shadow-gold)",
-                maskImage:
-                  "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
-                maskComposite: "intersect",
-                WebkitMaskComposite: "source-in",
-              }}
-            />
-            <h3 className="display-xl relative text-3xl text-foreground">
-              {profile.familia.titulo}
-            </h3>
-            {profile.familia.paragrafos.map((paragrafo, i) => (
-              <p key={i} className="relative mt-3 text-sm leading-relaxed text-foreground">
-                {paragrafo}
-              </p>
-            ))}
-          </div>
-        </Editable>
+        <div className="relative overflow-hidden border-l-2 border-gold p-6 pl-5">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
+            style={{
+              boxShadow: "var(--shadow-gold)",
+              maskImage:
+                "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
+              maskComposite: "intersect",
+              WebkitMaskComposite: "source-in",
+            }}
+          />
+          <EditableText
+            type="profile"
+            id="main"
+            field="familia.titulo"
+            as="h3"
+            className="display-xl relative text-3xl text-foreground"
+          >
+            {profile.familia.titulo}
+          </EditableText>
+          {profile.familia.paragrafos.map((paragrafo, i) => (
+            <EditableText
+              key={i}
+              type="profile"
+              id="main"
+              field={`familia.paragrafos.${i}`}
+              as="p"
+              className="relative mt-3 text-sm leading-relaxed text-foreground"
+            >
+              {paragrafo}
+            </EditableText>
+          ))}
+        </div>
         <Editable type="placement" id={family[2].placementId}>
           <figure
             style={{ ["--tape-rot" as string]: "-6deg" }}
@@ -138,7 +169,9 @@ export async function About() {
               />
             </div>
             <figcaption className="font-hand mt-2 px-1 text-sm leading-snug sm:text-base">
-              {profile.familia.legendaFoto}
+              <EditableText type="profile" id="main" field="familia.legendaFoto">
+                {profile.familia.legendaFoto}
+              </EditableText>
             </figcaption>
           </figure>
         </Editable>
