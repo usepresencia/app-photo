@@ -27,4 +27,15 @@ describe("About", () => {
     expect(values.some((v) => v?.startsWith("profile:main:familia.paragrafos."))).toBe(true);
     expect(values).toContain("profile:main:familia.legendaFoto");
   });
+
+  it("usa a legenda do banco nos dois polaroids do Row, não texto fixo", async () => {
+    const { container } = render(await About());
+    const captions = Array.from(container.querySelectorAll("figcaption")).map(
+      (el) => el.textContent,
+    );
+    expect(captions).toContain("polaroid-1");
+    expect(captions).toContain("polaroid-2");
+    expect(captions).not.toContain("Minha base, minha família");
+    expect(captions).not.toContain("Amo esportes radicais e amo adrenalina");
+  });
 });

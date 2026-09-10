@@ -3,7 +3,7 @@ import { Section } from "@/lib/_components/Section";
 import { Polaroid } from "@/lib/_components/Polaroid";
 import { getAboutPhotos } from "@/actions/gallery";
 import { getProfile } from "@/actions/profile";
-import type { Photo } from "@/actions/_mock/types";
+import type { LabeledPhoto } from "@/actions/_shared/getPhotosBySurface";
 import { Editable } from "./Editable";
 import { EditableText } from "./EditableText";
 
@@ -15,7 +15,7 @@ const poses = [
   { grid: "col-span-6 col-start-4 -mt-40 -rotate-[2deg] z-20", aspect: "aspect-3/4" },
 ];
 
-function Row({ photos, notes = [] }: { photos: Photo[]; notes?: string[] }) {
+function Row({ photos }: { photos: LabeledPhoto[] }) {
   return (
     <div className="grid grid-cols-12 items-start gap-x-0 pt-4">
       {photos.map((photo, i) => {
@@ -30,7 +30,7 @@ function Row({ photos, notes = [] }: { photos: Photo[]; notes?: string[] }) {
             <Polaroid
               photo={photo}
               alt="Registro do portfólio de Denise Galvão"
-              caption={notes[i]}
+              caption={photo.label}
               aspect={pose.aspect}
               tape={i % 2 === 0 ? "top" : "corner"}
               tapeRotationDeg={i % 2 ? 6 : -7}
@@ -111,10 +111,7 @@ export async function About() {
             </EditableText>
           ))}
         </div>
-        <Row
-          photos={[family[1], family[3]]}
-          notes={["Minha base, minha família", "Amo esportes radicais e amo adrenalina"]}
-        />
+        <Row photos={[family[1], family[3]]} />
 
         <div className="relative overflow-hidden border-l-2 border-gold p-6 pl-5">
           <div
