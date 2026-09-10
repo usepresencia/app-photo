@@ -166,7 +166,17 @@ export function ContactForm({ whatsapp }: { whatsapp: string }) {
 
         <div
           className="relative max-w-full overflow-hidden"
-          onClick={() => dataInputRef.current?.showPicker?.()}
+          onClick={() => {
+            // showPicker() lança (cross-origin iframe, ex.: preview do
+            // admin embutindo este site) — cai pra focus() nesse caso,
+            // que ainda deixa o campo utilizável via teclado/clique
+            // direto, sem quebrar a interação inteira.
+            try {
+              dataInputRef.current?.showPicker?.();
+            } catch {
+              dataInputRef.current?.focus();
+            }
+          }}
         >
           <input
             ref={dataInputRef}
