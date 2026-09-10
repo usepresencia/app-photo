@@ -6,7 +6,7 @@ import { buildWhatsappLink } from "@/lib/_utils/whatsapp";
 import { formatDataPretendida } from "@/lib/_utils/formatDataPretendida";
 
 // Orçamento de caracteres da descrição livre — ela entra no meio da
-// frase ("... ensaios de X. {descrição} na data de Y."), então precisa
+// frase ("... ensaios de X. {descrição} dia Y."), então precisa
 // caber sem estourar o formato da mensagem.
 const MSG_MAX_LENGTH = 150;
 
@@ -122,7 +122,7 @@ export function ContactForm({ whatsapp }: { whatsapp: string }) {
   const send = (e: FormEvent) => {
     e.preventDefault();
     if (!form.tipo) return;
-    const text = `Olá, Denise! Me chamo ${form.nome}.\nVi que você trabalha com ensaios de ${form.tipo}. ${form.msg} na data de ${formatDataPretendida(form.data)}.`;
+    const text = `Olá, Denise! Me chamo ${form.nome}.\nVi que você trabalha com ensaios de ${form.tipo}. ${form.msg} dia ${formatDataPretendida(form.data)}.`;
     window.open(buildWhatsappLink(whatsapp, text), "_blank");
   };
 
