@@ -23,7 +23,7 @@ export class GetPhotosBySurfaceUseCase {
     for (const placement of placements) {
       const photo = byId.get(placement.photoId);
       if (!photo) continue; // placement órfão (foto apagada) — ignora, não quebra a página
-      result.push({ ...photo, placementId: placement.id, role: placement.role });
+      result.push({ ...photo, placementId: placement.id, caption: placement.caption });
     }
     return result;
   }

@@ -7,7 +7,7 @@ export interface GalleryPhoto extends Photo {
 
 export async function getGalleryPhotos(): Promise<GalleryPhoto[]> {
   const photos = await getPhotosBySurface("home-gallery");
-  return photos.map((p) => ({ ...toPhoto(p), label: p.role ?? "" }));
+  return photos.map((p) => ({ ...toPhoto(p), label: p.caption ?? "" }));
 }
 
 export async function getAboutPhotos(): Promise<{ family: Photo[] }> {

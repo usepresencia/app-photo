@@ -29,18 +29,18 @@ describe("derivePlacements", () => {
     expect(placements.length).toBeLessThanOrEqual(12);
   });
 
-  it("quem-sou: exatamente 4 placements, roles capa/polaroid-1/altar/polaroid-2 em ordem", () => {
+  it("quem-sou: exatamente 4 placements, captions capa/polaroid-1/altar/polaroid-2 em ordem", () => {
     const placements = derivePlacements(photos)
       .filter((p) => p.surface === "quem-sou")
       .sort((a, b) => a.order - b.order);
-    expect(placements.map((p) => p.role)).toEqual(["capa", "polaroid-1", "altar", "polaroid-2"]);
+    expect(placements.map((p) => p.caption)).toEqual(["capa", "polaroid-1", "altar", "polaroid-2"]);
   });
 
-  it("home-gallery: no máximo 18, cada um com role preenchido", () => {
+  it("home-gallery: no máximo 18, cada um com caption preenchido", () => {
     const placements = derivePlacements(photos).filter((p) => p.surface === "home-gallery");
     expect(placements.length).toBeGreaterThan(0);
     expect(placements.length).toBeLessThanOrEqual(18);
-    for (const p of placements) expect(p.role).toBeTruthy();
+    for (const p of placements) expect(p.caption).toBeTruthy();
   });
 
   it("nicho: cada um dos 7 slugs reais tem pelo menos 1 placement", () => {

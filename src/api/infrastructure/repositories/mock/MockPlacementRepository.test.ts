@@ -11,11 +11,11 @@ describe("MockPlacementRepository", () => {
     );
   });
 
-  it("retorna os 4 placements de quem-sou, com role distinto cada", async () => {
+  it("retorna os 4 placements de quem-sou, com caption distinto cada", async () => {
     const repo = new MockPlacementRepository();
     const placements = await repo.findBySurface("quem-sou");
     expect(placements).toHaveLength(4);
-    expect(new Set(placements.map((p) => p.role)).size).toBe(4);
+    expect(new Set(placements.map((p) => p.caption)).size).toBe(4);
   });
 
   it("filtra galeria de nicho por refId", async () => {

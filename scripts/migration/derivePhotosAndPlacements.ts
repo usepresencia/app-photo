@@ -20,7 +20,7 @@ export interface DerivedPlacement {
   photoId: string;
   surface: PhotoSurface;
   refId: string | null;
-  role: string | null;
+  caption: string | null;
   order: number;
 }
 
@@ -44,7 +44,7 @@ const GALLERY_CATEGORIES = [
 
 const HERO_CATEGORIES = ["familia", "gestante", "evento-aniversario"];
 
-const ABOUT_ROLES = ["capa", "polaroid-1", "altar", "polaroid-2"];
+const ABOUT_CAPTIONS = ["capa", "polaroid-1", "altar", "polaroid-2"];
 
 const NICHE_PHOTO_CATEGORIES: Record<string, string[]> = {
   "retratos-profissionais": ["profissional", "corporativo", "pessoal"],
@@ -94,7 +94,7 @@ export function derivePlacements(photos: Record<string, RawPhoto[]>): DerivedPla
 
   const heroPools = HERO_CATEGORIES.map((slug) => categoria(photos, slug).filter(isHorizontal));
   intercalar(heroPools, HERO_SIZE).forEach((photo, order) => {
-    placements.push({ photoId: photo.slug, surface: "hero", refId: null, role: null, order });
+    placements.push({ photoId: photo.slug, surface: "hero", refId: null, caption: null, order });
   });
 
   (photos.familia ?? []).slice(0, ABOUT_FAMILY_COUNT).forEach((photo, order) => {
@@ -102,7 +102,7 @@ export function derivePlacements(photos: Record<string, RawPhoto[]>): DerivedPla
       photoId: photo.slug,
       surface: "quem-sou",
       refId: null,
-      role: ABOUT_ROLES[order],
+      caption: ABOUT_CAPTIONS[order],
       order,
     });
   });
@@ -115,7 +115,7 @@ export function derivePlacements(photos: Record<string, RawPhoto[]>): DerivedPla
       photoId: photo.slug,
       surface: "home-gallery",
       refId: null,
-      role: photo.label,
+      caption: photo.label,
       order,
     });
   });
@@ -127,7 +127,7 @@ export function derivePlacements(photos: Record<string, RawPhoto[]>): DerivedPla
         photoId: photo.slug,
         surface: "niche",
         refId: nicheSlug,
-        role: null,
+        caption: null,
         order,
       });
     });

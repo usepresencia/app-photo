@@ -19,7 +19,7 @@ function toPlacement(
     photoId: data.photoId,
     surface: data.surface,
     refId: data.refId ?? null,
-    role: data.role ?? null,
+    caption: data.caption ?? null,
     order: data.order,
   };
 }

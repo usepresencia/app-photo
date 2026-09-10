@@ -13,9 +13,9 @@ describe("GetPhotosBySurfaceUseCase", () => {
     expect(photos.map((p) => p.id)).toEqual(["hero-1", "hero-2", "hero-3", "hero-4"]);
   });
 
-  it("inclui o role de cada foto", async () => {
+  it("inclui o caption de cada foto", async () => {
     const photos = await useCase().execute("quem-sou");
-    expect(photos.map((p) => p.role)).toEqual(["capa", "polaroid-1", "altar", "polaroid-2"]);
+    expect(photos.map((p) => p.caption)).toEqual(["capa", "polaroid-1", "altar", "polaroid-2"]);
   });
 
   it("filtra por refId quando informado", async () => {

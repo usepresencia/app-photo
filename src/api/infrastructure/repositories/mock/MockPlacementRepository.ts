@@ -18,28 +18,34 @@ function galleryLabel(photoId: string): string {
 
 const PLACEMENTS: Placement[] = [
   ...["hero-1", "hero-2", "hero-3", "hero-4"].map((photoId, order) =>
-    placement({ photoId, surface: "hero", refId: null, role: null, order }),
+    placement({ photoId, surface: "hero", refId: null, caption: null, order }),
   ),
-  placement({ photoId: "quemsou-capa", surface: "quem-sou", refId: null, role: "capa", order: 0 }),
+  placement({
+    photoId: "quemsou-capa",
+    surface: "quem-sou",
+    refId: null,
+    caption: "capa",
+    order: 0,
+  }),
   placement({
     photoId: "quemsou-polaroid-1",
     surface: "quem-sou",
     refId: null,
-    role: "polaroid-1",
+    caption: "polaroid-1",
     order: 1,
   }),
   placement({
     photoId: "quemsou-altar",
     surface: "quem-sou",
     refId: null,
-    role: "altar",
+    caption: "altar",
     order: 2,
   }),
   placement({
     photoId: "quemsou-polaroid-2",
     surface: "quem-sou",
     refId: null,
-    role: "polaroid-2",
+    caption: "polaroid-2",
     order: 3,
   }),
   ...["galeria-1", "galeria-2", "gestante-1", "familia-1", "galeria-3", "gestante-2"].map(
@@ -48,7 +54,7 @@ const PLACEMENTS: Placement[] = [
         photoId,
         surface: "home-gallery",
         refId: null,
-        role: galleryLabel(photoId),
+        caption: galleryLabel(photoId),
         order,
       }),
   ),
@@ -56,7 +62,7 @@ const PLACEMENTS: Placement[] = [
   // slugs reais precisa ser completa (getEventNiches usa 3 dos 7).
   ...MOCK_NICHE_SLUGS.flatMap((slug) =>
     [`${slug}-1`, `${slug}-2`].map((photoId, order) =>
-      placement({ photoId, surface: "niche", refId: slug, role: null, order }),
+      placement({ photoId, surface: "niche", refId: slug, caption: null, order }),
     ),
   ),
 ];

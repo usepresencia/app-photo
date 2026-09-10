@@ -5,5 +5,5 @@ export interface PlacedPhotoDTO {
   width: number;
   height: number;
   blurDataURL: string;
-  role: string | null;
+  caption: string | null;
 }
