@@ -7,10 +7,18 @@ vi.mock("next/image", () => ({
 }));
 
 describe("NichePage", () => {
-  it("marca o bloco de intro/descrição/destaques como editável (tipo niche)", async () => {
+  it("marca intro/descrição/destaques do nicho como editáveis individualmente (tipo niche)", async () => {
     const jsx = await NichePage({ params: Promise.resolve({ slug: "familia" }) });
     const { container } = render(jsx);
-    const editable = container.querySelector('[data-editable="niche:familia"]');
-    expect(editable).not.toBeNull();
+    const intro = container.querySelector('[data-editable-text="niche:familia:intro"]');
+    expect(intro).not.toBeNull();
+    const description = container.querySelectorAll(
+      '[data-editable-text^="niche:familia:description."]',
+    );
+    expect(description.length).toBeGreaterThan(0);
+    const highlights = container.querySelectorAll(
+      '[data-editable-text^="niche:familia:highlights."]',
+    );
+    expect(highlights.length).toBeGreaterThan(0);
   });
 });
