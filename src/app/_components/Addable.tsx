@@ -18,7 +18,7 @@ export function Addable({
   className = "",
   children,
 }: {
-  type: "niche" | "package" | "placement";
+  type: "niche" | "package" | "placement" | "testimonials";
   context?: Record<string, string>;
   className?: string;
   children: React.ReactNode;

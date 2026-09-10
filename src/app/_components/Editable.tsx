@@ -13,7 +13,7 @@ export function Editable({
   className = "",
   children,
 }: {
-  type: "niche" | "package" | "placement" | "profile";
+  type: "niche" | "package" | "placement" | "profile" | "testimonial";
   id: string;
   className?: string;
   children: React.ReactNode;
