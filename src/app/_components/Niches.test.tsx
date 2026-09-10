@@ -16,7 +16,7 @@ describe("Niches", () => {
     expect(values).toContain("niche:familia:subtitle");
   });
 
-  it("marca o fim do carrossel com um Addable de tipo niche", async () => {
+  it("marca o título da seção com um Addable de tipo niche", async () => {
     const { container } = render(await Niches());
     const addable = container.querySelector('[data-addable^="niche:"]');
     expect(addable).not.toBeNull();

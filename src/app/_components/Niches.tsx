@@ -8,7 +8,19 @@ import { EditableText } from "./EditableText";
 export async function Niches() {
   const niches = await getNiches();
   return (
-    <Section id="ensaios" index="03" title="Ensaios para cada momento">
+    <Section
+      id="ensaios"
+      index="03"
+      title="Ensaios para cada momento"
+      action={
+        <Addable
+          type="niche"
+          className="font-condensed flex h-9 shrink-0 items-center whitespace-nowrap rounded-full px-4 text-[0.65rem] font-semibold uppercase tracking-[0.2em]"
+        >
+          Adicionar novo ensaio
+        </Addable>
+      }
+    >
       <p className="text-sm leading-relaxed text-muted-foreground">
         Arraste para o lado e toque no ensaio para ver a descrição completa, os pacotes e a galeria.
       </p>
@@ -64,9 +76,6 @@ export async function Niches() {
             </div>
           </Link>
         ))}
-        <Addable type="niche" className="w-24 shrink-0 snap-center text-4xl font-light">
-          +
-        </Addable>
       </div>
     </Section>
   );
