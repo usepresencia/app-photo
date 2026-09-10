@@ -5,7 +5,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import type { Package } from "@/actions/packages";
 import type { Photo } from "@/actions/_mock/types";
 import { Addable } from "@/app/_components/Addable";
-import { Editable } from "@/app/_components/Editable";
+import { EditableText } from "@/app/_components/EditableText";
 import { NicheGallery } from "./NicheGallery";
 
 export function PackagePicker({
@@ -41,33 +41,43 @@ export function PackagePicker({
             <div className="album-page-prev">
               <div className="grid gap-3 sm:grid-cols-3">
                 {packages.map((p) => (
-                  <Editable key={p.id} type="package" id={p.id} className="block h-full">
-                    <button
-                      type="button"
-                      onClick={() => setSelectedId(p.id)}
-                      className="relative block h-full w-full overflow-hidden border border-gold/20 p-5 text-left transition-colors hover:border-gold/50"
-                      style={{ boxShadow: "var(--shadow-gold)" }}
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => setSelectedId(p.id)}
+                    className="relative block h-full w-full overflow-hidden border border-gold/20 p-5 text-left transition-colors hover:border-gold/50"
+                    style={{ boxShadow: "var(--shadow-gold)" }}
+                  >
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 opacity-30"
+                      style={{
+                        backgroundImage:
+                          "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--gold) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--gold) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--gold) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--gold) 8%, transparent) 0 16px, transparent 17px)",
+                        backgroundSize: "190px 190px",
+                      }}
+                    />
+                    <EditableText
+                      type="package"
+                      id={p.id}
+                      field="name"
+                      as="h3"
+                      className="display-xl relative z-10 text-2xl text-foreground"
                     >
-                      <div
-                        aria-hidden="true"
-                        className="absolute inset-0 opacity-30"
-                        style={{
-                          backgroundImage:
-                            "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--gold) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--gold) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--gold) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--gold) 8%, transparent) 0 16px, transparent 17px)",
-                          backgroundSize: "190px 190px",
-                        }}
-                      />
-                      <h3 className="display-xl relative z-10 text-2xl text-foreground">
-                        {p.name}
-                      </h3>
-                      <span className="font-condensed relative z-10 mt-1 block text-2xl font-normal text-gold">
-                        {p.price}
-                      </span>
-                      <span className="font-condensed relative z-10 mt-3 block text-[0.6rem] uppercase tracking-[0.25em] text-muted-foreground">
-                        Ver o que inclui
-                      </span>
-                    </button>
-                  </Editable>
+                      {p.name}
+                    </EditableText>
+                    <EditableText
+                      type="package"
+                      id={p.id}
+                      field="price"
+                      className="font-condensed relative z-10 mt-1 block text-2xl font-normal text-gold"
+                    >
+                      {p.price}
+                    </EditableText>
+                    <span className="font-condensed relative z-10 mt-3 block text-[0.6rem] uppercase tracking-[0.25em] text-muted-foreground">
+                      Ver o que inclui
+                    </span>
+                  </button>
                 ))}
                 <Addable
                   type="package"
@@ -108,10 +118,23 @@ export function PackagePicker({
               </button>
               <div className="flex-1">
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-4">
-                  <h3 className="display-xl text-3xl text-foreground">{pack.name}</h3>
-                  <span className="font-condensed shrink-0 text-3xl font-normal text-gold">
+                  <EditableText
+                    type="package"
+                    id={pack.id}
+                    field="name"
+                    as="h3"
+                    className="display-xl text-3xl text-foreground"
+                  >
+                    {pack.name}
+                  </EditableText>
+                  <EditableText
+                    type="package"
+                    id={pack.id}
+                    field="price"
+                    className="font-condensed shrink-0 text-3xl font-normal text-gold"
+                  >
                     {pack.price}
-                  </span>
+                  </EditableText>
                 </div>
                 <p className="font-condensed mt-1 text-[0.62rem] uppercase tracking-[0.3em] text-muted-foreground">
                   Ensaio de {nicheTitle}
@@ -119,17 +142,25 @@ export function PackagePicker({
               </div>
             </div>
             {pack.description && (
-              <p className="relative z-10 mt-4 text-sm leading-relaxed text-muted-foreground">
+              <EditableText
+                type="package"
+                id={pack.id}
+                field="description"
+                as="p"
+                className="relative z-10 mt-4 text-sm leading-relaxed text-muted-foreground"
+              >
                 {pack.description}
-              </p>
+              </EditableText>
             )}
             <ul className="relative z-10 mt-5 space-y-2">
-              {pack.items.map((i) => (
+              {pack.items.map((i, idx) => (
                 <li key={i} className="flex gap-2 text-sm text-muted-foreground">
                   <span aria-hidden="true" className="text-gold">
                     •
                   </span>
-                  {i}
+                  <EditableText type="package" id={pack.id} field={`items.${idx}`}>
+                    {i}
+                  </EditableText>
                 </li>
               ))}
             </ul>

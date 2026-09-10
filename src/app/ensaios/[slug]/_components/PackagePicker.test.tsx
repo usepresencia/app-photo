@@ -16,7 +16,7 @@ const packages: Package[] = [
 ];
 
 describe("PackagePicker", () => {
-  it("marca cada card de pacote como editável (tipo package)", () => {
+  it("marca nome e preço de cada card de pacote como editáveis (tipo package)", () => {
     const { container } = render(
       <PackagePicker
         packages={packages}
@@ -26,10 +26,13 @@ describe("PackagePicker", () => {
         whatsappBase="https://wa.me/5511999999999"
       />,
     );
-    const editables = container.querySelectorAll('[data-editable^="package:"]');
-    expect(editables).toHaveLength(2);
-    expect(editables[0].getAttribute("data-editable")).toBe("package:pacote-1");
-    expect(editables[1].getAttribute("data-editable")).toBe("package:pacote-2");
+    const editables = container.querySelectorAll('[data-editable-text^="package:"]');
+    expect(editables).toHaveLength(4);
+    const values = Array.from(editables).map((el) => el.getAttribute("data-editable-text"));
+    expect(values).toContain("package:pacote-1:name");
+    expect(values).toContain("package:pacote-1:price");
+    expect(values).toContain("package:pacote-2:name");
+    expect(values).toContain("package:pacote-2:price");
   });
 
   it("marca o fim da grade de pacotes com um Addable de tipo package (contexto: nicheSlug)", () => {
