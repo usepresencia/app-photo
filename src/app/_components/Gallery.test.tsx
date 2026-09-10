@@ -1,13 +1,13 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "@testing-library/react";
 import { Gallery } from "./Gallery";
-import type { GalleryPhoto } from "@/actions/gallery";
+import type { LabeledPhoto } from "@/actions/_shared/getPhotosBySurface";
 
 vi.mock("next/image", () => ({
   default: ({ src, alt }: { src: string; alt: string }) => <img src={src} alt={alt} />,
 }));
 
-const photos: GalleryPhoto[] = Array.from({ length: 6 }, (_, i) => ({
+const photos: LabeledPhoto[] = Array.from({ length: 6 }, (_, i) => ({
   src: `/fotos/teste/galeria-${i}.webp`,
   width: 1200,
   height: 1600,

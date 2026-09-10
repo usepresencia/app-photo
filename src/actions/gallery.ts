@@ -1,18 +1,19 @@
 import type { Photo } from "./_mock/types";
-import { getPhotosBySurface, toPhoto } from "./_shared/getPhotosBySurface";
+import {
+  getPhotosBySurface,
+  toLabeledPhoto,
+  toPhoto,
+  type LabeledPhoto,
+} from "./_shared/getPhotosBySurface";
 
-export interface GalleryPhoto extends Photo {
-  label: string;
-}
-
-export async function getGalleryPhotos(): Promise<GalleryPhoto[]> {
+export async function getGalleryPhotos(): Promise<LabeledPhoto[]> {
   const photos = await getPhotosBySurface("home-gallery");
-  return photos.map((p) => ({ ...toPhoto(p), label: p.caption ?? "" }));
+  return photos.map(toLabeledPhoto);
 }
 
-export async function getAboutPhotos(): Promise<{ family: Photo[] }> {
+export async function getAboutPhotos(): Promise<{ family: LabeledPhoto[] }> {
   const photos = await getPhotosBySurface("quem-sou");
-  return { family: photos.map(toPhoto) };
+  return { family: photos.map(toLabeledPhoto) };
 }
 
 export async function getHeroPhotos(): Promise<Photo[]> {

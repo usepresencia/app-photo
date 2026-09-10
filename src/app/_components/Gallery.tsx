@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Section } from "@/lib/_components/Section";
 import { useSwipe } from "@/lib/_hooks/useSwipe";
 import { useSlideshow } from "@/lib/_hooks/useSlideshow";
-import type { GalleryPhoto } from "@/actions/gallery";
+import type { LabeledPhoto } from "@/actions/_shared/getPhotosBySurface";
 import { Addable } from "./Addable";
 import { Editable } from "./Editable";
 
@@ -20,8 +20,8 @@ const spreadPoses = [
   "col-span-9 col-start-3 -mt-36 aspect-4/5 -rotate-[2deg] z-50",
 ];
 
-function GalleryAlbum({ photos }: { photos: GalleryPhoto[] }) {
-  const spreads: GalleryPhoto[][] = [];
+function GalleryAlbum({ photos }: { photos: LabeledPhoto[] }) {
+  const spreads: LabeledPhoto[][] = [];
   for (let i = 0; i < photos.length; i += 6) spreads.push(photos.slice(i, i + 6));
 
   const [isHovered, setIsHovered] = useState(false);
@@ -112,7 +112,7 @@ function GalleryAlbum({ photos }: { photos: GalleryPhoto[] }) {
   );
 }
 
-export function Gallery({ photos }: { photos: GalleryPhoto[] }) {
+export function Gallery({ photos }: { photos: LabeledPhoto[] }) {
   return (
     <Section id="galeria" index="02" eyebrow="Portfólio" title="Meus trabalhos">
       <GalleryAlbum photos={photos} />
