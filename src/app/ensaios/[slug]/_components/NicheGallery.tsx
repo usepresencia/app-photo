@@ -14,9 +14,18 @@ export function NicheGallery({
 }) {
   return (
     <div>
-      <h4 className="font-condensed text-[0.68rem] uppercase tracking-[0.4em] text-gold">
-        Galeria do ensaio
-      </h4>
+      <div className="flex items-center justify-between gap-3">
+        <h4 className="font-condensed text-[0.68rem] uppercase tracking-[0.4em] text-gold">
+          Galeria do ensaio
+        </h4>
+        <Addable
+          type="placement"
+          context={{ surface: "niche", refId: nicheSlug }}
+          className="font-condensed flex h-9 shrink-0 items-center whitespace-nowrap rounded-full px-4 text-[0.65rem] font-semibold uppercase tracking-[0.2em]"
+        >
+          Adicionar nova foto
+        </Addable>
+      </div>
       <div className="mt-4 columns-2 gap-2">
         {photos.map((photo, i) => (
           <Editable key={photo.placementId} type="placement" id={photo.placementId}>
@@ -45,13 +54,6 @@ export function NicheGallery({
             </figure>
           </Editable>
         ))}
-        <Addable
-          type="placement"
-          context={{ surface: "niche", refId: nicheSlug }}
-          className="mb-2 flex aspect-square items-center justify-center break-inside-avoid text-4xl font-light"
-        >
-          +
-        </Addable>
       </div>
     </div>
   );

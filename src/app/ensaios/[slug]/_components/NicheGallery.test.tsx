@@ -29,7 +29,7 @@ describe("NicheGallery", () => {
     expect(editables[0].getAttribute("data-editable")).toBe(`placement:${photos[0].placementId}`);
   });
 
-  it("marca o fim da galeria com um Addable de tipo placement (surface niche + refId)", () => {
+  it("marca o título da galeria com um Addable de tipo placement (surface niche + refId)", () => {
     const photos = [photo(0), photo(1), photo(2), photo(3)];
     const { container } = render(
       <NicheGallery photos={photos} nicheTitle="Família" nicheSlug="familia" />,
