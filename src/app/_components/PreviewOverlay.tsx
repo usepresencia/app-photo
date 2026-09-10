@@ -247,16 +247,19 @@ export function PreviewOverlay() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- confirmTextEdit/cancelTextEdit fecham sobre textEditing/adminOrigin do próprio render; recriá-las a cada dependência já é coberto por este efeito rodar de novo quando textEditing muda
   }, [textEditing]);
 
+  const hoveredRect = hovered?.el.getBoundingClientRect();
+  const textEditingRect = textEditing?.el.getBoundingClientRect();
+
   return (
     <>
-      {active && hovered && adminOrigin && (
+      {active && hovered && adminOrigin && hoveredRect && (
         <button
           type="button"
           aria-label="Remover"
           className="preview-delete-icon"
           style={{
-            top: hovered.el.getBoundingClientRect().top - 8,
-            left: hovered.el.getBoundingClientRect().right - 16,
+            top: hoveredRect.top - 8,
+            left: hoveredRect.right - 16,
           }}
           onClick={(event) => {
             event.preventDefault();
@@ -270,12 +273,12 @@ export function PreviewOverlay() {
           🗑
         </button>
       )}
-      {active && textEditing && (
+      {active && textEditing && textEditingRect && (
         <div
           className="preview-textedit-icons"
           style={{
-            top: textEditing.el.getBoundingClientRect().top - 32,
-            left: textEditing.el.getBoundingClientRect().left,
+            top: textEditingRect.top - 32,
+            left: textEditingRect.left,
           }}
         >
           <button
