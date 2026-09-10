@@ -118,6 +118,27 @@ empurrar esse filtro pro Firestore. `delete()` vira `.update({
 _deleted: true })` em vez de `.delete()`. `ProfileRepositoryImpl` só
 troca o nome da coleção — sem tombstone.
 
+**`PhotoRepositoryImpl` merece atenção à parte.** Hoje seu `delete()`
+apaga o doc no Firestore **e** chama `deleteCloudinaryAsset` (destrói
+o arquivo de verdade no Cloudinary) na mesma chamada — um efeito
+colateral real, irreversível, fora do Firestore. Em modo rascunho isso
+não pode continuar acontecendo na hora: o `delete()` do repositório de
+rascunho passa a **só** tombstonear o Firestore
+(`.update({ _deleted: true })`), sem tocar no Cloudinary — a foto seria
+irrecuperável (arquivo destruído) mesmo que o admin decida
+"Sincronizar" pra desistir da exclusão depois. `deleteCloudinaryAsset`
+só é chamado dentro de `publishDraft()`, no momento em que ele resolve
+um tombstone de `photos_draft` (ver seção do `publishDraft()` abaixo)
+— aí sim é definitivo, porque publicar já foi confirmado.
+
+Efeito colateral aceito do lado oposto: uma foto enviada em rascunho
+(upload já sobe direto pro Cloudinary, sem passar pelo conceito de
+"rascunho" — é um sistema externo) e depois descartada via
+Sincronizar deixa o arquivo órfão no Cloudinary, nunca mais referenciado
+por nenhum documento. Não quebra nada, só acumula armazenamento — sem
+limpeza automática por enquanto (custo-benefício baixo pra um site
+pessoal).
+
 ### Ações existentes — `callRevalidateWebhook` → `markDraftDirty`
 
 Nos 5 arquivos de `src/actions/*.ts`, toda chamada a
@@ -133,7 +154,7 @@ export async function getPublishState(): Promise<PublishState> { ... }
 
 export async function publishDraft(): Promise<void> {
   await assertSession();
-  // Para niches/packages/placements/photos:
+  // Para niches/packages/placements:
   //   lê todos os docs de "<entidade>_draft";
   //   pra cada um: se _deleted, apaga o doc live correspondente
   //     (best-effort, ignora se já não existir) e apaga o doc de
@@ -141,6 +162,10 @@ export async function publishDraft(): Promise<void> {
   //     que hard-deleta um doc de rascunho);
   //   senão, grava (.set()) o mesmo id/dados na coleção live,
   //     removendo o campo _deleted se presente (não deveria estar).
+  // Para photos: mesma lógica de niches/packages/placements, mas um
+  //   tombstone aqui TAMBÉM chama deleteCloudinaryAsset(id) antes de
+  //   apagar o doc de rascunho — é o único momento em que o arquivo
+  //   real é destruído (ver nota em PhotoRepositoryImpl acima).
   // Para profile: lê profile_draft/main, grava direto em profile/main
   //   (sem tombstone, documento sempre existe).
   // Batch por coleção (getAdminDb().batch(), bem abaixo do limite de
@@ -309,7 +334,18 @@ branco na primeira vez (nenhum nicho, pacote, foto). Dois ajustes:
   e apagada sem publicar entre os dois): tombstone é gravado do mesmo
   jeito; no Publicar, a tentativa de apagar o doc live correspondente
   simplesmente não encontra nada pra apagar (best-effort, ignora) —
-  sem erro.
+  sem erro. Pra `photos`, também não chama `deleteCloudinaryAsset`
+  nesse caso de forma diferente do normal — chama do mesmo jeito
+  (idempotente, "not found" já conta como sucesso), só que aqui não
+  havia arquivo nenhum a destruir associado a essa foto ainda
+  publicada, então na prática é um no-op.
+- **Excluir uma foto em rascunho, depois Sincronizar antes de
+  Publicar**: o tombstone em `photos_draft` é descartado (Sincronizar
+  sobrescreve o rascunho inteiro a partir do live) sem nunca ter
+  chamado `deleteCloudinaryAsset` — o arquivo nunca foi tocado,
+  exclusão desfeita de verdade, sem foto quebrada. É exatamente o
+  comportamento que motivou adiar o destroy do Cloudinary pro momento
+  do Publicar.
 - **Segredo do token no HTML da aba Rascunho**: `/preview` já é uma
   página autenticada (Firebase Auth); embutir `REVALIDATE_SECRET` no
   `src` do iframe renderizado server-side é visível a quem inspecionar
@@ -356,10 +392,11 @@ branco na primeira vez (nenhum nicho, pacote, foto). Dois ajustes:
 
 ## Decisões já tomadas neste brainstorming
 
-| decisão                                         | escolha                                                                                                                 |
-| ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Escopo do rascunho                              | Tudo que o admin já salva hoje (niche, package, placement, photo, profile) — não só a feature de edição inline de texto |
-| Onde o rascunho fica guardado                   | Coleções `_draft` paralelas por entidade (não sub-campos no mesmo doc, não um log de mudanças)                          |
-| Como o `/preview` continua mostrando o rascunho | App-photo ganha modo rascunho real (cookie + rota de entrada), organizado como duas abas no admin: Rascunho e Live      |
-| O que a aba Live mostra                         | O site exatamente como está publicado agora, sem nenhum sinal de rascunho, read-only na prática                         |
-| Botão de descartar mudanças pendentes           | Sim — "Sincronizar", sobrescreve o rascunho inteiro a partir do live, inverso do Publicar                               |
+| decisão                                               | escolha                                                                                                                                                      |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Escopo do rascunho                                    | Tudo que o admin já salva hoje (niche, package, placement, photo, profile) — não só a feature de edição inline de texto                                      |
+| Onde o rascunho fica guardado                         | Coleções `_draft` paralelas por entidade (não sub-campos no mesmo doc, não um log de mudanças)                                                               |
+| Como o `/preview` continua mostrando o rascunho       | App-photo ganha modo rascunho real (cookie + rota de entrada), organizado como duas abas no admin: Rascunho e Live                                           |
+| O que a aba Live mostra                               | O site exatamente como está publicado agora, sem nenhum sinal de rascunho, read-only na prática                                                              |
+| Botão de descartar mudanças pendentes                 | Sim — "Sincronizar", sobrescreve o rascunho inteiro a partir do live, inverso do Publicar                                                                    |
+| Quando o arquivo no Cloudinary é destruído de verdade | Só no Publicar, ao resolver um tombstone de `photos_draft` — nunca no momento do delete em rascunho (evita foto irrecuperável se depois vier um Sincronizar) |
