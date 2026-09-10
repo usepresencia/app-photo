@@ -3,6 +3,12 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { FaCheck, FaChevronDown, FaRegCalendarAlt } from "react-icons/fa";
 import { buildWhatsappLink } from "@/lib/_utils/whatsapp";
+import { formatDataPretendida } from "@/lib/_utils/formatDataPretendida";
+
+// Orçamento de caracteres da descrição livre — ela entra no meio da
+// frase ("... ensaios de X. {descrição} na data de Y."), então precisa
+// caber sem estourar o formato da mensagem.
+const MSG_MAX_LENGTH = 150;
 
 const floatingInput =
   "peer w-full rounded-lg border border-rose/30 bg-background/70 px-4 py-3 text-sm text-foreground placeholder-transparent shadow-sm backdrop-blur-sm transition-colors focus:border-rose focus:outline-none focus:ring-[3px] focus:ring-rose/20";
@@ -116,9 +122,7 @@ export function ContactForm({ whatsapp }: { whatsapp: string }) {
   const send = (e: FormEvent) => {
     e.preventDefault();
     if (!form.tipo) return;
-    const text = `Olá, Denise! Sou ${form.nome}. Tenho interesse em: ${form.tipo}. Data pretendida: ${
-      form.data || "a definir"
-    }. ${form.msg}`;
+    const text = `Olá, Denise! Me chamo ${form.nome}.\nVi que você trabalha com ensaios de ${form.tipo}. ${form.msg} na data de ${formatDataPretendida(form.data)}.`;
     window.open(buildWhatsappLink(whatsapp, text), "_blank");
   };
 
@@ -208,6 +212,7 @@ export function ContactForm({ whatsapp }: { whatsapp: string }) {
           <textarea
             id={msgId}
             rows={4}
+            maxLength={MSG_MAX_LENGTH}
             placeholder=" "
             className={floatingInput}
             value={form.msg}
@@ -216,6 +221,9 @@ export function ContactForm({ whatsapp }: { whatsapp: string }) {
           <label htmlFor={msgId} className={floatingLabel}>
             Conte um pouco sobre o que você imagina
           </label>
+          <span className="absolute -bottom-5 right-1 text-[0.65rem] text-muted-foreground">
+            {form.msg.length}/{MSG_MAX_LENGTH}
+          </span>
         </div>
 
         <button
