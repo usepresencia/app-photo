@@ -1,6 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const ORIGINAL_ENV = { ...process.env };
+let cookieStore = new Map<string, { value: string }>();
+
+vi.mock("next/headers", () => ({
+  cookies: async () => ({
+    get: (name: string) => cookieStore.get(name),
+  }),
+}));
 
 beforeEach(() => {
   process.env = { ...ORIGINAL_ENV };
@@ -9,6 +16,7 @@ beforeEach(() => {
   delete process.env.FIREBASE_CLIENT_EMAIL;
   delete process.env.FIREBASE_PRIVATE_KEY;
   delete process.env.NEXT_PHASE;
+  cookieStore = new Map();
   vi.resetModules();
 });
 
@@ -74,11 +82,11 @@ describe("RepositoryFactory.niches", () => {
       MockPlacementRepository,
       MockProfileRepository,
     } = await importFresh();
-    expect(RepositoryFactory.niches()).toBeInstanceOf(MockNicheRepository);
-    expect(RepositoryFactory.packages()).toBeInstanceOf(MockPackageRepository);
-    expect(RepositoryFactory.photos()).toBeInstanceOf(MockPhotoRepository);
-    expect(RepositoryFactory.placements()).toBeInstanceOf(MockPlacementRepository);
-    expect(RepositoryFactory.profile()).toBeInstanceOf(MockProfileRepository);
+    expect(await RepositoryFactory.niches()).toBeInstanceOf(MockNicheRepository);
+    expect(await RepositoryFactory.packages()).toBeInstanceOf(MockPackageRepository);
+    expect(await RepositoryFactory.photos()).toBeInstanceOf(MockPhotoRepository);
+    expect(await RepositoryFactory.placements()).toBeInstanceOf(MockPlacementRepository);
+    expect(await RepositoryFactory.profile()).toBeInstanceOf(MockProfileRepository);
   });
 
   // Regressão: `next build` roda com NODE_ENV=production sem credenciais
@@ -95,11 +103,11 @@ describe("RepositoryFactory.niches", () => {
       MockPlacementRepository,
       MockProfileRepository,
     } = await importFresh();
-    expect(RepositoryFactory.niches()).toBeInstanceOf(MockNicheRepository);
-    expect(RepositoryFactory.packages()).toBeInstanceOf(MockPackageRepository);
-    expect(RepositoryFactory.photos()).toBeInstanceOf(MockPhotoRepository);
-    expect(RepositoryFactory.placements()).toBeInstanceOf(MockPlacementRepository);
-    expect(RepositoryFactory.profile()).toBeInstanceOf(MockProfileRepository);
+    expect(await RepositoryFactory.niches()).toBeInstanceOf(MockNicheRepository);
+    expect(await RepositoryFactory.packages()).toBeInstanceOf(MockPackageRepository);
+    expect(await RepositoryFactory.photos()).toBeInstanceOf(MockPhotoRepository);
+    expect(await RepositoryFactory.placements()).toBeInstanceOf(MockPlacementRepository);
+    expect(await RepositoryFactory.profile()).toBeInstanceOf(MockProfileRepository);
   });
 
   it("usa o repositório real em produção servindo tráfego, quando há credenciais", async () => {
@@ -115,10 +123,29 @@ describe("RepositoryFactory.niches", () => {
       PlacementRepositoryImpl,
       ProfileRepositoryImpl,
     } = await importFresh();
-    expect(RepositoryFactory.niches()).toBeInstanceOf(NicheRepositoryImpl);
-    expect(RepositoryFactory.packages()).toBeInstanceOf(PackageRepositoryImpl);
-    expect(RepositoryFactory.photos()).toBeInstanceOf(PhotoRepositoryImpl);
-    expect(RepositoryFactory.placements()).toBeInstanceOf(PlacementRepositoryImpl);
-    expect(RepositoryFactory.profile()).toBeInstanceOf(ProfileRepositoryImpl);
+    expect(await RepositoryFactory.niches()).toBeInstanceOf(NicheRepositoryImpl);
+    expect(await RepositoryFactory.packages()).toBeInstanceOf(PackageRepositoryImpl);
+    expect(await RepositoryFactory.photos()).toBeInstanceOf(PhotoRepositoryImpl);
+    expect(await RepositoryFactory.placements()).toBeInstanceOf(PlacementRepositoryImpl);
+    expect(await RepositoryFactory.profile()).toBeInstanceOf(ProfileRepositoryImpl);
+  });
+
+  it("sem o cookie de rascunho, ainda usa o repositório real (não quebra por falta de cookie)", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    process.env.FIREBASE_PROJECT_ID = "meu-projeto";
+    process.env.FIREBASE_CLIENT_EMAIL = "conta@meu-projeto.iam.gserviceaccount.com";
+    process.env.FIREBASE_PRIVATE_KEY = "chave";
+    const { RepositoryFactory, NicheRepositoryImpl } = await importFresh();
+    expect(await RepositoryFactory.niches()).toBeInstanceOf(NicheRepositoryImpl);
+  });
+
+  it("com o cookie de rascunho setado, ainda resolve pro repositório real (a leitura do cookie não quebra a fábrica)", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    process.env.FIREBASE_PROJECT_ID = "meu-projeto";
+    process.env.FIREBASE_CLIENT_EMAIL = "conta@meu-projeto.iam.gserviceaccount.com";
+    process.env.FIREBASE_PRIVATE_KEY = "chave";
+    cookieStore.set("preview_draft", { value: "1" });
+    const { RepositoryFactory, NicheRepositoryImpl } = await importFresh();
+    expect(await RepositoryFactory.niches()).toBeInstanceOf(NicheRepositoryImpl);
   });
 });

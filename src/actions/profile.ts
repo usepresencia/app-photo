@@ -16,6 +16,6 @@ export interface Profile {
 }
 
 export async function getProfile(): Promise<Profile> {
-  const dto = await new GetProfileUseCase(RepositoryFactory.profile()).execute();
+  const dto = await new GetProfileUseCase(await RepositoryFactory.profile()).execute();
   return { ...dto };
 }

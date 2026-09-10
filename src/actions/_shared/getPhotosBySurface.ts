@@ -8,13 +8,13 @@ import { RepositoryFactory } from "@/api/infrastructure/repositories/RepositoryF
 // Wiring do caso de uso repetido em gallery.ts (hero/quem-sou/home-gallery)
 // e niches.ts (niche) — centralizado aqui pra mudar num lugar só se o
 // construtor ganhar mais uma dependência.
-export function getPhotosBySurface(
+export async function getPhotosBySurface(
   surface: PhotoSurface,
   opts?: FindBySurfaceOptions,
 ): Promise<PlacedPhotoDTO[]> {
   return new GetPhotosBySurfaceUseCase(
-    RepositoryFactory.placements(),
-    RepositoryFactory.photos(),
+    await RepositoryFactory.placements(),
+    await RepositoryFactory.photos(),
   ).execute(surface, opts);
 }
 

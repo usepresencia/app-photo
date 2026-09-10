@@ -37,17 +37,17 @@ async function withPhotos(dto: NicheDTO): Promise<Niche> {
 }
 
 export async function getNiches(): Promise<Niche[]> {
-  const dtos = await new GetNichesUseCase(RepositoryFactory.niches()).execute();
+  const dtos = await new GetNichesUseCase(await RepositoryFactory.niches()).execute();
   return Promise.all(dtos.map(withPhotos));
 }
 
 export async function getNicheBySlug(slug: string): Promise<Niche | null> {
-  const dto = await new GetNicheBySlugUseCase(RepositoryFactory.niches()).execute(slug);
+  const dto = await new GetNicheBySlugUseCase(await RepositoryFactory.niches()).execute(slug);
   return dto ? withPhotos(dto) : null;
 }
 
 export async function getEventNiches(): Promise<Niche[]> {
-  const dtos = await new GetNichesUseCase(RepositoryFactory.niches()).execute();
+  const dtos = await new GetNichesUseCase(await RepositoryFactory.niches()).execute();
   const eventDtos = dtos
     .filter((n) => n.showAsEventTeaser)
     .sort((a, b) => (a.eventOrder ?? 0) - (b.eventOrder ?? 0));

@@ -1,4 +1,5 @@
 import { PHASE_PRODUCTION_BUILD } from "next/constants";
+import { cookies } from "next/headers";
 import type { NicheRepository } from "@/api/domain/niche/NicheRepository";
 import type { PackageRepository } from "@/api/domain/package/PackageRepository";
 import type { PhotoRepository } from "@/api/domain/photo/PhotoRepository";
@@ -15,6 +16,7 @@ import { PlacementRepositoryImpl } from "./PlacementRepositoryImpl";
 import { MockPlacementRepository } from "./mock/MockPlacementRepository";
 import { ProfileRepositoryImpl } from "./ProfileRepositoryImpl";
 import { MockProfileRepository } from "./mock/MockProfileRepository";
+import { DRAFT_COOKIE_NAME, isDraftCookieValue } from "./draftMode";
 
 function hasFirebaseCredentials(): boolean {
   return Boolean(env.FIREBASE_PROJECT_ID && env.FIREBASE_CLIENT_EMAIL && env.FIREBASE_PRIVATE_KEY);
@@ -35,15 +37,34 @@ function shouldUseMock(): boolean {
   return !hasFirebaseCredentials();
 }
 
+// Lê o cookie de modo rascunho uma vez por chamada — setado só pela
+// rota /api/preview/enter, nunca por um visitante real. Só chamado
+// quando shouldUseMock() é falso (mock nunca precisa saber disso, e
+// cookies() exige um contexto de requisição real).
+async function resolveIsDraft(): Promise<boolean> {
+  const store = await cookies();
+  return isDraftCookieValue(store.get(DRAFT_COOKIE_NAME)?.value);
+}
+
 export const RepositoryFactory = {
-  niches: (): NicheRepository =>
-    shouldUseMock() ? new MockNicheRepository() : new NicheRepositoryImpl(),
-  packages: (): PackageRepository =>
-    shouldUseMock() ? new MockPackageRepository() : new PackageRepositoryImpl(),
-  photos: (): PhotoRepository =>
-    shouldUseMock() ? new MockPhotoRepository() : new PhotoRepositoryImpl(),
-  placements: (): PlacementRepository =>
-    shouldUseMock() ? new MockPlacementRepository() : new PlacementRepositoryImpl(),
-  profile: (): ProfileRepository =>
-    shouldUseMock() ? new MockProfileRepository() : new ProfileRepositoryImpl(),
+  niches: async (): Promise<NicheRepository> => {
+    if (shouldUseMock()) return new MockNicheRepository();
+    return new NicheRepositoryImpl(await resolveIsDraft());
+  },
+  packages: async (): Promise<PackageRepository> => {
+    if (shouldUseMock()) return new MockPackageRepository();
+    return new PackageRepositoryImpl(await resolveIsDraft());
+  },
+  photos: async (): Promise<PhotoRepository> => {
+    if (shouldUseMock()) return new MockPhotoRepository();
+    return new PhotoRepositoryImpl(await resolveIsDraft());
+  },
+  placements: async (): Promise<PlacementRepository> => {
+    if (shouldUseMock()) return new MockPlacementRepository();
+    return new PlacementRepositoryImpl(await resolveIsDraft());
+  },
+  profile: async (): Promise<ProfileRepository> => {
+    if (shouldUseMock()) return new MockProfileRepository();
+    return new ProfileRepositoryImpl(await resolveIsDraft());
+  },
 };

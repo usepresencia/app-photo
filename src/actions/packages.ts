@@ -23,6 +23,8 @@ function toPackage(dto: PackageDTO): Package {
 }
 
 export async function getPackagesForNiche(slug: string): Promise<Package[]> {
-  const dtos = await new GetPackagesByNicheUseCase(RepositoryFactory.packages()).execute(slug);
+  const dtos = await new GetPackagesByNicheUseCase(await RepositoryFactory.packages()).execute(
+    slug,
+  );
   return dtos.map(toPackage);
 }
