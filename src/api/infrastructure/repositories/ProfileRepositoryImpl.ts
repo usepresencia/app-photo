@@ -4,14 +4,9 @@ import { unstable_cache } from "next/cache";
 import { db } from "../firebase/admin";
 
 const COLLECTION = "profile";
+const DRAFT_COLLECTION = "profile_draft";
 const DOCUMENT_ID = "main";
 
-// Documento único e fixo — diferente de niches (slug como ID) e de
-// packages/placements (query com where/orderBy), aqui não há nenhuma
-// variação possível de "qual documento": é sempre profile/main. Sem
-// índice composto, sem paginação. unstable_cache dá tag pra essa
-// leitura — admin-photo chama POST /api/revalidate →
-// revalidateTag("profile", "max") quando escreve.
 const getProfileDocument = unstable_cache(
   async (): Promise<Profile | null> => {
     const doc = await db.collection(COLLECTION).doc(DOCUMENT_ID).get();
@@ -28,8 +23,24 @@ const getProfileDocument = unstable_cache(
   { tags: ["profile"] },
 );
 
+// Modo rascunho: sem tombstone (profile não tem conceito de exclusão),
+// sem cache.
+async function getDraftProfileDocument(): Promise<Profile | null> {
+  const doc = await db.collection(DRAFT_COLLECTION).doc(DOCUMENT_ID).get();
+  if (!doc.exists) return null;
+  const data = doc.data();
+  if (!data) return null;
+  return {
+    capaCaption: data.capaCaption,
+    profissao: data.profissao,
+    familia: data.familia,
+  };
+}
+
 export class ProfileRepositoryImpl implements ProfileRepository {
+  constructor(private readonly isDraft: boolean = false) {}
+
   get(): Promise<Profile | null> {
-    return getProfileDocument();
+    return this.isDraft ? getDraftProfileDocument() : getProfileDocument();
   }
 }

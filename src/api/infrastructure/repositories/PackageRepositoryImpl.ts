@@ -4,9 +4,13 @@ import { unstable_cache } from "next/cache";
 import { db } from "../firebase/admin";
 
 const COLLECTION = "packages";
+const DRAFT_COLLECTION = "packages_draft";
 
-function toPackage(doc: FirebaseFirestore.QueryDocumentSnapshot): Package {
+function toPackage(
+  doc: FirebaseFirestore.QueryDocumentSnapshot | FirebaseFirestore.DocumentSnapshot,
+): Package {
   const data = doc.data();
+  if (!data) throw new Error(`Documento "${doc.id}" da coleção "${COLLECTION}" está vazio`);
   return {
     id: doc.id,
     nicheSlug: data.nicheSlug,
@@ -19,10 +23,6 @@ function toPackage(doc: FirebaseFirestore.QueryDocumentSnapshot): Package {
   };
 }
 
-// db.collection(...).get() não é fetch() — unstable_cache é o jeito
-// certo de dar tag a uma leitura assim (fetch() com next.tags não se
-// aplicaria aqui). admin-photo chama POST /api/revalidate →
-// revalidateTag("packages", "max") quando escreve.
 const findPackagesByNicheSlug = unstable_cache(
   async (nicheSlug: string): Promise<Package[]> => {
     const snapshot = await db
@@ -36,14 +36,23 @@ const findPackagesByNicheSlug = unstable_cache(
   { tags: ["packages"] },
 );
 
-// Diferente de niches: pacote não tem um identificador natural fora do
-// Firestore, então o ID do documento é gerado (a migração usa o mesmo
-// formato do MockPackageRepository: "<nicheSlug>-<índice>"), não o slug.
-// findByNicheSlug é uma query (where + orderBy), não um doc().get() —
-// exige o índice composto (nicheSlug asc, order asc) em
-// firestore.indexes.json; sem ele, a query falha em runtime real.
+// Modo rascunho: só o where de igualdade (sem orderBy combinado) —
+// evita precisar de um índice composto novo pra "packages_draft".
+// Ordena/filtra tombstone em JS (14 documentos, trivial).
+async function findDraftPackagesByNicheSlug(nicheSlug: string): Promise<Package[]> {
+  const snapshot = await db.collection(DRAFT_COLLECTION).where("nicheSlug", "==", nicheSlug).get();
+  return snapshot.docs
+    .filter((doc) => !doc.data()._deleted)
+    .map(toPackage)
+    .sort((a, b) => a.order - b.order);
+}
+
 export class PackageRepositoryImpl implements PackageRepository {
+  constructor(private readonly isDraft: boolean = false) {}
+
   findByNicheSlug(nicheSlug: string): Promise<Package[]> {
-    return findPackagesByNicheSlug(nicheSlug);
+    return this.isDraft
+      ? findDraftPackagesByNicheSlug(nicheSlug)
+      : findPackagesByNicheSlug(nicheSlug);
   }
 }
