@@ -6,6 +6,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useSlideshow } from "@/lib/_hooks/useSlideshow";
 import { useSwipe } from "@/lib/_hooks/useSwipe";
 import type { Photo } from "@/actions/_mock/types";
+import { Addable } from "@/app/_components/Addable";
 import { Editable } from "@/app/_components/Editable";
 import { EditableText } from "@/app/_components/EditableText";
 
@@ -89,6 +90,13 @@ export function NicheHero({
         >
           <FaArrowLeft className="size-4" />
         </Link>
+        <Addable
+          type="placement"
+          context={{ surface: "niche", refId: slug }}
+          className="font-condensed absolute right-5 top-6 z-30 flex h-10 items-center whitespace-nowrap rounded-full px-4 text-[0.65rem] font-semibold uppercase tracking-[0.2em]"
+        >
+          Adicionar nova foto
+        </Addable>
         <span className="gold-rule block" />
         <EditableText
           type="niche"

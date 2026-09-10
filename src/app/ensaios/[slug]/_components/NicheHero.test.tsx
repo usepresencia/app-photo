@@ -48,4 +48,20 @@ describe("NicheHero", () => {
     // um slide visível por breakpoint (mobile "portrait" + desktop "landscape")
     expect(placementEditables).toHaveLength(2);
   });
+
+  it("marca um Addable de tipo placement (surface niche + refId) pra adicionar mais fotos", () => {
+    const { container } = render(
+      <NicheHero
+        slug="familia"
+        title="Família"
+        subtitle="Ensaios em família"
+        landscapePhotos={[foto("p1")]}
+        portraitPhotos={[foto("p2")]}
+      />,
+    );
+    const addable = container.querySelector('[data-addable^="placement:"]');
+    expect(addable?.getAttribute("data-addable")).toBe(
+      'placement:{"surface":"niche","refId":"familia"}',
+    );
+  });
 });
