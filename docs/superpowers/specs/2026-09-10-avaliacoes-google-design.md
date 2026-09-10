@@ -367,9 +367,12 @@ false)` em vez de um delete de verdade.
 oculta não renderiza no site, não tem elemento pra clicar e reverter.
 Painel novo `TestimonialsPanel.tsx` em `preview/_components/`,
 renderizado no `/preview` do admin (fora do iframe, ao lado de onde já
-fica `PublishControls`) — lista compacta de todas as avaliações
-sincronizadas (nome, nota, início do texto, toggle mostrar/ocultar).
-Único lugar de onde dá pra reverter um ocultar.
+fica `PublishControls`) — lista **todas** as avaliações sincronizadas,
+visíveis e ocultas juntas (nome, nota, início do texto). Uma
+avaliação oculta continua na lista, só com tratamento visual de
+inativa (ex.: opacidade reduzida/texto "Oculta"), com um toggle ao
+lado pra reverter — nunca some da lista, só do site. Único lugar de
+onde dá pra reverter um ocultar.
 
 ## app-photo
 
