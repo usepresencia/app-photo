@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Section } from "@/lib/_components/Section";
 import { getNiches } from "@/actions/niches";
-import { Addable } from "./Addable";
+import { ADD_PILL_CLASSNAME, Addable } from "./Addable";
 import { EditableText } from "./EditableText";
 
 export async function Niches() {
@@ -13,10 +13,7 @@ export async function Niches() {
       index="03"
       title="Ensaios para cada momento"
       action={
-        <Addable
-          type="niche"
-          className="font-condensed flex h-9 shrink-0 items-center whitespace-nowrap rounded-full px-4 text-[0.65rem] font-semibold uppercase tracking-[0.2em]"
-        >
+        <Addable type="niche" className={ADD_PILL_CLASSNAME}>
           Adicionar novo ensaio
         </Addable>
       }

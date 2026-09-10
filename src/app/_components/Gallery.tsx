@@ -6,7 +6,7 @@ import { Section } from "@/lib/_components/Section";
 import { useSwipe } from "@/lib/_hooks/useSwipe";
 import { useSlideshow } from "@/lib/_hooks/useSlideshow";
 import type { LabeledPhoto } from "@/actions/_shared/getPhotosBySurface";
-import { Addable } from "./Addable";
+import { ADD_PILL_CLASSNAME, Addable } from "./Addable";
 import { Editable } from "./Editable";
 
 const AUTOPLAY_MS = 6000;
@@ -114,7 +114,7 @@ export function Gallery({ photos }: { photos: LabeledPhoto[] }) {
         <Addable
           type="placement"
           context={{ surface: "home-gallery" }}
-          className="font-condensed flex h-9 shrink-0 items-center whitespace-nowrap rounded-full px-4 text-[0.65rem] font-semibold uppercase tracking-[0.2em]"
+          className={ADD_PILL_CLASSNAME}
         >
           Adicionar nova foto
         </Addable>
