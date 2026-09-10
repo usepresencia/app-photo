@@ -1,5 +1,5 @@
 :root {
-  --gold: #db2777;
+  --gold: oklch(0.75 0.115 88);
   --gold-soft: oklch(0.88 0.085 92);
   --background: #fefaf0;
   --foreground: #241a0a;
