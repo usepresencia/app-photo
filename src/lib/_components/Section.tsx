@@ -5,12 +5,16 @@ export function Section({
   eyebrow,
   title,
   index,
+  action,
   children,
 }: {
   id?: string;
   eyebrow?: string;
   title?: string;
   index?: string;
+  // Slot opcional pra um elemento (ex.: o "+" de Addable) alinhado à
+  // direita do título, em vez de solto no fim da seção.
+  action?: ReactNode;
   children: ReactNode;
 }) {
   return (
@@ -28,7 +32,10 @@ export function Section({
               </p>
             )}
             {title && (
-              <h2 className="display-xl mt-2 text-[2.6rem] text-foreground sm:text-6xl">{title}</h2>
+              <div className="mt-2 flex items-center justify-between gap-3">
+                <h2 className="display-xl text-[2.6rem] text-foreground sm:text-6xl">{title}</h2>
+                {action}
+              </div>
             )}
           </header>
         )}

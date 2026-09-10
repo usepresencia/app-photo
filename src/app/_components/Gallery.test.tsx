@@ -24,7 +24,7 @@ describe("Gallery", () => {
     expect(editables[0].getAttribute("data-editable")).toBe(`placement:${photos[0].placementId}`);
   });
 
-  it("marca a última página do álbum com um Addable de tipo placement (home-gallery)", () => {
+  it("marca o título da seção com um Addable de tipo placement (home-gallery)", () => {
     const { container } = render(<Gallery photos={photos} />);
     const addable = container.querySelector('[data-addable^="placement:"]');
     expect(addable?.getAttribute("data-addable")).toBe('placement:{"surface":"home-gallery"}');

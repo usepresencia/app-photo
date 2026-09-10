@@ -82,15 +82,6 @@ function GalleryAlbum({ photos }: { photos: LabeledPhoto[] }) {
               );
             })}
           </div>
-          {page === spreads.length - 1 && (
-            <Addable
-              type="placement"
-              context={{ surface: "home-gallery" }}
-              className="mt-4 aspect-4/5 w-full text-4xl font-light"
-            >
-              +
-            </Addable>
-          )}
         </div>
       </div>
 
@@ -114,7 +105,21 @@ function GalleryAlbum({ photos }: { photos: LabeledPhoto[] }) {
 
 export function Gallery({ photos }: { photos: LabeledPhoto[] }) {
   return (
-    <Section id="galeria" index="02" eyebrow="Portfólio" title="Meus trabalhos">
+    <Section
+      id="galeria"
+      index="02"
+      eyebrow="Portfólio"
+      title="Meus trabalhos"
+      action={
+        <Addable
+          type="placement"
+          context={{ surface: "home-gallery" }}
+          className="flex h-9 shrink-0 items-center rounded-full px-4 text-lg font-light"
+        >
+          +
+        </Addable>
+      }
+    >
       <GalleryAlbum photos={photos} />
     </Section>
   );
