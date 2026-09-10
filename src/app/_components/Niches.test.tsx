@@ -7,12 +7,13 @@ vi.mock("next/image", () => ({
 }));
 
 describe("Niches", () => {
-  it("marca cada card de nicho como editável (tipo niche)", async () => {
+  it("marca título e subtítulo de cada card como editáveis (tipo niche)", async () => {
     const { container } = render(await Niches());
-    const editables = container.querySelectorAll('[data-editable^="niche:"]');
+    const editables = container.querySelectorAll('[data-editable-text^="niche:"]');
     expect(editables.length).toBeGreaterThan(0);
-    const values = Array.from(editables).map((el) => el.getAttribute("data-editable"));
-    expect(values).toContain("niche:familia");
+    const values = Array.from(editables).map((el) => el.getAttribute("data-editable-text"));
+    expect(values).toContain("niche:familia:title");
+    expect(values).toContain("niche:familia:subtitle");
   });
 
   it("marca o fim do carrossel com um Addable de tipo niche", async () => {

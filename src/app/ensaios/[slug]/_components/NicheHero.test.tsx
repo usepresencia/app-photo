@@ -28,10 +28,10 @@ describe("NicheHero", () => {
         portraitPhotos={[foto("p2")]}
       />,
     );
-    const editable = container.querySelector('[data-editable="niche:familia"]');
-    expect(editable).not.toBeNull();
-    expect(editable?.textContent).toContain("Família");
-    expect(editable?.textContent).toContain("Ensaios em família");
+    const title = container.querySelector('[data-editable-text="niche:familia:title"]');
+    const subtitle = container.querySelector('[data-editable-text="niche:familia:subtitle"]');
+    expect(title?.textContent).toBe("Família");
+    expect(subtitle?.textContent).toBe("Ensaios em família");
   });
 
   it("marca a foto exibida no slideshow como editável (tipo placement)", () => {
