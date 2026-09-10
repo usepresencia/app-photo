@@ -14,7 +14,7 @@ export async function Events({ whatsapp }: { whatsapp: string }) {
           <Link
             key={e.slug}
             href={`/ensaios/${e.slug}`}
-            className="group relative block h-44 overflow-hidden border border-border transition-colors hover:border-gold active:border-gold"
+            className="group relative block h-44 overflow-hidden border border-border transition-colors hover:border-rose active:border-rose"
           >
             <Image
               src={e.image.src}

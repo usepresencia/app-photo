@@ -18,13 +18,13 @@ export default function ErrorPage({
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={reset}
-            className="font-condensed border border-gold bg-primary px-5 py-3 text-xs uppercase tracking-[0.22em] text-primary-foreground transition-opacity hover:opacity-90"
+            className="font-condensed border border-rose bg-primary px-5 py-3 text-xs uppercase tracking-[0.22em] text-primary-foreground transition-opacity hover:opacity-90"
           >
             Tentar novamente
           </button>
           <Link
             href="/"
-            className="font-condensed border border-gold/40 px-5 py-3 text-xs uppercase tracking-[0.22em] text-foreground transition-colors hover:border-gold hover:text-gold"
+            className="font-condensed border border-rose/40 px-5 py-3 text-xs uppercase tracking-[0.22em] text-foreground transition-colors hover:border-rose hover:text-rose"
           >
             Voltar para a home
           </Link>

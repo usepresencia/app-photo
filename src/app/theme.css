@@ -1,11 +1,11 @@
 :root {
-  --gold: #db2777;
-  --gold-soft: oklch(0.88 0.085 92);
+  --rose: #db2777;
+  --rose-soft: oklch(0.88 0.085 92);
   --background: #fefaf0;
   --foreground: #241a0a;
   --surface: #efe0bd;
   --surface-2: #e3cf9a;
-  --primary: var(--gold);
+  --primary: var(--rose);
   --primary-foreground: #fefaf0;
   --muted-foreground: #7a6748;
   --border: #e3cf9a;
@@ -14,11 +14,11 @@
   /* Tom de tinta das legendas manuscritas (font-hand) — mais claro e
      amarronzado que --ink, que é o fundo escuro do film-strip do hero. */
   --ink-hand: oklch(0.25 0.02 60);
-  --gradient-gold: linear-gradient(100deg, var(--gold), var(--gold-soft), var(--gold));
+  --gradient-rose: linear-gradient(100deg, var(--rose), var(--rose-soft), var(--rose));
   --tape-bg: linear-gradient(
     180deg,
-    color-mix(in oklab, var(--gold) 40%, transparent),
-    color-mix(in oklab, var(--gold) 18%, transparent)
+    color-mix(in oklab, var(--rose) 40%, transparent),
+    color-mix(in oklab, var(--rose) 18%, transparent)
   );
-  --shadow-gold: 0 18px 45px -22px color-mix(in oklab, var(--gold) 55%, transparent);
+  --shadow-rose: 0 18px 45px -22px color-mix(in oklab, var(--rose) 55%, transparent);
 }

@@ -32,7 +32,7 @@ export function PackagePicker({
     <section className="mx-auto w-full max-w-3xl px-5 pb-10 pt-4">
       <div className="flex items-center gap-3">
         <span className="section-index">01</span>
-        <span className="gold-rule flex-1" />
+        <span className="rose-rule flex-1" />
       </div>
       {!pack && (
         <>
@@ -45,15 +45,15 @@ export function PackagePicker({
                     key={p.id}
                     type="button"
                     onClick={() => setSelectedId(p.id)}
-                    className="relative block h-full w-full overflow-hidden border border-gold/20 p-5 text-left transition-colors hover:border-gold/50"
-                    style={{ boxShadow: "var(--shadow-gold)" }}
+                    className="relative block h-full w-full overflow-hidden border border-rose/20 p-5 text-left transition-colors hover:border-rose/50"
+                    style={{ boxShadow: "var(--shadow-rose)" }}
                   >
                     <div
                       aria-hidden="true"
                       className="absolute inset-0 opacity-30"
                       style={{
                         backgroundImage:
-                          "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--gold) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--gold) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--gold) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--gold) 8%, transparent) 0 16px, transparent 17px)",
+                          "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--rose) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--rose) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--rose) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--rose) 8%, transparent) 0 16px, transparent 17px)",
                         backgroundSize: "190px 190px",
                       }}
                     />
@@ -70,7 +70,7 @@ export function PackagePicker({
                       type="package"
                       id={p.id}
                       field="price"
-                      className="font-condensed relative z-10 mt-1 block text-2xl font-normal text-gold"
+                      className="font-condensed relative z-10 mt-1 block text-2xl font-normal text-rose"
                     >
                       {p.price}
                     </EditableText>
@@ -95,15 +95,15 @@ export function PackagePicker({
       {pack && (
         <div key={pack.id} className="album-stage album-page-next mt-8 space-y-8">
           <div
-            className="relative overflow-hidden border border-gold/20 p-6"
-            style={{ boxShadow: "var(--shadow-gold)" }}
+            className="relative overflow-hidden border border-rose/20 p-6"
+            style={{ boxShadow: "var(--shadow-rose)" }}
           >
             <div
               aria-hidden="true"
               className="absolute inset-0 opacity-30"
               style={{
                 backgroundImage:
-                  "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--gold) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--gold) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--gold) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--gold) 8%, transparent) 0 16px, transparent 17px)",
+                  "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--rose) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--rose) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--rose) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--rose) 8%, transparent) 0 16px, transparent 17px)",
                 backgroundSize: "190px 190px",
               }}
             />
@@ -112,7 +112,7 @@ export function PackagePicker({
                 type="button"
                 onClick={() => setSelectedId(null)}
                 aria-label="Trocar pacote"
-                className="flex size-10 shrink-0 items-center justify-center rounded-full border border-gold/40 bg-background/50 text-gold backdrop-blur-sm transition-colors hover:border-gold"
+                className="flex size-10 shrink-0 items-center justify-center rounded-full border border-rose/40 bg-background/50 text-rose backdrop-blur-sm transition-colors hover:border-rose"
               >
                 <FaArrowLeft className="size-4" />
               </button>
@@ -131,7 +131,7 @@ export function PackagePicker({
                     type="package"
                     id={pack.id}
                     field="price"
-                    className="font-condensed shrink-0 text-3xl font-normal text-gold"
+                    className="font-condensed shrink-0 text-3xl font-normal text-rose"
                   >
                     {pack.price}
                   </EditableText>
@@ -155,7 +155,7 @@ export function PackagePicker({
             <ul className="relative z-10 mt-5 space-y-2">
               {pack.items.map((i, idx) => (
                 <li key={i} className="flex gap-2 text-sm text-muted-foreground">
-                  <span aria-hidden="true" className="text-gold">
+                  <span aria-hidden="true" className="text-rose">
                     •
                   </span>
                   <EditableText type="package" id={pack.id} field={`items.${idx}`}>
@@ -183,10 +183,10 @@ export function PackagePicker({
             href={whatsapp}
             target="_blank"
             rel="noreferrer"
-            className="gradient-border-gold font-condensed mx-auto block w-fit rounded-full px-10 py-3 text-center text-sm font-semibold uppercase tracking-[0.22em] text-gold transition-opacity hover:opacity-90"
+            className="gradient-border-rose font-condensed mx-auto block w-fit rounded-full px-10 py-3 text-center text-sm font-semibold uppercase tracking-[0.22em] text-rose transition-opacity hover:opacity-90"
             style={{
               boxShadow:
-                "0 10px 25px -8px color-mix(in oklab, var(--gold) 55%, transparent), 0 4px 10px -4px color-mix(in oklab, var(--gold) 35%, transparent)",
+                "0 10px 25px -8px color-mix(in oklab, var(--rose) 55%, transparent), 0 4px 10px -4px color-mix(in oklab, var(--rose) 35%, transparent)",
             }}
           >
             Agendar

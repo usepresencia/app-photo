@@ -15,7 +15,7 @@ export function NicheGallery({
   return (
     <div>
       <div className="flex items-center justify-between gap-3">
-        <h4 className="font-condensed text-[0.68rem] uppercase tracking-[0.4em] text-gold">
+        <h4 className="font-condensed text-[0.68rem] uppercase tracking-[0.4em] text-rose">
           Galeria do ensaio
         </h4>
         <Addable

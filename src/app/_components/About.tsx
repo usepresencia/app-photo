@@ -50,7 +50,7 @@ export async function About() {
     <Section id="quem-sou" index="01" eyebrow="Quem sou" title="Denise Galvão">
       <div className="space-y-4">
         <Editable type="placement" id={family[0].placementId}>
-          <figure className="frame-gold relative overflow-hidden p-1.5">
+          <figure className="frame-rose relative overflow-hidden p-1.5">
             <div className="relative aspect-4/5 overflow-hidden sm:aspect-16/10">
               <img
                 src={family[0].src}
@@ -58,7 +58,7 @@ export async function About() {
                 className="h-full w-full object-cover grayscale"
               />
             </div>
-            <figcaption className="font-condensed absolute bottom-3 left-3 bg-background/85 px-3 py-1 text-[0.62rem] uppercase tracking-[0.3em] text-gold">
+            <figcaption className="font-condensed absolute bottom-3 left-3 bg-background/85 px-3 py-1 text-[0.62rem] uppercase tracking-[0.3em] text-rose">
               <EditableText type="profile" id="main" field="capaCaption">
                 {profile.capaCaption}
               </EditableText>
@@ -66,12 +66,12 @@ export async function About() {
           </figure>
         </Editable>
 
-        <div className="relative overflow-hidden border-l-2 border-gold p-6 pl-5">
+        <div className="relative overflow-hidden border-l-2 border-rose p-6 pl-5">
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
+            className="absolute inset-0 bg-rose/10 backdrop-blur-sm"
             style={{
-              boxShadow: "var(--shadow-gold)",
+              boxShadow: "var(--shadow-rose)",
               maskImage:
                 "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
               WebkitMaskImage:
@@ -94,7 +94,7 @@ export async function About() {
             id="main"
             field="profissao.eyebrow"
             as="p"
-            className="font-condensed relative mt-1 text-[0.65rem] uppercase tracking-[0.35em] text-gold"
+            className="font-condensed relative mt-1 text-[0.65rem] uppercase tracking-[0.35em] text-rose"
           >
             {profile.profissao.eyebrow}
           </EditableText>
@@ -113,12 +113,12 @@ export async function About() {
         </div>
         <Row photos={[family[1], family[3]]} />
 
-        <div className="relative overflow-hidden border-l-2 border-gold p-6 pl-5">
+        <div className="relative overflow-hidden border-l-2 border-rose p-6 pl-5">
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
+            className="absolute inset-0 bg-rose/10 backdrop-blur-sm"
             style={{
-              boxShadow: "var(--shadow-gold)",
+              boxShadow: "var(--shadow-rose)",
               maskImage:
                 "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
               WebkitMaskImage:

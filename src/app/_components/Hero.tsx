@@ -12,9 +12,9 @@ function Ticker() {
     <div className="relative overflow-hidden py-2">
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
+        className="absolute inset-0 bg-rose/10 backdrop-blur-sm"
         style={{
-          boxShadow: "var(--shadow-gold)",
+          boxShadow: "var(--shadow-rose)",
           maskImage: "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent)",
           WebkitMaskImage:
             "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent)",
@@ -30,7 +30,7 @@ function Ticker() {
             className="font-condensed flex items-center gap-6 text-[0.7rem] font-semibold uppercase tracking-[0.35em] text-foreground"
           >
             {w}
-            <span aria-hidden="true" className="text-gold">
+            <span aria-hidden="true" className="text-rose">
               ✦
             </span>
           </span>
@@ -54,7 +54,7 @@ export async function Hero() {
               target="_blank"
               rel="noreferrer"
               aria-label="Instagram"
-              className="text-gold transition-opacity hover:opacity-70"
+              className="text-rose transition-opacity hover:opacity-70"
             >
               <FaInstagram className="size-7" />
             </a>
@@ -64,15 +64,15 @@ export async function Hero() {
 
       <div className="mx-auto mt-6 w-full max-w-3xl px-5">
         <div
-          className="relative overflow-hidden border border-gold/20 px-6 pb-10 pt-10 sm:px-10 sm:pb-14 sm:pt-14"
-          style={{ boxShadow: "var(--shadow-gold)" }}
+          className="relative overflow-hidden border border-rose/20 px-6 pb-10 pt-10 sm:px-10 sm:pb-14 sm:pt-14"
+          style={{ boxShadow: "var(--shadow-rose)" }}
         >
           <div
             aria-hidden="true"
             className="absolute inset-0 opacity-30"
             style={{
               backgroundImage:
-                "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--gold) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--gold) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--gold) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--gold) 8%, transparent) 0 16px, transparent 17px)",
+                "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--rose) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--rose) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--rose) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--rose) 8%, transparent) 0 16px, transparent 17px)",
               backgroundSize: "190px 190px",
             }}
           />
@@ -87,10 +87,10 @@ export async function Hero() {
               <br />
               <strong className="font-extrabold">memórias</strong>
               <br />
-              <strong className="font-extrabold text-gold">eternas</strong>
+              <strong className="font-extrabold text-rose">eternas</strong>
             </h1>
 
-            <span className="mt-5 block h-px w-16 bg-gold/50" />
+            <span className="mt-5 block h-px w-16 bg-rose/50" />
 
             <p className="mt-5 text-sm leading-snug text-muted-foreground sm:text-lg">
               Um <strong className="font-bold text-foreground">clique pode guardar</strong> o que o
@@ -115,7 +115,7 @@ export async function Hero() {
             ["Especialista", "em posicionamento e direção fotográfica"],
           ].map(([n, l]) => (
             <div key={l} className="border-r border-border py-4 text-center last:border-r-0">
-              <dt className="font-condensed text-xl font-normal leading-none text-gold sm:text-2xl">
+              <dt className="font-condensed text-xl font-normal leading-none text-rose sm:text-2xl">
                 {n}
               </dt>
               <dd className="font-condensed mt-1.5 text-[0.62rem] uppercase leading-snug tracking-[0.2em] text-muted-foreground">

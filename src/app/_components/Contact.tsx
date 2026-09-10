@@ -5,13 +5,13 @@ import { FaCheck, FaChevronDown, FaRegCalendarAlt } from "react-icons/fa";
 import { buildWhatsappLink } from "@/lib/_utils/whatsapp";
 
 const floatingInput =
-  "peer w-full rounded-lg border border-gold/30 bg-background/70 px-4 py-3 text-sm text-foreground placeholder-transparent shadow-sm backdrop-blur-sm transition-colors focus:border-gold focus:outline-none focus:ring-[3px] focus:ring-gold/20";
+  "peer w-full rounded-lg border border-rose/30 bg-background/70 px-4 py-3 text-sm text-foreground placeholder-transparent shadow-sm backdrop-blur-sm transition-colors focus:border-rose focus:outline-none focus:ring-[3px] focus:ring-rose/20";
 
 const floatingLabel =
-  "pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-muted-foreground transition-all duration-150 peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:bg-background peer-focus:px-1 peer-focus:text-[0.62rem] peer-focus:uppercase peer-focus:tracking-[0.2em] peer-focus:text-gold peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-[0.62rem] peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-[0.2em]";
+  "pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-muted-foreground transition-all duration-150 peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:bg-background peer-focus:px-1 peer-focus:text-[0.62rem] peer-focus:uppercase peer-focus:tracking-[0.2em] peer-focus:text-rose peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:bg-background peer-[:not(:placeholder-shown)]:px-1 peer-[:not(:placeholder-shown)]:text-[0.62rem] peer-[:not(:placeholder-shown)]:uppercase peer-[:not(:placeholder-shown)]:tracking-[0.2em]";
 
 const plainInput =
-  "w-full rounded-lg border border-gold/30 bg-background/70 px-4 py-3 text-sm shadow-sm backdrop-blur-sm transition-colors focus:border-gold focus:outline-none focus:ring-[3px] focus:ring-gold/20";
+  "w-full rounded-lg border border-rose/30 bg-background/70 px-4 py-3 text-sm shadow-sm backdrop-blur-sm transition-colors focus:border-rose focus:outline-none focus:ring-[3px] focus:ring-rose/20";
 
 const OPTIONS = [
   "Ensaio em estúdio",
@@ -66,7 +66,7 @@ function NicheSelect({
         <span className="truncate">{value || placeholder}</span>
         <FaChevronDown
           aria-hidden="true"
-          className={`size-3 shrink-0 text-gold transition-transform duration-150 ${open ? "rotate-180" : ""}`}
+          className={`size-3 shrink-0 text-rose transition-transform duration-150 ${open ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -74,8 +74,8 @@ function NicheSelect({
         <ul
           role="listbox"
           tabIndex={-1}
-          className="no-scrollbar absolute z-20 mt-2 max-h-60 w-full overflow-y-auto overflow-x-hidden rounded-lg border border-gold/30 bg-background px-4 py-1.5 text-sm shadow-lg"
-          style={{ boxShadow: "var(--shadow-gold)" }}
+          className="no-scrollbar absolute z-20 mt-2 max-h-60 w-full overflow-y-auto overflow-x-hidden rounded-lg border border-rose/30 bg-background px-4 py-1.5 text-sm shadow-lg"
+          style={{ boxShadow: "var(--shadow-rose)" }}
         >
           {OPTIONS.map((opt) => (
             <li key={opt}>
@@ -87,8 +87,8 @@ function NicheSelect({
                   onChange(opt);
                   setOpen(false);
                 }}
-                className={`flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-left transition-all duration-150 hover:scale-[1.02] hover:bg-gold/10 ${
-                  value === opt ? "text-gold" : "text-foreground"
+                className={`flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-left transition-all duration-150 hover:scale-[1.02] hover:bg-rose/10 ${
+                  value === opt ? "text-rose" : "text-foreground"
                 }`}
               >
                 <FaCheck
@@ -125,15 +125,15 @@ export function ContactForm({ whatsapp }: { whatsapp: string }) {
   return (
     <form
       onSubmit={send}
-      className="relative overflow-hidden border border-gold/20 p-5"
-      style={{ boxShadow: "var(--shadow-gold)" }}
+      className="relative overflow-hidden border border-rose/20 p-5"
+      style={{ boxShadow: "var(--shadow-rose)" }}
     >
       <div
         aria-hidden="true"
         className="absolute inset-0 opacity-30"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--gold) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--gold) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--gold) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--gold) 8%, transparent) 0 16px, transparent 17px)",
+            "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--rose) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--rose) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--rose) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--rose) 8%, transparent) 0 16px, transparent 17px)",
           backgroundSize: "190px 190px",
         }}
       />
@@ -187,7 +187,7 @@ export function ContactForm({ whatsapp }: { whatsapp: string }) {
           )}
           <FaRegCalendarAlt
             aria-hidden="true"
-            className="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-gold"
+            className="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-rose"
           />
           <label htmlFor={dataId} className="sr-only">
             Data pretendida
@@ -210,10 +210,10 @@ export function ContactForm({ whatsapp }: { whatsapp: string }) {
 
         <button
           type="submit"
-          className="gradient-border-gold font-condensed mx-auto block w-fit rounded-full px-10 py-3 text-center text-sm font-semibold uppercase tracking-[0.22em] text-gold transition-opacity hover:opacity-90"
+          className="gradient-border-rose font-condensed mx-auto block w-fit rounded-full px-10 py-3 text-center text-sm font-semibold uppercase tracking-[0.22em] text-rose transition-opacity hover:opacity-90"
           style={{
             boxShadow:
-              "0 10px 25px -8px color-mix(in oklab, var(--gold) 55%, transparent), 0 4px 10px -4px color-mix(in oklab, var(--gold) 35%, transparent)",
+              "0 10px 25px -8px color-mix(in oklab, var(--rose) 55%, transparent), 0 4px 10px -4px color-mix(in oklab, var(--rose) 35%, transparent)",
           }}
         >
           Enviar

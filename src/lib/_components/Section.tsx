@@ -24,7 +24,7 @@ export function Section({
           <header className="mb-5">
             <div className="flex items-center gap-3">
               {index && <span className="section-index">{index}</span>}
-              <span className="gold-rule flex-1" />
+              <span className="rose-rule flex-1" />
             </div>
             {eyebrow && (
               <p className="font-condensed mt-4 text-[0.7rem] font-semibold uppercase tracking-[0.42em] text-muted-foreground">

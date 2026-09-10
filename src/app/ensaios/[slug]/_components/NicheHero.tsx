@@ -50,7 +50,7 @@ function AlbumSlides({ photos }: { photos: Photo[] }) {
             type="button"
             aria-label={`Ir para a foto ${i + 1}`}
             onClick={() => goTo(i)}
-            className={`h-1.5 rounded-full transition-all ${i === index ? "w-8 bg-gold" : "w-1.5 bg-white/30"}`}
+            className={`h-1.5 rounded-full transition-all ${i === index ? "w-8 bg-rose" : "w-1.5 bg-white/30"}`}
           />
         ))}
       </div>
@@ -86,7 +86,7 @@ export function NicheHero({
         <Link
           href="/"
           aria-label="Voltar"
-          className="pointer-events-auto absolute left-5 top-6 z-30 flex size-10 items-center justify-center rounded-full border border-gold/40 bg-background/50 text-gold backdrop-blur-sm transition-colors hover:border-gold"
+          className="pointer-events-auto absolute left-5 top-6 z-30 flex size-10 items-center justify-center rounded-full border border-rose/40 bg-background/50 text-rose backdrop-blur-sm transition-colors hover:border-rose"
         >
           <FaArrowLeft className="size-4" />
         </Link>
@@ -97,7 +97,7 @@ export function NicheHero({
         >
           Adicionar nova foto
         </Addable>
-        <span className="gold-rule block" />
+        <span className="rose-rule block" />
         <EditableText
           type="niche"
           id={slug}

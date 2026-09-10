@@ -92,7 +92,7 @@ function GalleryAlbum({ photos }: { photos: LabeledPhoto[] }) {
             type="button"
             aria-label={`Ir para a página ${i + 1}`}
             onClick={() => goTo(i)}
-            className={`h-1.5 transition-all ${i === page ? "w-6 bg-gold" : "w-1.5 bg-border"}`}
+            className={`h-1.5 transition-all ${i === page ? "w-6 bg-rose" : "w-1.5 bg-border"}`}
           />
         ))}
       </div>

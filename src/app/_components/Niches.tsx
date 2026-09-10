@@ -27,7 +27,7 @@ export async function Niches() {
           <Link
             key={n.slug}
             href={`/ensaios/${n.slug}`}
-            className="group relative block w-[78%] max-w-sm shrink-0 snap-center overflow-hidden border border-border bg-surface transition-colors hover:border-gold active:border-gold"
+            className="group relative block w-[78%] max-w-sm shrink-0 snap-center overflow-hidden border border-border bg-surface transition-colors hover:border-rose active:border-rose"
           >
             <div className="relative aspect-4/5 overflow-hidden">
               <Image
@@ -60,10 +60,10 @@ export async function Niches() {
                   {n.subtitle}
                 </EditableText>
                 <span
-                  className="gradient-border-gold font-condensed block w-fit shrink-0 rounded-full px-4 py-2 text-[0.6rem] uppercase tracking-[0.25em] text-gold sm:px-6"
+                  className="gradient-border-rose font-condensed block w-fit shrink-0 rounded-full px-4 py-2 text-[0.6rem] uppercase tracking-[0.25em] text-rose sm:px-6"
                   style={{
                     boxShadow:
-                      "0 10px 25px -8px color-mix(in oklab, var(--gold) 55%, transparent), 0 4px 10px -4px color-mix(in oklab, var(--gold) 35%, transparent)",
+                      "0 10px 25px -8px color-mix(in oklab, var(--rose) 55%, transparent), 0 4px 10px -4px color-mix(in oklab, var(--rose) 35%, transparent)",
                   }}
                 >
                   <span className="sm:hidden">Ver</span>

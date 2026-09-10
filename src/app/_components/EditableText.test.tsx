@@ -25,10 +25,10 @@ describe("EditableText", () => {
 
   it("repassa className pro elemento renderizado", () => {
     const { container } = render(
-      <EditableText type="profile" id="main" field="capaCaption" className="text-gold">
+      <EditableText type="profile" id="main" field="capaCaption" className="text-rose">
         Legenda
       </EditableText>,
     );
-    expect(container.querySelector(".text-gold")).not.toBeNull();
+    expect(container.querySelector(".text-rose")).not.toBeNull();
   });
 });

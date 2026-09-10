@@ -52,12 +52,12 @@ export default async function NichePage({ params }: { params: Promise<{ slug: st
 
       <section className="mx-auto w-full max-w-3xl space-y-8 px-5 pb-4 pt-10">
         {niche.intro && (
-          <div className="relative overflow-hidden border-l-2 border-gold p-6 pl-5">
+          <div className="relative overflow-hidden border-l-2 border-rose p-6 pl-5">
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
+              className="absolute inset-0 bg-rose/10 backdrop-blur-sm"
               style={{
-                boxShadow: "var(--shadow-gold)",
+                boxShadow: "var(--shadow-rose)",
                 maskImage:
                   "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
                 WebkitMaskImage:
@@ -99,9 +99,9 @@ export default async function NichePage({ params }: { params: Promise<{ slug: st
               <li key={h} className="relative overflow-hidden px-4 py-3 text-center">
                 <div
                   aria-hidden="true"
-                  className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
+                  className="absolute inset-0 bg-rose/10 backdrop-blur-sm"
                   style={{
-                    boxShadow: "var(--shadow-gold)",
+                    boxShadow: "var(--shadow-rose)",
                     maskImage:
                       "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, transparent, black 30%, black 70%, transparent)",
                     WebkitMaskImage:

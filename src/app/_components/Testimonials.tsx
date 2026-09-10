@@ -9,28 +9,28 @@ export async function Testimonials() {
         {testimonials.map((t) => (
           <blockquote
             key={t.name}
-            className="relative flex w-72 shrink-0 flex-col overflow-hidden border border-gold/20 p-6"
-            style={{ boxShadow: "var(--shadow-gold)" }}
+            className="relative flex w-72 shrink-0 flex-col overflow-hidden border border-rose/20 p-6"
+            style={{ boxShadow: "var(--shadow-rose)" }}
           >
             <div
               aria-hidden="true"
               className="absolute inset-0 opacity-30"
               style={{
                 backgroundImage:
-                  "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--gold) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--gold) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--gold) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--gold) 8%, transparent) 0 16px, transparent 17px)",
+                  "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--rose) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--rose) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--rose) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--rose) 8%, transparent) 0 16px, transparent 17px)",
                 backgroundSize: "190px 190px",
               }}
             />
             <span
               aria-hidden="true"
-              className="font-display relative z-10 block text-4xl leading-none text-gold"
+              className="font-display relative z-10 block text-4xl leading-none text-rose"
             >
               &ldquo;
             </span>
             <p className="relative z-10 mt-2 text-sm leading-relaxed text-muted-foreground">
               {t.text}
             </p>
-            <footer className="font-condensed relative z-10 mt-auto pt-4 text-[0.65rem] uppercase tracking-[0.3em] text-gold">
+            <footer className="font-condensed relative z-10 mt-auto pt-4 text-[0.65rem] uppercase tracking-[0.3em] text-rose">
               {t.name}
             </footer>
           </blockquote>
@@ -44,9 +44,9 @@ export async function Testimonials() {
       >
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
+          className="absolute inset-0 bg-rose/10 backdrop-blur-sm"
           style={{
-            boxShadow: "var(--shadow-gold)",
+            boxShadow: "var(--shadow-rose)",
             maskImage:
               "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, transparent, black 30%, black 70%, transparent)",
             WebkitMaskImage:

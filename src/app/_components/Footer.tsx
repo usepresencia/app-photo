@@ -12,7 +12,7 @@ export async function Footer() {
         aria-hidden="true"
         className="mx-auto h-px w-full max-w-3xl"
         style={{
-          background: "linear-gradient(to right, transparent, var(--gold), transparent)",
+          background: "linear-gradient(to right, transparent, var(--rose), transparent)",
           opacity: 0.7,
         }}
       />
@@ -23,7 +23,7 @@ export async function Footer() {
           target="_blank"
           rel="noreferrer"
           aria-label="Instagram"
-          className="absolute right-0 top-1/2 -translate-y-1/2 text-gold transition-opacity hover:opacity-70"
+          className="absolute right-0 top-1/2 -translate-y-1/2 text-rose transition-opacity hover:opacity-70"
         >
           <FaInstagram className="size-6" />
         </a>
