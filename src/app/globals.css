@@ -351,3 +351,52 @@ html[data-preview-active] [data-addable]:hover {
   font-size: 12px;
   cursor: pointer;
 }
+
+/* [data-editable-text] (EditableText.tsx) — mesmo padrão de
+   pointer-events/cursor do [data-editable] de bloco, mas cada texto
+   individual vira o alvo do clique, não o card inteiro. */
+html[data-preview-active] [data-editable-text] {
+  pointer-events: auto;
+  cursor: text;
+}
+
+html[data-preview-active] [data-editable-text]:hover {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+html[data-preview-active] [data-editable-text][contenteditable="true"] {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  background: color-mix(in oklab, var(--gold) 8%, transparent);
+}
+
+/* Par de ícones flutuantes de confirmar/cancelar (PreviewOverlay.tsx) —
+   mesmo z-index/position:fixed do .preview-delete-icon, ao lado dele. */
+.preview-textedit-icons {
+  position: fixed;
+  z-index: 2147483647;
+  display: flex;
+  gap: 4px;
+}
+
+.preview-textedit-icons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  border: none;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.preview-textedit-icons button[aria-label="Confirmar"] {
+  background: #16a34a;
+}
+
+.preview-textedit-icons button[aria-label="Cancelar"] {
+  background: #dc2626;
+}

@@ -6,6 +6,7 @@ import { clientEnv } from "@/lib/config/env.client";
 const PING = "app-photo:preview:ping";
 const ACK = "app-photo:preview:ack";
 const EDIT = "app-photo:preview:edit";
+const EDIT_TEXT = "app-photo:preview:edit-text";
 const ADD = "app-photo:preview:add";
 const DELETE = "app-photo:preview:delete";
 
@@ -69,6 +70,14 @@ interface HoveredEditable {
   id: string;
 }
 
+interface TextEditing {
+  el: HTMLElement;
+  entityType: string;
+  id: string;
+  field: string;
+  originalValue: string;
+}
+
 // Inerte por padrão — só ativa depois de confirmar, por postMessage, que
 // está sendo carregado dentro do admin-photo (ver spec do preview com
 // edição inline). Nunca ativa pra um visitante comum: fora de um iframe,
@@ -77,6 +86,7 @@ interface HoveredEditable {
 export function PreviewOverlay() {
   const [active, setActive] = useState(false);
   const [hovered, setHovered] = useState<HoveredEditable | null>(null);
+  const [textEditing, setTextEditing] = useState<TextEditing | null>(null);
   const adminOrigin = originOf(clientEnv.NEXT_PUBLIC_ADMIN_PHOTO_URL);
 
   useEffect(() => {
@@ -106,6 +116,20 @@ export function PreviewOverlay() {
     function handleClick(event: MouseEvent) {
       const target = event.target as HTMLElement;
 
+      const textEl = target.closest("[data-editable-text]") as HTMLElement | null;
+      if (textEl) {
+        const parsed = parseEditableTextTarget(textEl.getAttribute("data-editable-text"));
+        if (parsed && textEditing?.el !== textEl) {
+          event.preventDefault();
+          event.stopPropagation();
+          const originalValue = textEl.textContent ?? "";
+          textEl.contentEditable = "true";
+          textEl.focus();
+          setTextEditing({ el: textEl, ...parsed, originalValue });
+        }
+        return;
+      }
+
       const addEl = target.closest("[data-addable]");
       const addParsed = parseAddableTarget(addEl?.getAttribute("data-addable") ?? null);
       if (addParsed) {
@@ -124,7 +148,7 @@ export function PreviewOverlay() {
     }
     document.addEventListener("click", handleClick, true);
     return () => document.removeEventListener("click", handleClick, true);
-  }, [active, adminOrigin]);
+  }, [active, adminOrigin, textEditing]);
 
   // Rastreio de hover de verdade (mouseover/mouseout) — o contorno de
   // edição continua sendo CSS puro (:hover em [data-editable]), mas o
@@ -166,26 +190,112 @@ export function PreviewOverlay() {
     };
   }, [active]);
 
-  if (!active || !hovered || !adminOrigin) return null;
+  // "el" (dentro de textEditing, um useState) é o nó DOM real sendo
+  // editado — guardado em state só pra ser lido durante o render (mesmo
+  // motivo do "hovered" acima), não é dado gerenciado pelo React.
+  // contentEditable/textContent são propriedades do próprio DOM; não há
+  // alternativa via setState pra alternar/reverter isso num elemento que
+  // o React não criou/controla — daí o eslint-disable em cada mutação.
+  function confirmTextEdit() {
+    if (!textEditing || !adminOrigin) return;
+    const { el, entityType, id, field } = textEditing;
+    const value = el.textContent ?? "";
+    // eslint-disable-next-line react-hooks/immutability
+    el.contentEditable = "false";
+    window.parent.postMessage({ type: EDIT_TEXT, entityType, id, field, value }, adminOrigin);
+    setTextEditing(null);
+  }
 
-  const rect = hovered.el.getBoundingClientRect();
+  function cancelTextEdit() {
+    if (!textEditing) return;
+    const { el, originalValue } = textEditing;
+    // eslint-disable-next-line react-hooks/immutability
+    el.textContent = originalValue;
+    el.contentEditable = "false";
+    setTextEditing(null);
+  }
+
+  useEffect(() => {
+    if (!textEditing) return;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        confirmTextEdit();
+      } else if (event.key === "Escape") {
+        event.preventDefault();
+        cancelTextEdit();
+      }
+    }
+
+    // blur é cancelar implícito — os ícones flutuantes usam
+    // onMouseDown/preventDefault (ver o JSX abaixo) pra nunca causar
+    // esse blur antes do próprio onClick deles disparar; então este
+    // handler só roda pra "cliquei em outro lugar da página" (que já
+    // não conta como confirmar).
+    function handleBlur() {
+      cancelTextEdit();
+    }
+
+    const el = textEditing.el;
+    el.addEventListener("keydown", handleKeyDown);
+    el.addEventListener("blur", handleBlur);
+    return () => {
+      el.removeEventListener("keydown", handleKeyDown);
+      el.removeEventListener("blur", handleBlur);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- confirmTextEdit/cancelTextEdit fecham sobre textEditing/adminOrigin do próprio render; recriá-las a cada dependência já é coberto por este efeito rodar de novo quando textEditing muda
+  }, [textEditing]);
 
   return (
-    <button
-      type="button"
-      aria-label="Remover"
-      className="preview-delete-icon"
-      style={{ top: rect.top - 8, left: rect.right - 16 }}
-      onClick={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        window.parent.postMessage(
-          { type: DELETE, entityType: hovered.entityType, id: hovered.id },
-          adminOrigin,
-        );
-      }}
-    >
-      🗑
-    </button>
+    <>
+      {active && hovered && adminOrigin && (
+        <button
+          type="button"
+          aria-label="Remover"
+          className="preview-delete-icon"
+          style={{
+            top: hovered.el.getBoundingClientRect().top - 8,
+            left: hovered.el.getBoundingClientRect().right - 16,
+          }}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            window.parent.postMessage(
+              { type: DELETE, entityType: hovered.entityType, id: hovered.id },
+              adminOrigin,
+            );
+          }}
+        >
+          🗑
+        </button>
+      )}
+      {active && textEditing && (
+        <div
+          className="preview-textedit-icons"
+          style={{
+            top: textEditing.el.getBoundingClientRect().top - 32,
+            left: textEditing.el.getBoundingClientRect().left,
+          }}
+        >
+          <button
+            type="button"
+            aria-label="Confirmar"
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={confirmTextEdit}
+          >
+            ✓
+          </button>
+          <button
+            type="button"
+            aria-label="Cancelar"
+            onMouseDown={(event) => event.preventDefault()}
+            onClick={cancelTextEdit}
+          >
+            ✗
+          </button>
+        </div>
+      )}
+    </>
   );
 }
