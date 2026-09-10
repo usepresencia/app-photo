@@ -3,7 +3,11 @@ import type { NicheDTO } from "@/api/application/niche/NicheDTO";
 import { GetNichesUseCase } from "@/api/application/niche/GetNichesUseCase";
 import { GetNicheBySlugUseCase } from "@/api/application/niche/GetNicheBySlugUseCase";
 import { RepositoryFactory } from "@/api/infrastructure/repositories/RepositoryFactory";
-import { getPhotosBySurface, toPhoto } from "./_shared/getPhotosBySurface";
+import {
+  getPhotosBySurface,
+  toLabeledPhoto,
+  type LabeledPhoto,
+} from "./_shared/getPhotosBySurface";
 
 export interface Niche {
   slug: string;
@@ -14,15 +18,15 @@ export interface Niche {
   description: string[];
   highlights: string[];
   closingLine: string;
-  gallery: Photo[];
+  gallery: LabeledPhoto[];
 }
 
 // image é gallery[0] — a mesma foto, não uma capa exclusiva. Assim
-// sempre foi (ver plano 1); um role "capa" separado tiraria uma foto da
-// galeria da própria página do nicho, mudando quantas fotos ela mostra.
+// sempre foi (ver plano 1); um caption "capa" separado tiraria uma foto
+// da galeria da própria página do nicho, mudando quantas fotos ela mostra.
 async function withPhotos(dto: NicheDTO): Promise<Niche> {
   const photos = await getPhotosBySurface("niche", { refId: dto.slug });
-  const gallery = photos.map(toPhoto);
+  const gallery = photos.map(toLabeledPhoto);
   return {
     slug: dto.slug,
     title: dto.title,
