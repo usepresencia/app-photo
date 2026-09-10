@@ -81,11 +81,11 @@ export function NicheHero({
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2/5 bg-linear-to-t from-background via-background/70 to-transparent" />
 
-      <div className="absolute inset-0 z-20 mx-auto flex w-full max-w-3xl flex-col justify-end px-5 pb-14">
+      <div className="pointer-events-none absolute inset-0 z-20 mx-auto flex w-full max-w-3xl flex-col justify-end px-5 pb-14">
         <Link
           href="/"
           aria-label="Voltar"
-          className="absolute left-5 top-6 z-30 flex size-10 items-center justify-center rounded-full border border-gold/40 bg-background/50 text-gold backdrop-blur-sm transition-colors hover:border-gold"
+          className="pointer-events-auto absolute left-5 top-6 z-30 flex size-10 items-center justify-center rounded-full border border-gold/40 bg-background/50 text-gold backdrop-blur-sm transition-colors hover:border-gold"
         >
           <FaArrowLeft className="size-4" />
         </Link>
