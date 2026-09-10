@@ -5,6 +5,7 @@ import type { PackageRepository } from "@/api/domain/package/PackageRepository";
 import type { PhotoRepository } from "@/api/domain/photo/PhotoRepository";
 import type { PlacementRepository } from "@/api/domain/placement/PlacementRepository";
 import type { ProfileRepository } from "@/api/domain/profile/ProfileRepository";
+import type { TestimonialRepository } from "@/api/domain/testimonial/TestimonialRepository";
 import { env } from "@/lib/config/env.server";
 import { NicheRepositoryImpl } from "./NicheRepositoryImpl";
 import { MockNicheRepository } from "./mock/MockNicheRepository";
@@ -16,6 +17,8 @@ import { PlacementRepositoryImpl } from "./PlacementRepositoryImpl";
 import { MockPlacementRepository } from "./mock/MockPlacementRepository";
 import { ProfileRepositoryImpl } from "./ProfileRepositoryImpl";
 import { MockProfileRepository } from "./mock/MockProfileRepository";
+import { TestimonialRepositoryImpl } from "./TestimonialRepositoryImpl";
+import { MockTestimonialRepository } from "./mock/MockTestimonialRepository";
 import { DRAFT_COOKIE_NAME, isDraftCookieValue } from "./draftMode";
 
 function hasFirebaseCredentials(): boolean {
@@ -66,5 +69,9 @@ export const RepositoryFactory = {
   profile: async (): Promise<ProfileRepository> => {
     if (shouldUseMock()) return new MockProfileRepository();
     return new ProfileRepositoryImpl(await resolveIsDraft());
+  },
+  testimonials: async (): Promise<TestimonialRepository> => {
+    if (shouldUseMock()) return new MockTestimonialRepository();
+    return new TestimonialRepositoryImpl(await resolveIsDraft());
   },
 };
