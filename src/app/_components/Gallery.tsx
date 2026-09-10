@@ -114,9 +114,9 @@ export function Gallery({ photos }: { photos: LabeledPhoto[] }) {
         <Addable
           type="placement"
           context={{ surface: "home-gallery" }}
-          className="flex h-9 shrink-0 items-center rounded-full px-4 text-lg font-light"
+          className="font-condensed flex h-9 shrink-0 items-center whitespace-nowrap rounded-full px-4 text-[0.65rem] font-semibold uppercase tracking-[0.2em]"
         >
-          +
+          Adicionar nova foto
         </Addable>
       }
     >
