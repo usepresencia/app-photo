@@ -28,8 +28,8 @@ function toNiche(
 // db.collection(...).get() não é fetch() — unstable_cache é o jeito
 // certo de dar tag a uma leitura assim. admin-photo chama
 // POST /api/revalidate → revalidateTag("niches", "max") só quando
-// publica (não mais a cada save — ver
-// admin-photo/docs/superpowers/specs/2026-09-09-rascunho-publicar-design.md).
+// publica, não a cada save (rascunho/publicação é assíncrono do
+// ponto de vista deste repo — ele só lê a tag quando mandarem).
 async function findAllLiveNiches(): Promise<Niche[]> {
   const snapshot = await db.collection(COLLECTION).orderBy("order", "asc").get();
   return snapshot.docs.map(toNiche);
