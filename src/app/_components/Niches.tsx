@@ -1,12 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Section } from "@/shared/_components/Section";
+import { Section } from "@/lib/_components/Section";
 import { getNiches } from "@/actions/niches";
+import { ADD_PILL_CLASSNAME, Addable } from "./Addable";
+import { EditableText } from "./EditableText";
 
 export async function Niches() {
   const niches = await getNiches();
   return (
-    <Section id="ensaios" index="03" title="Ensaios para cada momento">
+    <Section
+      id="ensaios"
+      index="03"
+      title="Ensaios para cada momento"
+      action={
+        <Addable type="niche" className={ADD_PILL_CLASSNAME}>
+          Adicionar novo ensaio
+        </Addable>
+      }
+    >
       <p className="text-sm leading-relaxed text-muted-foreground">
         Arraste para o lado e toque no ensaio para ver a descrição completa, os pacotes e a galeria.
       </p>
@@ -16,9 +27,9 @@ export async function Niches() {
           <Link
             key={n.slug}
             href={`/ensaios/${n.slug}`}
-            className="group relative w-[78%] max-w-sm shrink-0 snap-center overflow-hidden border border-border bg-surface transition-colors hover:border-gold active:border-gold"
+            className="group relative block w-[78%] max-w-sm shrink-0 snap-center overflow-hidden border border-border bg-surface transition-colors hover:border-rose active:border-rose"
           >
-            <div className="relative aspect-[4/5] overflow-hidden">
+            <div className="relative aspect-4/5 overflow-hidden">
               <Image
                 src={n.image.src}
                 alt={`Ensaio de ${n.title}`}
@@ -29,17 +40,30 @@ export async function Niches() {
                 className="object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-[1.04] group-active:grayscale-0 group-active:scale-[1.04]"
               />
             </div>
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background via-background/85 to-transparent p-5 pt-12">
-              <h3 className="display-xl text-3xl text-foreground">{n.title}</h3>
+            <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-background via-background/85 to-transparent p-5 pt-12">
+              <EditableText
+                type="niche"
+                id={n.slug}
+                field="title"
+                as="h3"
+                className="display-xl text-3xl text-foreground"
+              >
+                {n.title}
+              </EditableText>
               <div className="mt-3 flex items-center justify-between gap-3">
-                <span className="font-condensed text-[0.6rem] uppercase tracking-[0.32em] text-muted-foreground">
+                <EditableText
+                  type="niche"
+                  id={n.slug}
+                  field="subtitle"
+                  className="font-condensed text-[0.6rem] uppercase tracking-[0.32em] text-muted-foreground"
+                >
                   {n.subtitle}
-                </span>
+                </EditableText>
                 <span
-                  className="gradient-border-gold font-condensed block w-fit shrink-0 rounded-full px-4 py-2 text-[0.6rem] uppercase tracking-[0.25em] text-gold sm:px-6"
+                  className="gradient-border-rose font-condensed block w-fit shrink-0 rounded-full px-4 py-2 text-[0.6rem] uppercase tracking-[0.25em] text-rose sm:px-6"
                   style={{
                     boxShadow:
-                      "0 10px 25px -8px color-mix(in oklab, var(--gold) 55%, transparent), 0 4px 10px -4px color-mix(in oklab, var(--gold) 35%, transparent)",
+                      "0 10px 25px -8px color-mix(in oklab, var(--rose) 55%, transparent), 0 4px 10px -4px color-mix(in oklab, var(--rose) 35%, transparent)",
                   }}
                 >
                   <span className="sm:hidden">Ver</span>

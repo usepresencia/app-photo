@@ -1,39 +1,67 @@
-import { Section } from "@/shared/_components/Section";
+import { FaStar } from "react-icons/fa";
+import { Section } from "@/lib/_components/Section";
 import { getTestimonials } from "@/actions/testimonials";
+import { RoseTexture } from "@/lib/_components/RoseTexture";
+import { ADD_PILL_CLASSNAME, Addable } from "./Addable";
+import { Editable } from "./Editable";
+
+function Stars({ rating }: { rating: number }) {
+  return (
+    <div aria-hidden="true" className="relative z-10 mb-2 flex gap-0.5 text-rose">
+      {Array.from({ length: 5 }, (_, i) => (
+        <FaStar key={i} className={i < rating ? "opacity-100" : "opacity-20"} />
+      ))}
+    </div>
+  );
+}
 
 export async function Testimonials() {
   const testimonials = await getTestimonials();
   return (
-    <Section id="feedbacks" index="05" eyebrow="Feedbacks de clientes" title="O que dizem por aí">
+    <Section
+      id="feedbacks"
+      index="05"
+      eyebrow="Feedbacks de clientes"
+      title="O que dizem por aí"
+      action={
+        <Addable type="testimonials" className={ADD_PILL_CLASSNAME}>
+          Atualizar avaliações
+        </Addable>
+      }
+    >
       <div className="no-scrollbar -mx-2 flex gap-3 overflow-x-auto px-2 pb-12 pt-4">
         {testimonials.map((t) => (
-          <blockquote
-            key={t.name}
-            className="relative flex w-72 shrink-0 flex-col overflow-hidden border border-gold/20 p-6"
-            style={{ boxShadow: "var(--shadow-gold)" }}
+          <Editable
+            key={t.id}
+            type="testimonial"
+            id={t.id}
+            className={t.visible ? undefined : "opacity-40"}
           >
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 opacity-30"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--gold) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--gold) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--gold) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--gold) 8%, transparent) 0 16px, transparent 17px)",
-                backgroundSize: "190px 190px",
-              }}
-            />
-            <span
-              aria-hidden="true"
-              className="font-display relative z-10 block text-4xl leading-none text-gold"
+            <blockquote
+              className="relative flex w-72 shrink-0 flex-col overflow-hidden border border-rose/20 p-6"
+              style={{ boxShadow: "var(--shadow-rose)" }}
             >
-              &ldquo;
-            </span>
-            <p className="relative z-10 mt-2 text-sm leading-relaxed text-muted-foreground">
-              {t.text}
-            </p>
-            <footer className="font-condensed relative z-10 mt-auto pt-4 text-[0.65rem] uppercase tracking-[0.3em] text-gold">
-              {t.name}
-            </footer>
-          </blockquote>
+              <RoseTexture variant="dots" />
+              {!t.visible && (
+                <span className="font-condensed relative z-10 mb-2 block w-fit rounded-full bg-rose/10 px-2 py-0.5 text-[0.6rem] uppercase tracking-[0.2em] text-rose">
+                  Oculta
+                </span>
+              )}
+              <Stars rating={t.rating} />
+              <span
+                aria-hidden="true"
+                className="font-display relative z-10 block text-4xl leading-none text-rose"
+              >
+                &ldquo;
+              </span>
+              <p className="relative z-10 mt-2 text-sm leading-relaxed text-muted-foreground">
+                {t.text}
+              </p>
+              <footer className="font-condensed relative z-10 mt-auto pt-4 text-[0.65rem] uppercase tracking-[0.3em] text-rose">
+                {t.name}
+              </footer>
+            </blockquote>
+          </Editable>
         ))}
       </div>
       <a
@@ -42,19 +70,7 @@ export async function Testimonials() {
         rel="noreferrer"
         className="relative mx-auto mt-6 block w-fit overflow-hidden px-6 py-3 text-center"
       >
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gold/10 backdrop-blur-sm"
-          style={{
-            boxShadow: "var(--shadow-gold)",
-            maskImage:
-              "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, transparent, black 30%, black 70%, transparent)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, transparent, black 30%, black 70%, transparent)",
-            maskComposite: "intersect",
-            WebkitMaskComposite: "source-in",
-          }}
-        />
+        <RoseTexture variant="mask" fade="center" />
         <span className="font-condensed relative text-sm font-semibold uppercase tracking-[0.22em] text-foreground">
           Avaliar
         </span>

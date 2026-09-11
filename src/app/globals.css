@@ -10,8 +10,8 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
-  --color-gold: var(--gold);
-  --color-gold-soft: var(--gold-soft);
+  --color-rose: var(--rose);
+  --color-rose-soft: var(--rose-soft);
   --color-paper: var(--paper);
   --color-ink: var(--ink);
   --font-display: var(--font-display);
@@ -64,8 +64,8 @@
   }
 }
 
-@utility text-gold {
-  color: var(--gold);
+@utility text-rose {
+  color: var(--rose);
 }
 
 @utility display-xl {
@@ -75,10 +75,10 @@
   letter-spacing: 0.01em;
 }
 
-@utility gold-rule {
+@utility rose-rule {
   height: 1px;
   width: 100%;
-  background: linear-gradient(to right, var(--gold), transparent 50%);
+  background: linear-gradient(to right, var(--rose), transparent 50%);
   opacity: 0.7;
 }
 
@@ -99,15 +99,15 @@
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.3em;
-  color: var(--gold);
+  color: var(--rose);
 }
 
 @utility ticker {
   animation: marquee-left var(--dur, 30s) linear infinite;
 }
 
-@utility frame-gold {
-  border: 1px solid color-mix(in oklab, var(--gold) 35%, transparent);
+@utility frame-rose {
+  border: 1px solid color-mix(in oklab, var(--rose) 35%, transparent);
 }
 
 @utility album-stage {
@@ -154,6 +154,7 @@
 
 @utility font-hand {
   font-family: var(--font-hand), "Barlow", cursive;
+  color: var(--ink-hand);
 }
 
 @utility polaroid {
@@ -269,12 +270,12 @@
   }
 }
 
-@utility gradient-border-gold {
+@utility gradient-border-rose {
   border: 2px solid transparent;
   border-radius: 9999px;
   background-image:
     linear-gradient(var(--background), var(--background)),
-    conic-gradient(from var(--gradient-angle, 0deg), var(--gold), var(--gold-soft), var(--gold));
+    conic-gradient(from var(--gradient-angle, 0deg), var(--rose), var(--rose-soft), var(--rose));
   background-clip: padding-box, border-box;
   -webkit-background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
@@ -289,7 +290,147 @@
   .hero-flash,
   .album-page-next,
   .album-page-prev,
-  .gradient-border-gold {
+  .gradient-border-rose {
     animation: none !important;
   }
+}
+
+/* Preview com edição inline (admin-photo): ativado só dentro do iframe,
+   depois do handshake em PreviewOverlay.tsx — nunca visível fora do
+   preview. pointer-events: auto existe porque o film strip do hero (ver
+   _HeroFilmStrip.tsx) é decorativo (pointer-events-none no container),
+   e um filho pode reativar eventos mesmo com o pai desabilitado. outline
+   com offset negativo desenha pra dentro do próprio box, evitando corte
+   por ancestrais com overflow-hidden (comum neste projeto). */
+html[data-preview-active] [data-editable] {
+  pointer-events: auto;
+  cursor: pointer;
+  border-radius: 12px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  transition:
+    outline-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+html[data-preview-active] [data-editable]:hover {
+  outline-color: color-mix(in oklab, var(--rose) 45%, transparent);
+  box-shadow: inset 0 0 0 9999px color-mix(in oklab, var(--rose) 5%, transparent);
+  transform: scale(1.015);
+}
+
+/* [data-addable] (Addable.tsx) fica invisível fora do modo preview —
+   diferente de [data-editable], que já é visível no site normal. */
+[data-addable] {
+  display: none;
+}
+
+html[data-preview-active] [data-addable] {
+  display: flex;
+  pointer-events: auto;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--rose);
+  color: var(--rose);
+  opacity: 0.7;
+}
+
+html[data-preview-active] [data-addable]:hover {
+  opacity: 1;
+}
+
+/* Ícone de lixeira flutuante (PreviewOverlay.tsx) — z-index máximo
+   pra ficar acima de qualquer coisa do site, inclusive elementos com
+   z-index alto já usados nas animações do hero/galeria. */
+.preview-delete-icon {
+  position: fixed;
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--rose) 35%, transparent);
+  background: var(--background);
+  color: var(--rose);
+  box-shadow: var(--shadow-rose);
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.preview-delete-icon:hover {
+  background: color-mix(in oklab, var(--rose) 12%, var(--background));
+  transform: scale(1.08);
+}
+
+/* [data-editable-text] (EditableText.tsx) — mesmo padrão de
+   pointer-events/cursor do [data-editable] de bloco, mas cada texto
+   individual vira o alvo do clique, não o card inteiro. */
+html[data-preview-active] [data-editable-text] {
+  pointer-events: auto;
+  cursor: text;
+  border-radius: 6px;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition:
+    outline-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+html[data-preview-active] [data-editable-text]:hover {
+  outline-color: color-mix(in oklab, var(--rose) 45%, transparent);
+  transform: scale(1.015);
+}
+
+/* Enquanto edita de verdade, sem o scale do hover — digitar com o
+   texto "flutuando" em escala fica estranho; o contorno sólido +
+   fundo tingido já deixam claro que está em edição. */
+html[data-preview-active] [data-editable-text][contenteditable="true"] {
+  outline-color: var(--rose);
+  background: color-mix(in oklab, var(--rose) 8%, transparent);
+  transform: none;
+}
+
+/* Par de ícones flutuantes de confirmar/cancelar (PreviewOverlay.tsx) —
+   mesmo z-index/position:fixed do .preview-delete-icon, ao lado dele. */
+.preview-textedit-icons {
+  position: fixed;
+  z-index: 2147483647;
+  display: flex;
+  gap: 4px;
+}
+
+.preview-textedit-icons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 9999px;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: var(--shadow-rose);
+  transition: transform 0.15s ease;
+}
+
+.preview-textedit-icons button:hover {
+  transform: scale(1.08);
+}
+
+.preview-textedit-icons button[aria-label="Confirmar"] {
+  border: none;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.preview-textedit-icons button[aria-label="Cancelar"] {
+  border: 1px solid color-mix(in oklab, var(--rose) 35%, transparent);
+  background: var(--background);
+  color: var(--rose);
 }
