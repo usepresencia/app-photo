@@ -126,6 +126,12 @@
   animation: page-turn-prev 620ms cubic-bezier(0.22, 0.75, 0.25, 1) both;
 }
 
+/* 0.9999, não 1: o minificador de CSS do build (lightningcss) trata
+   brightness(1) como "sem efeito" e remove só o argumento, deixando
+   filter:brightness() — sintaxe inválida que quebra a keyframe inteira e
+   quando isso acontece, o navegador nunca sai do opacity:0 do "from",
+   travando a galeria em branco. 0.9999 é imperceptível e não é
+   reconhecido como identidade pelo minificador. */
 @keyframes page-turn-next {
   from {
     transform: rotateY(-72deg) translateX(14%);
@@ -135,7 +141,7 @@
   to {
     transform: rotateY(0deg) translateX(0);
     opacity: 1;
-    filter: brightness(1);
+    filter: brightness(0.9999);
   }
 }
 
@@ -148,7 +154,7 @@
   to {
     transform: rotateY(0deg) translateX(0);
     opacity: 1;
-    filter: brightness(1);
+    filter: brightness(0.9999);
   }
 }
 
