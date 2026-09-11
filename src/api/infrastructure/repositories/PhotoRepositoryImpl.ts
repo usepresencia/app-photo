@@ -9,6 +9,21 @@ import { makeReadRepo } from "./makeReadRepo";
 const COLLECTION = "photos";
 const DRAFT_COLLECTION = "photos_draft";
 
+function toPhoto(
+  doc: FirebaseFirestore.QueryDocumentSnapshot | FirebaseFirestore.DocumentSnapshot,
+  cloudName: string,
+): Photo {
+  const data = doc.data();
+  if (!data) throw new Error(`Documento "${doc.id}" da coleção "${COLLECTION}" está vazio`);
+  return {
+    id: doc.id,
+    src: buildDeliveryUrl(data.cloudinaryPublicId, cloudName),
+    width: data.width,
+    height: data.height,
+    blurDataURL: data.blurDataURL,
+  };
+}
+
 async function findLivePhotosByIds(ids: string[]): Promise<Photo[]> {
   if (ids.length === 0) return [];
   if (!env.CLOUDINARY_CLOUD_NAME) {
@@ -18,16 +33,7 @@ async function findLivePhotosByIds(ids: string[]): Promise<Photo[]> {
   }
   const cloudName = env.CLOUDINARY_CLOUD_NAME;
   const snapshot = await db.collection(COLLECTION).where(FieldPath.documentId(), "in", ids).get();
-  return snapshot.docs.map((doc) => {
-    const data = doc.data();
-    return {
-      id: doc.id,
-      src: buildDeliveryUrl(data.cloudinaryPublicId, cloudName),
-      width: data.width,
-      height: data.height,
-      blurDataURL: data.blurDataURL,
-    };
-  });
+  return snapshot.docs.map((doc) => toPhoto(doc, cloudName));
 }
 
 // Modo rascunho: mesma query (in-list já é single-clause, sem orderBy),
@@ -44,18 +50,7 @@ async function findDraftPhotosByIds(ids: string[]): Promise<Photo[]> {
     .collection(DRAFT_COLLECTION)
     .where(FieldPath.documentId(), "in", ids)
     .get();
-  return snapshot.docs
-    .filter((doc) => !doc.data()._deleted)
-    .map((doc) => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        src: buildDeliveryUrl(data.cloudinaryPublicId, cloudName),
-        width: data.width,
-        height: data.height,
-        blurDataURL: data.blurDataURL,
-      };
-    });
+  return snapshot.docs.filter((doc) => !doc.data()._deleted).map((doc) => toPhoto(doc, cloudName));
 }
 
 const readPhotosByIds = makeReadRepo(
