@@ -44,4 +44,18 @@ describe("GET /api/preview/enter", () => {
     const response = await GET(request);
     expect(response.status).toBe(401);
   });
+
+  it("em produção, redireciona pra SITE_URL em vez da origem de request.url", async () => {
+    process.env = { ...process.env, NODE_ENV: "production" };
+    vi.resetModules();
+    const { GET } = await import("./route");
+    // Simula o cenário real: por trás do Traefik/Docker standalone, a
+    // origem de request.url pode ser o bind interno do container em vez
+    // do domínio público — o redirect não pode depender dela em produção.
+    const request = new Request(
+      "http://0.0.0.0:3000/api/preview/enter?token=segredo-teste&next=/ensaios/familia",
+    );
+    const response = await GET(request);
+    expect(response.headers.get("location")).toBe("https://denisegalvao.com.br/ensaios/familia");
+  });
 });
