@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.11](https://github.com/useagendaflow/app-photo/compare/v0.1.10...v0.1.11) (2026-09-11)
+
+### Bug Fixes
+
+- keep hover affordances clickable in the preview overlay ([7609e8a](https://github.com/useagendaflow/app-photo/commit/7609e8a949a575c6fd8a87a48cbd42d4d5de6c26))
+
 ### [0.1.10](https://github.com/useagendaflow/app-photo/compare/v0.1.9...v0.1.10) (2026-09-11)
 
 ### Bug Fixes
