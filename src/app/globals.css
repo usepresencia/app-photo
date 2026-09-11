@@ -375,17 +375,26 @@ html[data-preview-active] [data-addable]:hover {
 html[data-preview-active] [data-editable-text] {
   pointer-events: auto;
   cursor: text;
+  border-radius: 6px;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition:
+    outline-color 0.18s ease,
+    transform 0.18s ease;
 }
 
 html[data-preview-active] [data-editable-text]:hover {
-  outline: 2px solid var(--rose);
-  outline-offset: 2px;
+  outline-color: color-mix(in oklab, var(--rose) 45%, transparent);
+  transform: scale(1.015);
 }
 
+/* Enquanto edita de verdade, sem o scale do hover — digitar com o
+   texto "flutuando" em escala fica estranho; o contorno sólido +
+   fundo tingido já deixam claro que está em edição. */
 html[data-preview-active] [data-editable-text][contenteditable="true"] {
-  outline: 2px solid var(--rose);
-  outline-offset: 2px;
+  outline-color: var(--rose);
   background: color-mix(in oklab, var(--rose) 8%, transparent);
+  transform: none;
 }
 
 /* Par de ícones flutuantes de confirmar/cancelar (PreviewOverlay.tsx) —
