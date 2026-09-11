@@ -1,3 +1,5 @@
+import type { TestimonialDTO } from "@/api/application/testimonial/TestimonialDTO";
+import { GetTestimonialsUseCase } from "@/api/application/testimonial/GetTestimonialsUseCase";
 import { RepositoryFactory } from "@/api/infrastructure/repositories/RepositoryFactory";
 
 export interface Testimonial {
@@ -8,15 +10,21 @@ export interface Testimonial {
   visible: boolean;
 }
 
-export async function getTestimonials(): Promise<Testimonial[]> {
-  const repo = await RepositoryFactory.testimonials();
-  const [all, isDraft] = await Promise.all([repo.findAll(), RepositoryFactory.isDraftRequest()]);
-  const chosen = isDraft ? all : all.filter((t) => t.visible);
-  return chosen.map((t) => ({
+function toTestimonial(t: TestimonialDTO): Testimonial {
+  return {
     id: t.id,
     name: t.authorName,
     text: t.text,
     rating: t.rating,
     visible: t.visible,
-  }));
+  };
+}
+
+export async function getTestimonials(): Promise<Testimonial[]> {
+  const [repo, isDraft] = await Promise.all([
+    RepositoryFactory.testimonials(),
+    RepositoryFactory.isDraftRequest(),
+  ]);
+  const dtos = await new GetTestimonialsUseCase(repo).execute({ isDraft });
+  return dtos.map(toTestimonial);
 }
