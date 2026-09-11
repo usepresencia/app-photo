@@ -1,4 +1,4 @@
-export type PhotoSurface = "hero" | "quem-sou" | "home-gallery" | "niche" | "package";
+export type PhotoSurface = "hero" | "quem-sou" | "home-gallery" | "niche";
 
 export interface Placement {
   id: string;

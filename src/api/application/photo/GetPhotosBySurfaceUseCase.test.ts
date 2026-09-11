@@ -24,7 +24,7 @@ describe("GetPhotosBySurfaceUseCase", () => {
   });
 
   it("retorna array vazio quando a superfície não tem placement", async () => {
-    const photos = await useCase().execute("package", { refId: "nao-existe" });
+    const photos = await useCase().execute("niche", { refId: "nao-existe" });
     expect(photos).toEqual([]);
   });
 
