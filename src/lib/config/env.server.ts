@@ -21,9 +21,9 @@ const schema = z.object({
   // resolver cloudinaryPublicId em URL de entrega. Opcional aqui pela
   // mesma razão do Firebase: ausente, o app roda em modo mock (nenhuma
   // foto real do Firestore pra resolver ainda). CLOUDINARY_API_KEY/
-  // API_SECRET não entram aqui — só o script de migração
-  // (scripts/migrate-to-firestore.ts) usa, e ele lê .env.local
-  // diretamente, sem passar pela validação do app.
+  // API_SECRET não entram aqui — o app só lê fotos já hospedadas no
+  // Cloudinary (cloud name basta); credenciais de escrita não são
+  // necessárias em tempo de execução.
   CLOUDINARY_CLOUD_NAME: optionalNonEmpty(z.string().min(1)),
   // Segredo compartilhado com o admin-photo — autentica POST
   // /api/revalidate. Opcional aqui pela mesma razão do Cloudinary: sem
