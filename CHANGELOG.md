@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.7](https://github.com/useagendaflow/app-photo/compare/v0.1.6...v0.1.7) (2026-09-11)
+
+### Bug Fixes
+
+- cap Cloudinary delivery width to the original image (c_limit) ([2273a80](https://github.com/useagendaflow/app-photo/commit/2273a80e8f30b6392555bcbaff990a6ec2d7df3b))
+
 ### [0.1.6](https://github.com/useagendaflow/app-photo/compare/v0.1.5...v0.1.6) (2026-09-11)
 
 ### Features
