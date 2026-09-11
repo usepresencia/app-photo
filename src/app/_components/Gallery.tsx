@@ -56,9 +56,14 @@ function GalleryAlbum({ photos }: { photos: LabeledPhoto[] }) {
                   id={photo.placementId}
                   className={spreadPoses[i]}
                 >
+                  {/* h-full é obrigatório: a proporção (aspect-*) vive no
+                      wrapper Editable, não aqui. Sem preencher a altura
+                      do wrapper, o figure fica com height:auto e o
+                      h-[calc(100%-...)] da foto abaixo colapsa pra zero —
+                      sobra só a moldura com a legenda. */}
                   <figure
                     style={{ ["--tape-rot" as string]: `${i % 2 ? 5 : -6}deg` }}
-                    className={`group polaroid relative transition-all duration-500 hover:z-60 hover:rotate-0 hover:scale-[1.04] active:z-60 active:rotate-0 active:scale-[1.04] ${i % 3 === 0 ? "tape" : i % 3 === 1 ? "tape-corner" : ""}`}
+                    className={`group polaroid relative h-full transition-all duration-500 hover:z-60 hover:rotate-0 hover:scale-[1.04] active:z-60 active:rotate-0 active:scale-[1.04] ${i % 3 === 0 ? "tape" : i % 3 === 1 ? "tape-corner" : ""}`}
                   >
                     <div className="relative h-[calc(100%-var(--polaroid-legenda))] w-full overflow-hidden bg-background">
                       <Image
