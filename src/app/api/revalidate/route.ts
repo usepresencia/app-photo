@@ -15,8 +15,8 @@ export async function POST(request: Request): Promise<Response> {
   // Next 16 exige um perfil de cacheLife como segundo argumento — precisa
   // ser o MESMO perfil que a leitura pública declarou ao cachear (via
   // "use cache" + cacheLife(perfil)). Nenhuma leitura declara tag/perfil
-  // ainda (ver Nota de escopo abaixo) — "max" é o placeholder até os
-  // planos 7-10 decidirem o perfil real de cada superfície.
+  // ainda — "max" é o placeholder até cada superfície decidir seu
+  // perfil real de cache.
   revalidateTag(body.tag, "max");
   return Response.json({ revalidated: true, tag: body.tag });
 }
