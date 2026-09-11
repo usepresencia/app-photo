@@ -30,7 +30,12 @@ export async function Testimonials() {
     >
       <div className="no-scrollbar -mx-2 flex gap-3 overflow-x-auto px-2 pb-12 pt-4">
         {testimonials.map((t) => (
-          <Editable key={t.id} type="testimonial" id={t.id}>
+          <Editable
+            key={t.id}
+            type="testimonial"
+            id={t.id}
+            className={t.visible ? undefined : "opacity-40"}
+          >
             <blockquote
               className="relative flex w-72 shrink-0 flex-col overflow-hidden border border-rose/20 p-6"
               style={{ boxShadow: "var(--shadow-rose)" }}
@@ -44,6 +49,11 @@ export async function Testimonials() {
                   backgroundSize: "190px 190px",
                 }}
               />
+              {!t.visible && (
+                <span className="font-condensed relative z-10 mb-2 block w-fit rounded-full bg-rose/10 px-2 py-0.5 text-[0.6rem] uppercase tracking-[0.2em] text-rose">
+                  Oculta
+                </span>
+              )}
               <Stars rating={t.rating} />
               <span
                 aria-hidden="true"

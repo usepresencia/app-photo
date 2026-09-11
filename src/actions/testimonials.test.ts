@@ -10,6 +10,7 @@ describe("getTestimonials", () => {
       expect(t.text.length).toBeGreaterThan(0);
       expect(t.rating).toBeGreaterThanOrEqual(1);
       expect(t.rating).toBeLessThanOrEqual(5);
+      expect(t.visible).toBe(true);
     }
   });
 });

@@ -5,12 +5,18 @@ export interface Testimonial {
   name: string;
   text: string;
   rating: number;
+  visible: boolean;
 }
 
 export async function getTestimonials(): Promise<Testimonial[]> {
   const repo = await RepositoryFactory.testimonials();
-  const all = await repo.findAll();
-  return all
-    .filter((t) => t.visible)
-    .map((t) => ({ id: t.id, name: t.authorName, text: t.text, rating: t.rating }));
+  const [all, isDraft] = await Promise.all([repo.findAll(), RepositoryFactory.isDraftRequest()]);
+  const chosen = isDraft ? all : all.filter((t) => t.visible);
+  return chosen.map((t) => ({
+    id: t.id,
+    name: t.authorName,
+    text: t.text,
+    rating: t.rating,
+    visible: t.visible,
+  }));
 }

@@ -74,4 +74,12 @@ export const RepositoryFactory = {
     if (shouldUseMock()) return new MockTestimonialRepository();
     return new TestimonialRepositoryImpl(await resolveIsDraft());
   },
+  // Exposto à parte (não só pra escolher o repo) porque getTestimonials()
+  // precisa da mesma informação pra decidir se filtra por `visible` — só
+  // no modo live isso importa; no rascunho, o admin precisa ver (e poder
+  // mostrar de novo) avaliações ocultas.
+  isDraftRequest: async (): Promise<boolean> => {
+    if (shouldUseMock()) return false;
+    return resolveIsDraft();
+  },
 };
