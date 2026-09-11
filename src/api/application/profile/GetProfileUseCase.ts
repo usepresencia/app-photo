@@ -8,7 +8,7 @@ export class GetProfileUseCase {
     const profile = await this.repo.get();
     if (!profile) {
       throw new Error(
-        'Documento "profile/main" não encontrado — rode a migração (plano 5) antes de servir tráfego real.',
+        'Documento "profile/main" não encontrado no Firestore — é um documento único e obrigatório; sua ausência indica um problema de seed/configuração, não um estado válido em produção.',
       );
     }
     return { ...profile };

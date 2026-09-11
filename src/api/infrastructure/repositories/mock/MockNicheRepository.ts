@@ -1,9 +1,8 @@
 import type { Niche } from "@/api/domain/niche/Niche";
 import type { NicheRepository } from "@/api/domain/niche/NicheRepository";
 
-// Transcrição fiel do array NICHES que hoje vive em src/actions/niches.ts —
-// mesmos textos, na mesma ordem. Serve de dado local (dev/test/CI sem
-// Firebase) e de referência para a migração real ao Firestore (plano 5).
+// Dado local (dev/test/CI sem Firebase) com os mesmos textos e ordem
+// usados no seed real do Firestore.
 const NICHES: Niche[] = [
   {
     slug: "retratos-profissionais",

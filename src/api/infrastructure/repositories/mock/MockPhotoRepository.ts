@@ -2,10 +2,10 @@ import type { Photo } from "@/api/domain/photo/Photo";
 import type { PhotoRepository } from "@/api/domain/photo/PhotoRepository";
 import { MOCK_NICHE_SLUGS } from "./nicheSlugs";
 
-// Conjunto pequeno e sintético — não tenta espelhar as 87 fotos reais
-// (isso é trabalho do script de migração, plano 5). Nomeado por
-// propósito ("hero-1", "quemsou-capa") pra ficar legível nos testes e no
-// MockPlacementRepository, que referencia estes IDs.
+// Conjunto pequeno e sintético — não tenta espelhar todas as fotos reais
+// do Firestore. Nomeado por propósito ("hero-1", "quemsou-capa") pra
+// ficar legível nos testes e no MockPlacementRepository, que referencia
+// estes IDs.
 const MOCK_PHOTOS: Photo[] = [
   ...Array.from({ length: 4 }, (_, i) => ({
     id: `hero-${i + 1}`,

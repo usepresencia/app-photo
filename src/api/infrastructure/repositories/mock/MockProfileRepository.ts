@@ -1,10 +1,8 @@
 import type { Profile } from "@/api/domain/profile/Profile";
 import type { ProfileRepository } from "@/api/domain/profile/ProfileRepository";
 
-// Transcrição fiel do texto hoje hardcoded em src/app/_components/About.tsx
-// — mesmas palavras, mesma ordem de parágrafos. Serve de dado local
-// (dev/test/CI sem Firebase) e de referência para a migração real ao
-// Firestore (plano 5).
+// Dado local (dev/test/CI sem Firebase) com o mesmo texto e ordem de
+// parágrafos usados no seed real do Firestore.
 const PROFILE: Profile = {
   capaCaption: "Há vários anos marcando momentos",
   profissao: {
