@@ -6,10 +6,12 @@ export interface Niche {
   description: string[];
   highlights: string[];
   closingLine: string;
-  /** Marca os nichos que também aparecem como "formato de evento" na
-   * seção de Eventos da home, além de na listagem completa de nichos. */
+  /** Move o nicho para a seção de Eventos da home: marcado, aparece como
+   * "formato de evento" ali e sai do carrossel de ensaios — as duas
+   * listas são exclusivas. Continua tendo página própria em
+   * /ensaios/[slug] nos dois casos. */
   showAsEventTeaser: boolean;
-  /** Ordem em Niches.tsx (todos os nichos). */
+  /** Ordem no carrossel de ensaios (só os sem showAsEventTeaser). */
   order: number;
   /** Ordem em Events.tsx (só os com showAsEventTeaser); null nos demais. */
   eventOrder: number | null;

@@ -50,6 +50,16 @@ export async function getNicheBySlug(slug: string): Promise<Niche | null> {
   return dto ? withPhotos(dto) : null;
 }
 
+// Complemento exato de getEventNiches(): um nicho marcado como evento
+// aparece SÓ na seção Eventos, fora do carrossel de ensaios. getNiches()
+// segue devolvendo todos de propósito — o sitemap precisa deles, já que
+// nicho de evento continua tendo página própria em /ensaios/[slug].
+export async function getNonEventNiches(): Promise<Niche[]> {
+  const dtos = await new GetNichesUseCase(await RepositoryFactory.niches()).execute();
+  const carouselDtos = dtos.filter((n) => !n.showAsEventTeaser).sort((a, b) => a.order - b.order);
+  return Promise.all(carouselDtos.map(withPhotos));
+}
+
 export async function getEventNiches(): Promise<Niche[]> {
   const dtos = await new GetNichesUseCase(await RepositoryFactory.niches()).execute();
   const eventDtos = dtos

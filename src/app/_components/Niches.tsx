@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Section } from "@/lib/_components/Section";
-import { getNiches } from "@/actions/niches";
+import { getNonEventNiches } from "@/actions/niches";
 import { ADD_PILL_CLASSNAME, Addable } from "./Addable";
 import { EditableText } from "./EditableText";
 
 export async function Niches() {
-  const niches = await getNiches();
+  const niches = await getNonEventNiches();
   return (
     <Section
       id="ensaios"
