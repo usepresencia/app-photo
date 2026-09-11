@@ -1,7 +1,7 @@
 import type { Package } from "@/api/domain/package/Package";
 import type { PackageRepository } from "@/api/domain/package/PackageRepository";
-import { unstable_cache } from "next/cache";
 import { db } from "../firebase/admin";
+import { makeReadRepo } from "./makeReadRepo";
 
 const COLLECTION = "packages";
 const DRAFT_COLLECTION = "packages_draft";
@@ -23,18 +23,14 @@ function toPackage(
   };
 }
 
-const findPackagesByNicheSlug = unstable_cache(
-  async (nicheSlug: string): Promise<Package[]> => {
-    const snapshot = await db
-      .collection(COLLECTION)
-      .where("nicheSlug", "==", nicheSlug)
-      .orderBy("order", "asc")
-      .get();
-    return snapshot.docs.map(toPackage);
-  },
-  ["packages", "findByNicheSlug"],
-  { tags: ["packages"] },
-);
+async function findLivePackagesByNicheSlug(nicheSlug: string): Promise<Package[]> {
+  const snapshot = await db
+    .collection(COLLECTION)
+    .where("nicheSlug", "==", nicheSlug)
+    .orderBy("order", "asc")
+    .get();
+  return snapshot.docs.map(toPackage);
+}
 
 // Modo rascunho: só o where de igualdade (sem orderBy combinado) —
 // evita precisar de um índice composto novo pra "packages_draft".
@@ -47,12 +43,17 @@ async function findDraftPackagesByNicheSlug(nicheSlug: string): Promise<Package[
     .sort((a, b) => a.order - b.order);
 }
 
+const readPackagesByNicheSlug = makeReadRepo(
+  ["packages", "findByNicheSlug"],
+  ["packages"],
+  findLivePackagesByNicheSlug,
+  findDraftPackagesByNicheSlug,
+);
+
 export class PackageRepositoryImpl implements PackageRepository {
   constructor(private readonly isDraft: boolean = false) {}
 
   findByNicheSlug(nicheSlug: string): Promise<Package[]> {
-    return this.isDraft
-      ? findDraftPackagesByNicheSlug(nicheSlug)
-      : findPackagesByNicheSlug(nicheSlug);
+    return readPackagesByNicheSlug(this.isDraft, nicheSlug);
   }
 }

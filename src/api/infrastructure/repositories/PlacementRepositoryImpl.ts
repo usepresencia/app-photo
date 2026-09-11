@@ -3,8 +3,8 @@ import type {
   FindBySurfaceOptions,
   PlacementRepository,
 } from "@/api/domain/placement/PlacementRepository";
-import { unstable_cache } from "next/cache";
 import { db } from "../firebase/admin";
+import { makeReadRepo } from "./makeReadRepo";
 
 const COLLECTION = "placements";
 const DRAFT_COLLECTION = "placements_draft";
@@ -24,18 +24,17 @@ function toPlacement(
   };
 }
 
-const findPlacementsBySurface = unstable_cache(
-  async (surface: PhotoSurface, refId?: string): Promise<Placement[]> => {
-    let query: FirebaseFirestore.Query = db.collection(COLLECTION).where("surface", "==", surface);
-    if (refId !== undefined) {
-      query = query.where("refId", "==", refId);
-    }
-    const snapshot = await query.orderBy("order", "asc").get();
-    return snapshot.docs.map(toPlacement);
-  },
-  ["placements", "findBySurface"],
-  { tags: ["placements"] },
-);
+async function findLivePlacementsBySurface(
+  surface: PhotoSurface,
+  refId?: string,
+): Promise<Placement[]> {
+  let query: FirebaseFirestore.Query = db.collection(COLLECTION).where("surface", "==", surface);
+  if (refId !== undefined) {
+    query = query.where("refId", "==", refId);
+  }
+  const snapshot = await query.orderBy("order", "asc").get();
+  return snapshot.docs.map(toPlacement);
+}
 
 // Modo rascunho: só os wheres de igualdade (sem orderBy combinado) —
 // evita precisar de um índice composto novo pra "placements_draft".
@@ -57,12 +56,17 @@ async function findDraftPlacementsBySurface(
     .sort((a, b) => a.order - b.order);
 }
 
+const readPlacementsBySurface = makeReadRepo(
+  ["placements", "findBySurface"],
+  ["placements"],
+  findLivePlacementsBySurface,
+  findDraftPlacementsBySurface,
+);
+
 export class PlacementRepositoryImpl implements PlacementRepository {
   constructor(private readonly isDraft: boolean = false) {}
 
   findBySurface(surface: PhotoSurface, opts?: FindBySurfaceOptions): Promise<Placement[]> {
-    return this.isDraft
-      ? findDraftPlacementsBySurface(surface, opts?.refId)
-      : findPlacementsBySurface(surface, opts?.refId);
+    return readPlacementsBySurface(this.isDraft, surface, opts?.refId);
   }
 }

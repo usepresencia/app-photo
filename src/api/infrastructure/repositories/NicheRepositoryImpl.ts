@@ -1,7 +1,7 @@
 import type { Niche } from "@/api/domain/niche/Niche";
 import type { NicheRepository } from "@/api/domain/niche/NicheRepository";
-import { unstable_cache } from "next/cache";
 import { db } from "../firebase/admin";
+import { makeReadRepo } from "./makeReadRepo";
 
 const COLLECTION = "niches";
 const DRAFT_COLLECTION = "niches_draft";
@@ -30,24 +30,16 @@ function toNiche(
 // POST /api/revalidate → revalidateTag("niches", "max") só quando
 // publica (não mais a cada save — ver
 // admin-photo/docs/superpowers/specs/2026-09-09-rascunho-publicar-design.md).
-const findAllNiches = unstable_cache(
-  async (): Promise<Niche[]> => {
-    const snapshot = await db.collection(COLLECTION).orderBy("order", "asc").get();
-    return snapshot.docs.map(toNiche);
-  },
-  ["niches", "findAll"],
-  { tags: ["niches"] },
-);
+async function findAllLiveNiches(): Promise<Niche[]> {
+  const snapshot = await db.collection(COLLECTION).orderBy("order", "asc").get();
+  return snapshot.docs.map(toNiche);
+}
 
-const findNicheBySlug = unstable_cache(
-  async (slug: string): Promise<Niche | null> => {
-    const doc = await db.collection(COLLECTION).doc(slug).get();
-    if (!doc.exists) return null;
-    return toNiche(doc);
-  },
-  ["niches", "findBySlug"],
-  { tags: ["niches"] },
-);
+async function findLiveNicheBySlug(slug: string): Promise<Niche | null> {
+  const doc = await db.collection(COLLECTION).doc(slug).get();
+  if (!doc.exists) return null;
+  return toNiche(doc);
+}
 
 // Modo rascunho lê "niches_draft" direto do Firestore, sem
 // unstable_cache — tráfego de preview é baixo, prioriza corretude
@@ -64,16 +56,30 @@ async function findDraftNicheBySlug(slug: string): Promise<Niche | null> {
   return toNiche(doc);
 }
 
+const readAllNiches = makeReadRepo(
+  ["niches", "findAll"],
+  ["niches"],
+  findAllLiveNiches,
+  findAllDraftNiches,
+);
+
+const readNicheBySlug = makeReadRepo(
+  ["niches", "findBySlug"],
+  ["niches"],
+  findLiveNicheBySlug,
+  findDraftNicheBySlug,
+);
+
 // slug é o próprio ID do documento — findBySlug vira um doc().get() direto,
 // sem query.
 export class NicheRepositoryImpl implements NicheRepository {
   constructor(private readonly isDraft: boolean = false) {}
 
   findAll(): Promise<Niche[]> {
-    return this.isDraft ? findAllDraftNiches() : findAllNiches();
+    return readAllNiches(this.isDraft);
   }
 
   findBySlug(slug: string): Promise<Niche | null> {
-    return this.isDraft ? findDraftNicheBySlug(slug) : findNicheBySlug(slug);
+    return readNicheBySlug(this.isDraft, slug);
   }
 }
