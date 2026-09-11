@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.8](https://github.com/useagendaflow/app-photo/compare/v0.1.7...v0.1.8) (2026-09-11)
+
+### Bug Fixes
+
+- use SITE_URL for the preview-enter redirect origin in production ([99a9ed4](https://github.com/useagendaflow/app-photo/commit/99a9ed45e27dada83ed901ece523638630a6c019))
+
 ### [0.1.7](https://github.com/useagendaflow/app-photo/compare/v0.1.6...v0.1.7) (2026-09-11)
 
 ### Bug Fixes
