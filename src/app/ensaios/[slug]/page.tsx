@@ -4,6 +4,7 @@ import { getNicheBySlug } from "@/actions/niches";
 import { getPackagesForNiche } from "@/actions/packages";
 import { getBrand } from "@/actions/brand";
 import { EditableText } from "@/app/_components/EditableText";
+import { RoseTexture } from "@/lib/_components/RoseTexture";
 import { NicheHero } from "./_components/NicheHero";
 import { PackagePicker } from "./_components/PackagePicker";
 
@@ -53,19 +54,7 @@ export default async function NichePage({ params }: { params: Promise<{ slug: st
       <section className="mx-auto w-full max-w-3xl space-y-8 px-5 pb-4 pt-10">
         {niche.intro && (
           <div className="relative overflow-hidden border-l-2 border-rose p-6 pl-5">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-rose/10 backdrop-blur-sm"
-              style={{
-                boxShadow: "var(--shadow-rose)",
-                maskImage:
-                  "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
-                maskComposite: "intersect",
-                WebkitMaskComposite: "source-in",
-              }}
-            />
+            <RoseTexture variant="mask" fade="edge" />
             <EditableText
               type="niche"
               id={niche.slug}
@@ -97,19 +86,7 @@ export default async function NichePage({ params }: { params: Promise<{ slug: st
           <ul className="grid gap-2 sm:grid-cols-3">
             {niche.highlights.map((h, i) => (
               <li key={h} className="relative overflow-hidden px-4 py-3 text-center">
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-0 bg-rose/10 backdrop-blur-sm"
-                  style={{
-                    boxShadow: "var(--shadow-rose)",
-                    maskImage:
-                      "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, transparent, black 30%, black 70%, transparent)",
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, transparent, black 30%, black 70%, transparent)",
-                    maskComposite: "intersect",
-                    WebkitMaskComposite: "source-in",
-                  }}
-                />
+                <RoseTexture variant="mask" fade="center" />
                 <EditableText
                   type="niche"
                   id={niche.slug}

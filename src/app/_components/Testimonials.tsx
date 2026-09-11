@@ -1,6 +1,7 @@
 import { FaStar } from "react-icons/fa";
 import { Section } from "@/lib/_components/Section";
 import { getTestimonials } from "@/actions/testimonials";
+import { RoseTexture } from "@/lib/_components/RoseTexture";
 import { ADD_PILL_CLASSNAME, Addable } from "./Addable";
 import { Editable } from "./Editable";
 
@@ -40,15 +41,7 @@ export async function Testimonials() {
               className="relative flex w-72 shrink-0 flex-col overflow-hidden border border-rose/20 p-6"
               style={{ boxShadow: "var(--shadow-rose)" }}
             >
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 opacity-30"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--rose) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--rose) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--rose) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--rose) 8%, transparent) 0 16px, transparent 17px)",
-                  backgroundSize: "190px 190px",
-                }}
-              />
+              <RoseTexture variant="dots" />
               {!t.visible && (
                 <span className="font-condensed relative z-10 mb-2 block w-fit rounded-full bg-rose/10 px-2 py-0.5 text-[0.6rem] uppercase tracking-[0.2em] text-rose">
                   Oculta
@@ -77,19 +70,7 @@ export async function Testimonials() {
         rel="noreferrer"
         className="relative mx-auto mt-6 block w-fit overflow-hidden px-6 py-3 text-center"
       >
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-rose/10 backdrop-blur-sm"
-          style={{
-            boxShadow: "var(--shadow-rose)",
-            maskImage:
-              "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, transparent, black 30%, black 70%, transparent)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, transparent, black 30%, black 70%, transparent)",
-            maskComposite: "intersect",
-            WebkitMaskComposite: "source-in",
-          }}
-        />
+        <RoseTexture variant="mask" fade="center" />
         <span className="font-condensed relative text-sm font-semibold uppercase tracking-[0.22em] text-foreground">
           Avaliar
         </span>

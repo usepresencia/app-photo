@@ -3,6 +3,7 @@ import { Section } from "@/lib/_components/Section";
 import { Polaroid } from "@/lib/_components/Polaroid";
 import { getAboutPhotos } from "@/actions/gallery";
 import { getProfile } from "@/actions/profile";
+import { RoseTexture } from "@/lib/_components/RoseTexture";
 import type { LabeledPhoto } from "@/actions/_shared/getPhotosBySurface";
 import { Editable } from "./Editable";
 import { EditableText } from "./EditableText";
@@ -67,19 +68,7 @@ export async function About() {
         </Editable>
 
         <div className="relative overflow-hidden border-l-2 border-rose p-6 pl-5">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-rose/10 backdrop-blur-sm"
-            style={{
-              boxShadow: "var(--shadow-rose)",
-              maskImage:
-                "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
-              WebkitMaskImage:
-                "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
-              maskComposite: "intersect",
-              WebkitMaskComposite: "source-in",
-            }}
-          />
+          <RoseTexture variant="mask" fade="edge" />
           <EditableText
             type="profile"
             id="main"
@@ -114,19 +103,7 @@ export async function About() {
         <Row photos={[family[1], family[3]]} />
 
         <div className="relative overflow-hidden border-l-2 border-rose p-6 pl-5">
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-rose/10 backdrop-blur-sm"
-            style={{
-              boxShadow: "var(--shadow-rose)",
-              maskImage:
-                "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
-              WebkitMaskImage:
-                "linear-gradient(to bottom, transparent, black 30%, black 70%, transparent), linear-gradient(to right, black 70%, transparent)",
-              maskComposite: "intersect",
-              WebkitMaskComposite: "source-in",
-            }}
-          />
+          <RoseTexture variant="mask" fade="edge" />
           <EditableText
             type="profile"
             id="main"

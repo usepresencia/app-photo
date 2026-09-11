@@ -6,6 +6,7 @@ import type { Package } from "@/actions/packages";
 import type { LabeledPhoto } from "@/actions/_shared/getPhotosBySurface";
 import { Addable } from "@/app/_components/Addable";
 import { EditableText } from "@/app/_components/EditableText";
+import { RoseTexture } from "@/lib/_components/RoseTexture";
 import { NicheGallery } from "./NicheGallery";
 
 export function PackagePicker({
@@ -48,15 +49,7 @@ export function PackagePicker({
                     className="relative block h-full w-full overflow-hidden border border-rose/20 p-5 text-left transition-colors hover:border-rose/50"
                     style={{ boxShadow: "var(--shadow-rose)" }}
                   >
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-0 opacity-30"
-                      style={{
-                        backgroundImage:
-                          "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--rose) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--rose) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--rose) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--rose) 8%, transparent) 0 16px, transparent 17px)",
-                        backgroundSize: "190px 190px",
-                      }}
-                    />
+                    <RoseTexture variant="dots" />
                     <EditableText
                       type="package"
                       id={p.id}
@@ -98,15 +91,7 @@ export function PackagePicker({
             className="relative overflow-hidden border border-rose/20 p-6"
             style={{ boxShadow: "var(--shadow-rose)" }}
           >
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 opacity-30"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle at 20% 18%, color-mix(in oklab, var(--rose) 12%, transparent) 0 14px, transparent 15px), radial-gradient(circle at 62% 34%, color-mix(in oklab, var(--rose) 8%, transparent) 0 20px, transparent 21px), radial-gradient(circle at 34% 68%, color-mix(in oklab, var(--rose) 10%, transparent) 0 18px, transparent 19px), radial-gradient(circle at 78% 88%, color-mix(in oklab, var(--rose) 8%, transparent) 0 16px, transparent 17px)",
-                backgroundSize: "190px 190px",
-              }}
-            />
+            <RoseTexture variant="dots" />
             <div className="relative z-10 flex items-center gap-3">
               <button
                 type="button"
