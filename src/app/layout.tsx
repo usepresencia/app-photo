@@ -4,15 +4,14 @@ import "./globals.css";
 import "./theme.css";
 import { Footer } from "./_components/Footer";
 import { PreviewOverlay } from "./_components/PreviewOverlay";
+import { SITE_URL } from "@/lib/config/site";
 
 const playfair = Playfair_Display({ variable: "--font-display", subsets: ["latin"] });
 const jakarta = Plus_Jakarta_Sans({ variable: "--font-condensed", subsets: ["latin"] });
 const caveat = Caveat({ variable: "--font-hand", subsets: ["latin"] });
 
-const appUrl = "https://denisegalvao.com.br"; // TODO: substituir pelo domínio real quando definido
-
 export const metadata: Metadata = {
-  metadataBase: new URL(appUrl),
+  metadataBase: new URL(SITE_URL),
   title: "Denise Galvão | Fotografia de ensaios e eventos",
   description:
     "Valorize sua imagem com um ensaio pensado nos mínimos detalhes, unindo direção estratégica, estética e autenticidade. Cada sessão é conduzida de forma personalizada, respeitando seu estilo, objetivo e essência.",
