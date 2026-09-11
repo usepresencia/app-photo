@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/useagendaflow/app-photo/compare/v0.1.5...v0.1.6) (2026-09-11)
+
+### Features
+
+- restore migration script, mirror writes to draft, add testimonials ([b90a81c](https://github.com/useagendaflow/app-photo/commit/b90a81ca522f66988c53db14a26e322b9b80ae43))
+
+### Bug Fixes
+
+- force dynamic rendering on home and sitemap ([32e8439](https://github.com/useagendaflow/app-photo/commit/32e84394518d5a6c7e3d8281ef224b0933ceb464))
+
 ### [0.1.5](https://github.com/useagendaflow/app-photo/compare/v0.1.4...v0.1.5) (2026-09-11)
 
 ### Features
