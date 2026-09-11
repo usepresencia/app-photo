@@ -6,7 +6,8 @@ export interface Niche {
   description: string[];
   highlights: string[];
   closingLine: string;
-  /** Substitui a antiga entidade EventFormat — ver spec, seção "Achado". */
+  /** Marca os nichos que também aparecem como "formato de evento" na
+   * seção de Eventos da home, além de na listagem completa de nichos. */
   showAsEventTeaser: boolean;
   /** Ordem em Niches.tsx (todos os nichos). */
   order: number;
