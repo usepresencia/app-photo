@@ -278,7 +278,7 @@ export function PreviewOverlay() {
           className="preview-textedit-icons"
           style={{
             top: textEditingRect.top - 32,
-            left: textEditingRect.left,
+            right: window.innerWidth - textEditingRect.right,
           }}
         >
           <button
