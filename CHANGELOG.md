@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.10](https://github.com/useagendaflow/app-photo/compare/v0.1.9...v0.1.10) (2026-09-11)
+
+### Bug Fixes
+
+- restore gallery polaroid height lost when Editable wrapped the figure ([1b91c5d](https://github.com/useagendaflow/app-photo/commit/1b91c5d9e2a653752e1c081193053ad7007f599f))
+
 ### [0.1.9](https://github.com/useagendaflow/app-photo/compare/v0.1.8...v0.1.9) (2026-09-11)
 
 ### Bug Fixes
