@@ -47,6 +47,15 @@ export function parseEditableTextTarget(
   return { entityType, id, field };
 }
 
+// Os ícones flutuantes (lixeira, confirmar/cancelar) são irmãos do
+// conteúdo, não filhos do elemento editável. Sem esta guarda, mover o
+// mouse até eles conta como "saiu do editável": o hover zera, o botão
+// desmonta antes do clique e, quando o ponteiro recai sobre o elemento,
+// remonta — pisca-pisca que deixa o ícone inclicável.
+export function isPreviewAffordance(node: EventTarget | null): boolean {
+  return node instanceof Element && node.closest("[data-preview-affordance]") !== null;
+}
+
 export function parseAddableTarget(
   value: string | null,
 ): { entityType: string; context: unknown } | null {
@@ -162,6 +171,7 @@ export function PreviewOverlay() {
     if (!active) return;
 
     function handleMouseOver(event: MouseEvent) {
+      if (isPreviewAffordance(event.target)) return;
       const el = (event.target as HTMLElement).closest("[data-editable]") as HTMLElement | null;
       const parsed = parseEditableTarget(el?.getAttribute("data-editable") ?? null);
       setHovered(el && parsed ? { el, ...parsed } : null);
@@ -169,6 +179,7 @@ export function PreviewOverlay() {
 
     function handleMouseOut(event: MouseEvent) {
       const related = event.relatedTarget as Node | null;
+      if (isPreviewAffordance(related)) return;
       setHovered((prev) => (prev && (!related || !prev.el.contains(related)) ? null : prev));
     }
 
@@ -256,6 +267,7 @@ export function PreviewOverlay() {
         <button
           type="button"
           aria-label="Remover"
+          data-preview-affordance=""
           className="preview-delete-icon"
           style={{
             top: hoveredRect.top - 8,
@@ -275,6 +287,7 @@ export function PreviewOverlay() {
       )}
       {active && textEditing && textEditingRect && (
         <div
+          data-preview-affordance=""
           className="preview-textedit-icons"
           style={{
             top: textEditingRect.top - 32,

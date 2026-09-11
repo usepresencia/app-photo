@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { render } from "@testing-library/react";
 import {
   isHandshakeAck,
+  isPreviewAffordance,
   originOf,
   parseAddableTarget,
   parseEditableTarget,
@@ -82,6 +83,27 @@ describe("parseEditableTextTarget", () => {
     expect(parseEditableTextTarget("niche::title")).toBeNull();
     expect(parseEditableTextTarget(null)).toBeNull();
     expect(parseEditableTextTarget("")).toBeNull();
+  });
+});
+
+describe("isPreviewAffordance", () => {
+  it("reconhece o próprio ícone flutuante e qualquer filho dele", () => {
+    const icon = document.createElement("button");
+    icon.setAttribute("data-preview-affordance", "");
+    const child = document.createElement("span");
+    icon.appendChild(child);
+    expect(isPreviewAffordance(icon)).toBe(true);
+    expect(isPreviewAffordance(child)).toBe(true);
+  });
+
+  it("não confunde o conteúdo editável do site com um ícone do overlay", () => {
+    const editable = document.createElement("div");
+    editable.setAttribute("data-editable", "placement:hero-none-0");
+    expect(isPreviewAffordance(editable)).toBe(false);
+  });
+
+  it("aceita null (mouseout pra fora da janela não tem relatedTarget)", () => {
+    expect(isPreviewAffordance(null)).toBe(false);
   });
 });
 
