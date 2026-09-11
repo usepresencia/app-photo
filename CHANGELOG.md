@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.12](https://github.com/useagendaflow/app-photo/compare/v0.1.11...v0.1.12) (2026-09-11)
+
+### Features
+
+- exibir nicho de evento apenas na seção Eventos ([308f195](https://github.com/useagendaflow/app-photo/commit/308f195d6e94c8d04947d8d28c5abe5da0a48fe0))
+
 ### [0.1.11](https://github.com/useagendaflow/app-photo/compare/v0.1.10...v0.1.11) (2026-09-11)
 
 ### Bug Fixes
