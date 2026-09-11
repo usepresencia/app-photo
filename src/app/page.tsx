@@ -1,5 +1,14 @@
 import type { Metadata } from "next";
 import { getBrand } from "@/actions/brand";
+
+// Sem isso, o Next prerenderiza esta página como estática no build (não
+// há segmento dinâmico nem uso de cookies()/headers() que force isso
+// sozinho) — e como o build do Docker roda sem credenciais reais do
+// Firebase (só passadas em runtime via env do container), a página
+// ficaria congelada pra sempre com os dados mock do build, ignorando
+// qualquer revalidação de tag depois. Ver Hero/About/Niches/Testimonials,
+// que leem o mesmo Firestore via Server Components abaixo desta página.
+export const dynamic = "force-dynamic";
 import { getGalleryPhotos } from "@/actions/gallery";
 import { Hero } from "./_components/Hero";
 import { About } from "./_components/About";
