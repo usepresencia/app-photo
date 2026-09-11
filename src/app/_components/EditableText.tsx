@@ -1,5 +1,7 @@
 "use client";
 
+import type { EntityType } from "./entityType";
+
 // Mesmo padrão do Editable.tsx (data-* cru, sem handler próprio —
 // PreviewOverlay.tsx lê via delegação de clique), mas marca um TEXTO
 // específico (não um bloco inteiro): "field" é o caminho do campo
@@ -14,7 +16,7 @@ export function EditableText({
   className = "",
   children,
 }: {
-  type: "niche" | "package" | "profile";
+  type: Exclude<EntityType, "placement" | "testimonial">;
   id: string;
   field: string;
   as?: keyof React.JSX.IntrinsicElements;

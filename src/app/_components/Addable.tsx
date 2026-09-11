@@ -1,5 +1,7 @@
 "use client";
 
+import type { AddableEntityType } from "./entityType";
+
 // Classe compartilhada pela pill "Adicionar..." usada ao lado do título
 // de uma seção (Gallery.tsx, Niches.tsx, NicheGallery.tsx, NicheHero.tsx)
 // — cada chamador só acrescenta o posicionamento próprio (ex.: absolute
@@ -18,7 +20,7 @@ export function Addable({
   className = "",
   children,
 }: {
-  type: "niche" | "package" | "placement" | "testimonials";
+  type: AddableEntityType;
   context?: Record<string, string>;
   className?: string;
   children: React.ReactNode;

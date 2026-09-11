@@ -1,5 +1,7 @@
 "use client";
 
+import type { EntityType } from "./entityType";
+
 // Wrapper fino: marca qualquer seção do site como alvo de edição no
 // preview do admin-photo (PreviewOverlay.tsx lê o atributo data-editable
 // via delegação de clique — nenhum handler aqui, de propósito, pra não
@@ -13,7 +15,7 @@ export function Editable({
   className = "",
   children,
 }: {
-  type: "niche" | "package" | "placement" | "profile" | "testimonial";
+  type: EntityType;
   id: string;
   className?: string;
   children: React.ReactNode;
