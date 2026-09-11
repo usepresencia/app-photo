@@ -20,6 +20,10 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Empacota server.js + node_modules mínimos pra rodar em container —
+  // ver Dockerfile (stage runner copia .next/standalone).
+  output: "standalone",
+
   // Libera abrir o servidor de desenvolvimento pelo IP da rede local (celular ou
   // outro computador testando o site). Sem isso o Next devolve 403 nos chunks de
   // /_next/static e o JS do client nunca roda: a página aparece, mas nada
