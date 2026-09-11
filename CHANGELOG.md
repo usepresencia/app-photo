@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.9](https://github.com/useagendaflow/app-photo/compare/v0.1.8...v0.1.9) (2026-09-11)
+
+### Bug Fixes
+
+- avoid CSS minifier bug that broke the gallery flip animation ([38e1908](https://github.com/useagendaflow/app-photo/commit/38e1908566e9a6846a389d0188c0da347ae9c7a7))
+
 ### [0.1.8](https://github.com/useagendaflow/app-photo/compare/v0.1.7...v0.1.8) (2026-09-11)
 
 ### Bug Fixes
