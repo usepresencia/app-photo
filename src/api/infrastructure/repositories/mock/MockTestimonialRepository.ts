@@ -1,10 +1,9 @@
 import type { Testimonial } from "@/api/domain/testimonial/Testimonial";
 import type { TestimonialRepository } from "@/api/domain/testimonial/TestimonialRepository";
 
-// Transcrição fiel do array TESTIMONIALS que hoje vive em
-// src/actions/testimonials.ts — mesmo texto, com os campos novos do
-// domínio Testimonial. Mesmo seed do MockTestimonialRepository do
-// admin-photo, pra manter os dois repos consistentes em dev.
+// Dado local (dev/test/CI sem Firebase). Mesmo seed do
+// MockTestimonialRepository do admin-photo, pra manter os dois repos
+// consistentes em dev.
 const TESTIMONIALS: Testimonial[] = [
   {
     id: "seed-1",

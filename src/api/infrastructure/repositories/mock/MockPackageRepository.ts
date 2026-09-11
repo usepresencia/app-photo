@@ -1,11 +1,11 @@
 import type { Package } from "@/api/domain/package/Package";
 import type { PackageRepository } from "@/api/domain/package/PackageRepository";
 
-// Transcrição fiel de PACKAGES_BY_NICHE, que hoje vive em
-// src/actions/packages.ts — mesmo texto (fonte: "Ensaios Fotográficos -
-// VALORES.pdf"), mesma ordem. description vazio: a cliente ainda não
-// forneceu esse texto pra nenhum pacote — mesma convenção usada em
-// making-of-da-noiva (niche) pra "aguarda doc da cliente".
+// Dado local (dev/test/CI sem Firebase), mesmo texto (fonte: "Ensaios
+// Fotográficos - VALORES.pdf") e ordem usados no seed real do Firestore.
+// description vazio: a cliente ainda não forneceu esse texto pra nenhum
+// pacote — mesma convenção usada em making-of-da-noiva (niche) pra
+// "aguarda doc da cliente".
 const PACKAGES: Package[] = [
   {
     id: "retratos-profissionais-0",
