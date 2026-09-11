@@ -1,9 +1,11 @@
 import type { Niche } from "@/api/domain/niche/Niche";
 import type { Package } from "@/api/domain/package/Package";
 import type { Profile } from "@/api/domain/profile/Profile";
+import type { Testimonial } from "@/api/domain/testimonial/Testimonial";
 import { MockNicheRepository } from "@/api/infrastructure/repositories/mock/MockNicheRepository";
 import { MockPackageRepository } from "@/api/infrastructure/repositories/mock/MockPackageRepository";
 import { MockProfileRepository } from "@/api/infrastructure/repositories/mock/MockProfileRepository";
+import { MockTestimonialRepository } from "@/api/infrastructure/repositories/mock/MockTestimonialRepository";
 
 // MockNicheRepository/MockPackageRepository/MockProfileRepository já são
 // transcrição fiel do conteúdo real (planos 1, 2 e 4 documentam isso nos
@@ -24,4 +26,11 @@ export async function collectProfile(): Promise<Profile> {
   if (!profile)
     throw new Error("MockProfileRepository não devolveu profile — não deveria acontecer.");
   return profile;
+}
+
+// Sem equivalente em main — testimonials nunca existiram como entidade
+// antes desta migração. O mock já é o texto real (confirmado contra o
+// que estava hardcoded em produção).
+export async function collectTestimonials(): Promise<Testimonial[]> {
+  return new MockTestimonialRepository().findAll();
 }

@@ -14,7 +14,12 @@ import {
   derivePlacements,
   type RawPhoto,
 } from "./migration/derivePhotosAndPlacements";
-import { collectNiches, collectPackages, collectProfile } from "./migration/migrateContent";
+import {
+  collectNiches,
+  collectPackages,
+  collectProfile,
+  collectTestimonials,
+} from "./migration/migrateContent";
 
 const DRY_RUN = process.argv.includes("--dry-run");
 
@@ -83,12 +88,17 @@ async function main() {
     // width/height vêm da resposta do Cloudinary, não de foto.width/height
     // (o que photos.json registrou localmente) — é o Cloudinary quem sabe as
     // dimensões reais do asset que ficou armazenado.
-    await db!.collection("photos").doc(foto.id).set({
+    const photoDoc = {
       cloudinaryPublicId: uploaded.publicId,
       width: uploaded.width,
       height: uploaded.height,
       blurDataURL: foto.blurDataURL,
-    });
+    };
+    // Grava live + rascunho (arquitetura de rascunho/publicação, adicionada
+    // depois deste script) — sem isso, o /preview do admin-photo (que lê só
+    // de *_draft) fica vazio mesmo com o site live populado.
+    await db!.collection("photos").doc(foto.id).set(photoDoc);
+    await db!.collection("photos_draft").doc(foto.id).set(photoDoc);
     console.log(`  ${foto.id} ok`);
   }
 
@@ -106,6 +116,7 @@ async function main() {
     // order não se repete dentro do mesmo par surface/refId.
     const placementId = `${placement.surface}-${placement.refId ?? "none"}-${placement.order}`;
     await db!.collection("placements").doc(placementId).set(placement);
+    await db!.collection("placements_draft").doc(placementId).set(placement);
   }
 
   console.log("\n--- Niches ---");
@@ -115,7 +126,7 @@ async function main() {
       console.log(`[dry-run] niches/${niche.slug}`);
       continue;
     }
-    await db!.collection("niches").doc(niche.slug).set({
+    const nicheDoc = {
       title: niche.title,
       subtitle: niche.subtitle,
       intro: niche.intro,
@@ -125,7 +136,9 @@ async function main() {
       showAsEventTeaser: niche.showAsEventTeaser,
       order: niche.order,
       eventOrder: niche.eventOrder,
-    });
+    };
+    await db!.collection("niches").doc(niche.slug).set(nicheDoc);
+    await db!.collection("niches_draft").doc(niche.slug).set(nicheDoc);
   }
 
   console.log("\n--- Packages ---");
@@ -135,7 +148,7 @@ async function main() {
       console.log(`[dry-run] packages/${pkg.id}`);
       continue;
     }
-    await db!.collection("packages").doc(pkg.id).set({
+    const packageDoc = {
       nicheSlug: pkg.nicheSlug,
       name: pkg.name,
       price: pkg.price,
@@ -143,7 +156,9 @@ async function main() {
       items: pkg.items,
       featured: pkg.featured,
       order: pkg.order,
-    });
+    };
+    await db!.collection("packages").doc(pkg.id).set(packageDoc);
+    await db!.collection("packages_draft").doc(pkg.id).set(packageDoc);
   }
 
   console.log("\n--- Profile ---");
@@ -152,6 +167,22 @@ async function main() {
     console.log("[dry-run] profile/main");
   } else {
     await db!.collection("profile").doc("main").set(profile);
+    await db!.collection("profile_draft").doc("main").set(profile);
+  }
+
+  // Testimonials nunca foram estáticos no código (main não tinha essa
+  // entidade) — os 3 depoimentos reais já usados como seed/mock em ambos
+  // os repositórios (confirmados contra o texto que estava em produção).
+  console.log("\n--- Testimonials ---");
+  const testimonials = await collectTestimonials();
+  for (const testimonial of testimonials) {
+    if (DRY_RUN) {
+      console.log(`[dry-run] testimonials/${testimonial.id}`);
+      continue;
+    }
+    const { id, ...fields } = testimonial;
+    await db!.collection("testimonials").doc(id).set(fields);
+    await db!.collection("testimonials_draft").doc(id).set(fields);
   }
 
   console.log(DRY_RUN ? "\nDry-run concluído — nada foi escrito." : "\nMigração concluída.");
