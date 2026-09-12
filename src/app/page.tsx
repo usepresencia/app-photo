@@ -25,7 +25,11 @@ export const metadata: Metadata = {
   title,
   description,
   openGraph: { title, description, type: "website" },
-  twitter: { card: "summary_large_image" },
+  // "summary" (e não "summary_large_image") porque a imagem de
+  // compartilhamento é o próprio logo quadrado (src/app/opengraph-image.png),
+  // que aparece como miniatura ao lado do texto. Declarar o card grande com
+  // uma imagem quadrada faz o WhatsApp esticá-la num banner com tarjas.
+  twitter: { card: "summary" },
 };
 
 export default async function HomePage() {
