@@ -2,13 +2,12 @@ import type { Testimonial } from "@/api/domain/testimonial/Testimonial";
 import type { TestimonialRepository } from "@/api/domain/testimonial/TestimonialRepository";
 import { db } from "../firebase/admin";
 import { makeReadRepo } from "./makeReadRepo";
+import type { DocumentSnapshot, QueryDocumentSnapshot } from "firebase-admin/firestore";
 
 const COLLECTION = "testimonials";
 const DRAFT_COLLECTION = "testimonials_draft";
 
-function toTestimonial(
-  doc: FirebaseFirestore.QueryDocumentSnapshot | FirebaseFirestore.DocumentSnapshot,
-): Testimonial {
+function toTestimonial(doc: QueryDocumentSnapshot | DocumentSnapshot): Testimonial {
   const data = doc.data();
   if (!data) throw new Error(`Documento "${doc.id}" da coleção "${COLLECTION}" está vazio`);
   return {

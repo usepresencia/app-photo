@@ -5,13 +5,12 @@ import type {
 } from "@/api/domain/placement/PlacementRepository";
 import { db } from "../firebase/admin";
 import { makeReadRepo } from "./makeReadRepo";
+import type { DocumentSnapshot, Query, QueryDocumentSnapshot } from "firebase-admin/firestore";
 
 const COLLECTION = "placements";
 const DRAFT_COLLECTION = "placements_draft";
 
-function toPlacement(
-  doc: FirebaseFirestore.QueryDocumentSnapshot | FirebaseFirestore.DocumentSnapshot,
-): Placement {
+function toPlacement(doc: QueryDocumentSnapshot | DocumentSnapshot): Placement {
   const data = doc.data();
   if (!data) throw new Error(`Documento "${doc.id}" da coleção "placements" está vazio`);
   return {
@@ -28,7 +27,7 @@ async function findLivePlacementsBySurface(
   surface: PhotoSurface,
   refId?: string,
 ): Promise<Placement[]> {
-  let query: FirebaseFirestore.Query = db.collection(COLLECTION).where("surface", "==", surface);
+  let query: Query = db.collection(COLLECTION).where("surface", "==", surface);
   if (refId !== undefined) {
     query = query.where("refId", "==", refId);
   }
@@ -43,9 +42,7 @@ async function findDraftPlacementsBySurface(
   surface: PhotoSurface,
   refId?: string,
 ): Promise<Placement[]> {
-  let query: FirebaseFirestore.Query = db
-    .collection(DRAFT_COLLECTION)
-    .where("surface", "==", surface);
+  let query: Query = db.collection(DRAFT_COLLECTION).where("surface", "==", surface);
   if (refId !== undefined) {
     query = query.where("refId", "==", refId);
   }

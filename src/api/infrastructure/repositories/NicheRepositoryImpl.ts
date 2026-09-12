@@ -2,13 +2,12 @@ import type { Niche } from "@/api/domain/niche/Niche";
 import type { NicheRepository } from "@/api/domain/niche/NicheRepository";
 import { db } from "../firebase/admin";
 import { makeReadRepo } from "./makeReadRepo";
+import type { DocumentSnapshot, QueryDocumentSnapshot } from "firebase-admin/firestore";
 
 const COLLECTION = "niches";
 const DRAFT_COLLECTION = "niches_draft";
 
-function toNiche(
-  doc: FirebaseFirestore.QueryDocumentSnapshot | FirebaseFirestore.DocumentSnapshot,
-): Niche {
+function toNiche(doc: QueryDocumentSnapshot | DocumentSnapshot): Niche {
   const data = doc.data();
   if (!data) throw new Error(`Documento "${doc.id}" da coleção "${COLLECTION}" está vazio`);
   return {
