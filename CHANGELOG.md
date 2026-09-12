@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.13](https://github.com/useagendaflow/app-photo/compare/v0.1.12...v0.1.13) (2026-09-12)
+
+### Bug Fixes
+
+- atualizar next e sharp para corrigir vulnerabilidades ([5bf1c77](https://github.com/useagendaflow/app-photo/commit/5bf1c7708e90a40a31ac8dd204b819922f3a5c34))
+- atualizar vitest e firebase-admin para corrigir vulnerabilidades ([944ef72](https://github.com/useagendaflow/app-photo/commit/944ef72aebeec5225351f333bb3d1c4cc236ac72))
+- exibir miniatura do site ao compartilhar o link ([7b9c59e](https://github.com/useagendaflow/app-photo/commit/7b9c59e3f8e7b98a03a914c5f1681032a81dcee3))
+- importar tipos do firestore em vez do namespace global ([8a4be2a](https://github.com/useagendaflow/app-photo/commit/8a4be2af77be3c97b12cb859306dc11f59f002f1))
+
 ### [0.1.12](https://github.com/useagendaflow/app-photo/compare/v0.1.11...v0.1.12) (2026-09-11)
 
 ### Features
