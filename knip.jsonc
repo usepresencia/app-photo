@@ -1,0 +1,17 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  // Scripts de migração são rodados à mão (`tsx scripts/migrate-to-firestore.ts`)
+  // e nunca importados por nada — sem declará-los como entry o knip os reporta
+  // como "unused files" e convida a apagar ferramenta que ainda é necessária.
+  // Já aconteceu: o migrate-to-firestore.ts foi apagado por engano e precisou
+  // ser restaurado do git antes da migração de produção rodar.
+  "entry": ["scripts/**/*.ts"],
+  // Brand/Niche/Profile/Testimonial são o tipo de retorno das actions do mesmo
+  // arquivo. Ninguém os importa de fora hoje, mas são a assinatura pública
+  // dessas funções — não são export morto.
+  "ignoreExportsUsedInFile": true,
+  // Nada no projeto importa postcss diretamente: quem o puxa é o
+  // @tailwindcss/postcss declarado no postcss.config.js. Declará-lo aqui só
+  // criaria risco de divergência de versão com o que o Next já embute.
+  "ignoreDependencies": ["postcss"]
+}
