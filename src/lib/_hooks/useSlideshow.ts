@@ -30,7 +30,9 @@ export function useSlideshow({ count, autoplayMs }: UseSlideshowOptions) {
       });
     }, autoplayMs);
     return () => clearInterval(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- index força o reinício do timer a cada interação manual, replicando o resetTimer() do protótipo original.
+    // `index` entra nas dependências de propósito, mesmo sem ser lido aqui
+    // dentro (o setState usa a forma funcional): é o que reinicia o timer a
+    // cada interação manual, replicando o resetTimer() do protótipo original.
   }, [autoplayMs, count, index]);
 
   return { index, direction, goTo, next, prev };
