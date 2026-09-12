@@ -2,13 +2,12 @@ import type { Package } from "@/api/domain/package/Package";
 import type { PackageRepository } from "@/api/domain/package/PackageRepository";
 import { db } from "../firebase/admin";
 import { makeReadRepo } from "./makeReadRepo";
+import type { DocumentSnapshot, QueryDocumentSnapshot } from "firebase-admin/firestore";
 
 const COLLECTION = "packages";
 const DRAFT_COLLECTION = "packages_draft";
 
-function toPackage(
-  doc: FirebaseFirestore.QueryDocumentSnapshot | FirebaseFirestore.DocumentSnapshot,
-): Package {
+function toPackage(doc: QueryDocumentSnapshot | DocumentSnapshot): Package {
   const data = doc.data();
   if (!data) throw new Error(`Documento "${doc.id}" da coleção "${COLLECTION}" está vazio`);
   return {

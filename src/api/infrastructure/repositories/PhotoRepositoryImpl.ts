@@ -5,14 +5,12 @@ import { env } from "@/lib/config/env.server";
 import { buildDeliveryUrl } from "../cloudinary/buildDeliveryUrl";
 import { db } from "../firebase/admin";
 import { makeReadRepo } from "./makeReadRepo";
+import type { DocumentSnapshot, QueryDocumentSnapshot } from "firebase-admin/firestore";
 
 const COLLECTION = "photos";
 const DRAFT_COLLECTION = "photos_draft";
 
-function toPhoto(
-  doc: FirebaseFirestore.QueryDocumentSnapshot | FirebaseFirestore.DocumentSnapshot,
-  cloudName: string,
-): Photo {
+function toPhoto(doc: QueryDocumentSnapshot | DocumentSnapshot, cloudName: string): Photo {
   const data = doc.data();
   if (!data) throw new Error(`Documento "${doc.id}" da coleção "${COLLECTION}" está vazio`);
   return {

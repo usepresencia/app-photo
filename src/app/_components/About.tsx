@@ -53,10 +53,14 @@ export async function About() {
         <Editable type="placement" id={family[0].placementId}>
           <figure className="frame-rose relative overflow-hidden p-1.5">
             <div className="relative aspect-4/5 overflow-hidden sm:aspect-16/10">
-              <img
+              <Image
                 src={family[0].src}
                 alt="Denise Galvão segurando sua câmera durante um ensaio"
-                className="h-full w-full object-cover grayscale"
+                fill
+                sizes="(min-width: 640px) 768px, 100vw"
+                placeholder="blur"
+                blurDataURL={family[0].blurDataURL}
+                className="object-cover grayscale"
               />
             </div>
             <figcaption className="font-condensed absolute bottom-3 left-3 bg-background/85 px-3 py-1 text-[0.62rem] uppercase tracking-[0.3em] text-rose">

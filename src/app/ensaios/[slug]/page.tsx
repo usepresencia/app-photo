@@ -5,6 +5,7 @@ import { getPackagesForNiche } from "@/actions/packages";
 import { getBrand } from "@/actions/brand";
 import { EditableText } from "@/app/_components/EditableText";
 import { RoseTexture } from "@/lib/_components/RoseTexture";
+import { OG_IMAGE } from "@/lib/config/site";
 import { NicheHero } from "./_components/NicheHero";
 import { PackagePicker } from "./_components/PackagePicker";
 
@@ -22,8 +23,10 @@ export async function generateMetadata({
   return {
     title,
     description,
-    openGraph: { title, description, type: "article" },
-    twitter: { card: "summary_large_image" },
+    openGraph: { title, description, type: "article", images: [OG_IMAGE] },
+    // Mesmo motivo da home: a imagem herdada é o logo quadrado, que rende
+    // miniatura e não banner. Ver comentário em src/app/page.tsx.
+    twitter: { card: "summary" },
   };
 }
 

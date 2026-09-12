@@ -39,3 +39,9 @@ dist-ssr
 next-env.d.ts.bak
 tsconfig.tsbuildinfo
 
+
+# Instruções de agente reescritas pelo `next dev` a cada execução
+# (node_modules/next/dist/server/lib/generate-agent-files.js) — conteúdo
+# gerado, não editado à mão.
+AGENTS.md
+CLAUDE.md
