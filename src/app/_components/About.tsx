@@ -70,7 +70,7 @@ function Front({ cover, capaCaption }: { cover: LabeledPhoto; capaCaption: strin
               className="object-cover grayscale"
             />
           </div>
-          <figcaption className="font-condensed absolute bottom-3 left-3 bg-background/85 px-3 py-1 text-[0.62rem] uppercase tracking-[0.3em] text-rose">
+          <figcaption className="font-condensed absolute bottom-3 left-3 max-w-[60%] bg-background/85 px-3 py-1 text-[0.62rem] uppercase tracking-[0.3em] text-rose">
             <EditableText type="profile" id="main" field="capaCaption">
               {capaCaption}
             </EditableText>
