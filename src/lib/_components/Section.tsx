@@ -20,7 +20,7 @@ export function Section({
   return (
     <section id={id} className="relative px-5 py-10">
       <div className="mx-auto w-full max-w-3xl">
-        {(eyebrow || title) && (
+        {(eyebrow || title || index) && (
           <header className="mb-5">
             <div className="flex items-center gap-3">
               {index && <span className="section-index">{index}</span>}

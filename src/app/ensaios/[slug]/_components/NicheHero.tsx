@@ -9,6 +9,7 @@ import type { Photo } from "@/actions/_mock/types";
 import { ADD_PILL_CLASSNAME, Addable } from "@/app/_components/Addable";
 import { Editable } from "@/app/_components/Editable";
 import { EditableText } from "@/app/_components/EditableText";
+import { BACK_BUTTON_CLASSNAME } from "@/lib/_components/BackButton";
 
 function AlbumSlides({ photos }: { photos: Photo[] }) {
   const { index, direction, goTo } = useSlideshow({ count: photos.length, autoplayMs: 5000 });
@@ -86,7 +87,7 @@ export function NicheHero({
         <Link
           href="/"
           aria-label="Voltar"
-          className="pointer-events-auto absolute left-5 top-6 z-30 flex size-10 items-center justify-center rounded-full border border-rose/40 bg-background/50 text-rose backdrop-blur-sm transition-colors hover:border-rose"
+          className={`pointer-events-auto absolute left-5 top-6 z-30 ${BACK_BUTTON_CLASSNAME}`}
         >
           <FaArrowLeft className="size-4" />
         </Link>

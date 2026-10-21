@@ -20,7 +20,7 @@ export async function Testimonials() {
   return (
     <Section
       id="feedbacks"
-      index="05"
+      index="04"
       eyebrow="Feedbacks de clientes"
       title="O que dizem por aí"
       action={

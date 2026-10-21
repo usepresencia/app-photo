@@ -1,10 +1,13 @@
 import Image from "next/image";
+import type { ReactNode } from "react";
 import type { Photo } from "@/actions/_mock/types";
 
 interface PolaroidProps {
   photo: Photo;
   alt: string;
-  caption?: string;
+  // ReactNode, não string: algumas legendas (ex. campos de Profile) vêm
+  // envolvidas em EditableText pra edição inline, não como texto puro.
+  caption?: ReactNode;
   /** Proporção da foto. A altura do cartão vem daqui mais a legenda. */
   aspect?: string;
   tape?: "top" | "corner" | "none";

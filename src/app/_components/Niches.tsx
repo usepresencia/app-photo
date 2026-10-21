@@ -10,7 +10,7 @@ export async function Niches() {
   return (
     <Section
       id="ensaios"
-      index="03"
+      index="02"
       title="Ensaios para cada momento"
       action={
         <Addable type="niche" className={ADD_PILL_CLASSNAME}>

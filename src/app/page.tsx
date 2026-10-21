@@ -9,10 +9,8 @@ import { getBrand } from "@/actions/brand";
 // qualquer revalidação de tag depois. Ver Hero/About/Niches/Testimonials,
 // que leem o mesmo Firestore via Server Components abaixo desta página.
 export const dynamic = "force-dynamic";
-import { getGalleryPhotos } from "@/actions/gallery";
 import { Hero } from "./_components/Hero";
 import { About } from "./_components/About";
-import { Gallery } from "./_components/Gallery";
 import { Niches } from "./_components/Niches";
 import { Events } from "./_components/Events";
 import { Testimonials } from "./_components/Testimonials";
@@ -33,13 +31,12 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [brand, galleryPhotos] = await Promise.all([getBrand(), getGalleryPhotos()]);
+  const brand = await getBrand();
 
   return (
     <main className="min-h-screen bg-background">
       <Hero />
       <About />
-      <Gallery photos={galleryPhotos} />
       <Niches />
       <Events whatsapp={brand.whatsapp} />
       <Testimonials />

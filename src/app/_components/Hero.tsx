@@ -102,8 +102,8 @@ export async function Hero() {
             <CtaLink href="#contato" variant="solid">
               Fale comigo
             </CtaLink>
-            <CtaLink href="#galeria" variant="outline">
-              Ver galeria
+            <CtaLink href="#ensaios" variant="outline">
+              Ver ensaios
             </CtaLink>
           </div>
         </div>
