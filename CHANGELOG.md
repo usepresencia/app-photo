@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.14](https://github.com/usepresencia/app-photo/compare/v0.1.13...v0.1.14) (2026-10-21)
+
+### Features
+
+- reestruturar sessao quem-sou com flip e remover portfolio ([c6f1110](https://github.com/usepresencia/app-photo/commit/c6f1110b046def1c99aac21b8e5f7ee08daddfcb))
+
+### Bug Fixes
+
+- desmontar componentes renderizados em teste pra nao vazar timer entre arquivos ([9837acf](https://github.com/usepresencia/app-photo/commit/9837acfa295c50ec24c3cc6a379ea0182cef6ed0)), closes [#4](https://github.com/usepresencia/app-photo/issues/4)
+
 ### [0.1.13](https://github.com/useagendaflow/app-photo/compare/v0.1.12...v0.1.13) (2026-09-12)
 
 ### Bug Fixes
