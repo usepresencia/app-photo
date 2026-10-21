@@ -8,7 +8,7 @@ import { EditableText } from "./EditableText";
 export async function Events({ whatsapp }: { whatsapp: string }) {
   const events = await getEventNiches();
   return (
-    <Section id="contato" index="04" eyebrow="Eventos" title="Formatos de cobertura">
+    <Section id="contato" index="03" eyebrow="Eventos" title="Formatos de cobertura">
       <div className="space-y-3">
         {events.map((e) => (
           <Link

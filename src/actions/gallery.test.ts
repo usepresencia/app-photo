@@ -1,24 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getAboutPhotos, getGalleryPhotos, getHeroPhotos } from "./gallery";
-
-describe("getGalleryPhotos", () => {
-  it("retorna as fotos da galeria, cada uma com label e do diretório /fotos", async () => {
-    const photos = await getGalleryPhotos();
-    expect(photos.length).toBeGreaterThan(0);
-    for (const photo of photos) {
-      expect(photo.src).toMatch(/^\/fotos\//);
-      expect(photo.label).toBeTruthy();
-    }
-  });
-
-  it("não repete as fotos reservadas para a seção Quem sou", async () => {
-    const [galeria, { family }] = await Promise.all([getGalleryPhotos(), getAboutPhotos()]);
-    const usadasNoAbout = new Set(family.map((photo) => photo.src));
-    for (const photo of galeria) {
-      expect(usadasNoAbout.has(photo.src)).toBe(false);
-    }
-  });
-});
+import { getAboutPhotos, getHeroPhotos } from "./gallery";
 
 describe("getAboutPhotos", () => {
   it("retorna as 4 fotos de Quem sou, na ordem capa/polaroid-1/altar/polaroid-2", async () => {

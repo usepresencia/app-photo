@@ -6,11 +6,6 @@ import {
   type LabeledPhoto,
 } from "./_shared/getPhotosBySurface";
 
-export async function getGalleryPhotos(): Promise<LabeledPhoto[]> {
-  const photos = await getPhotosBySurface("home-gallery");
-  return photos.map(toLabeledPhoto);
-}
-
 export async function getAboutPhotos(): Promise<{ family: LabeledPhoto[] }> {
   const photos = await getPhotosBySurface("quem-sou");
   return { family: photos.map(toLabeledPhoto) };

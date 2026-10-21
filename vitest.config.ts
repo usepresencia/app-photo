@@ -5,6 +5,7 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: "jsdom",
+    setupFiles: ["./vitest.setup.ts"],
     // scripts/ e a raiz entram no plano de migração pro Cloudinary/Firestore
     // — o script de migração e o loader do Cloudinary vivem fora de src/ de
     // propósito (não fazem parte do app Next em si), mas precisam de teste

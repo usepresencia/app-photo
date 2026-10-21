@@ -3,10 +3,9 @@
 import type { AddableEntityType } from "./entityType";
 
 // Classe compartilhada pela pill "Adicionar..." usada ao lado do título
-// de uma seção (Gallery.tsx, Niches.tsx, NicheGallery.tsx, NicheHero.tsx)
-// — cada chamador só acrescenta o posicionamento próprio (ex.: absolute
-// right-5 top-6 em NicheHero, que não fica dentro do slot action de
-// Section).
+// de uma seção (Niches.tsx, NicheGallery.tsx, NicheHero.tsx) — cada
+// chamador só acrescenta o posicionamento próprio (ex.: absolute right-5
+// top-6 em NicheHero, que não fica dentro do slot action de Section).
 export const ADD_PILL_CLASSNAME =
   "font-condensed flex h-9 shrink-0 items-center whitespace-nowrap rounded-full px-4 text-[0.65rem] font-semibold uppercase tracking-[0.2em]";
 
